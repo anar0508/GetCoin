@@ -1,0 +1,6 @@
+CREATE TABLE users (
+    idUser INT PRIMARY KEY AUTO_INCREMENT,
+    login VARCHAR(12) NOT NULL,
+    user_hash TEXT NOT NULL,
+    salt TEXT NOT NULL
+);
