@@ -1,13 +1,13 @@
 import React from "react";
 import { bindActionCreators } from "redux";
-import HomePage from './HomePage';
+import Cart from './Cart';
 import { connect } from "react-redux";
 import { loggingOut } from "../../store/homepage/actions";
 
-function HomePageContainer(props) {
+function CartContainer(props) {
   const { token, logged, logOut } = props;
   return (
-    <HomePage token={token} logOut={logOut} logged={logged}/>
+    <Cart token={token} logOut={logOut} logged={logged}/>
   );
 }
 
@@ -24,4 +24,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePageContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(CartContainer)

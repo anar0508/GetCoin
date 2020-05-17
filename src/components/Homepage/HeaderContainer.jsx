@@ -1,13 +1,13 @@
 import React from "react";
 import { bindActionCreators } from "redux";
-import HomePage from './HomePage';
+import Header from './Header';
 import { connect } from "react-redux";
 import { loggingOut } from "../../store/homepage/actions";
 
-function HomePageContainer(props) {
+function HeaderContainer(props) {
   const { token, logged, logOut } = props;
   return (
-    <HomePage token={token} logOut={logOut} logged={logged}/>
+    <Header token={token} logOut={logOut} logged={logged}/>
   );
 }
 
@@ -24,4 +24,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePageContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(HeaderContainer)

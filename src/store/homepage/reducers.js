@@ -1,17 +1,15 @@
-import {LOG_OUT, DOWNLOAD_CREDITS}  from './actions';
+import {LOG_OUT}  from './actions';
 
+const initialState = {
+    token: ''
+}
 
-export const menuReducer = (state, action) => {
+export const homepageReducer = (state=initialState, action) => {
     switch (action.type) {
         case LOG_OUT:
             return {
                 ...state, token: action.payload
             }
-
-            case DOWNLOAD_CREDITS:
-                return {
-                    ...state, credits: action.payload
-                }
 
         default:
             return state

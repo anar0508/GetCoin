@@ -1,5 +1,6 @@
 export const CHANGE_FIRST_NAME = 'CHANGE_FIRST_NAME';
 export const CHANGE_SECOND_NAME = 'CHANGE_SECOND_NAME';
+export const CHANGE_LOGGED = 'CHANGE_LOGGED';
 
 export const changeFirstName = (newFirstName) => {
     return {
@@ -12,5 +13,12 @@ export const changeSecondName = (newSecondName) => {
     return {
         type: CHANGE_SECOND_NAME,
         payload: newSecondName
+    }
+}
+
+export const changeLogged = (logged) => {
+    return {
+        type: CHANGE_SECOND_NAME,
+        payload: logged
     }
 }

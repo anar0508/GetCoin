@@ -1,24 +1,18 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import '../../style.css';
+import styled from 'styled-components';
+import HeaderContainer from './HeaderContainer';
+import SearchContainer from './SearchContainer';
+import '../../index.css';
+
 
 function HomePage(props) {
-const {token, logged, logOut, downloadCredits} = props;
+const {token, logged, logOut} = props;
 return (
-    <header >
-        <nav className="menu">
-            <Link className="menu-points" to="/" > GetCoin </Link>
-            {logged
-            ?<Link className="menu-points" to="/cabinet"> My cabinet </Link> 
-            :<Link className="menu-points" to="/register"> Registration </Link>}
-
-            {logged
-            ?<Link className="menu-points" to="/" onClick={()=>{logOut(token)}}> Logout </Link> 
-            :<Link className="menu-points" to="/login"> Login </Link>}
-
-            <Link className="menu-points" to="/cart"> Cart </Link>
-        </nav>
-    </header>
+    <div>
+        <HeaderContainer/>
+        <SearchContainer/>
+    </div>
 )
 }
 export default HomePage;

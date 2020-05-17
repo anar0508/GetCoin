@@ -1,13 +1,13 @@
 import React from 'react';
-import './index.css';
+import '../index.css';
 import { connect } from 'react-redux';
 import LoginContainer from './Login/LoginContainer';
 import HomePageContainer from './Homepage/HomePageContainer';
 import RegistrationContainer from './Registration/RegistrationContainer';
 import CabinetContainer from './Cabinet/CabinetContainer';
-import CoinsListContainer from './Homepage/HomePageContainer';
-import CoinContainer from './Registration/RegistrationContainer';
-import CartContainer from './Registration/RegistrationContainer';
+import CoinsListContainer from './CoinsList/CoinsListContainer';
+import CoinContainer from './Coin/CoinContainer';
+import CartContainer from './Cart/CartContainer';
 import {Route} from "react-router-dom";
 
 function App(props) {

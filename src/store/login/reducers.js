@@ -1,9 +1,10 @@
-import {CHANGE_FIRST_NAME, CHANGE_SECOND_NAME}  from './actions';
+import { CHANGE_FIRST_NAME, CHANGE_SECOND_NAME, CHANGE_LOGGED } from './actions';
 
 
 const initialState = {
     firstName: '',
-    secondName: ''
+    secondName: '',
+    logged: false
 }
 
 export const logReducer = (state = initialState, action) => {
@@ -16,6 +17,11 @@ export const logReducer = (state = initialState, action) => {
         case CHANGE_SECOND_NAME:
             return {
                 ...state, secondName: action.payload
+            }
+
+        case CHANGE_LOGGED:
+            return {
+                ...state, logged: action.payload
             }
 
         default:
