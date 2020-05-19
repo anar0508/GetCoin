@@ -1,4 +1,5 @@
 const CoinsQueries = require('./coinsQueries.js');
+const path = require("path");
 const UsersQueries = require('./usersQueries.js');
 const ImgQueries = require('./imgQueries.js');
 const mysql = require('mysql');
@@ -10,10 +11,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname, 'build')));
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+
 const connection = mysql.createPool("mysql://n1bvu94c8s6v7r6x:mirl9x26jbjnymyp@w1kr9ijlozl9l79i.chr7pe7iynqr.eu-west-1.rds.amazonaws.com:3306/ijcooavc5xu8fyo0");
 const query = util.promisify(connection.query).bind(connection);
 
