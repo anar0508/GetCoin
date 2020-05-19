@@ -4,7 +4,7 @@ const initialState = {
     token: '',
     coins: null,
     advancedSearch: false,
-    adSearchInfo: '',
+    adSearchInfo: ''
 }
 
 export const homepageReducer = (state = initialState, action) => {

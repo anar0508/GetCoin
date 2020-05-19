@@ -74,7 +74,7 @@ function Search(props) {
           <SearchInput
             type="text" value={search} onChange={(e) => {handleSearchInput(e.target.value);}}/>
           <Link to="/coins">
-            <Button type="submit" value="Search" onClick={() => {submitSearch(); }}/>
+            <Button type="submit" value="Search" onClick={() => {submitSearch(search); }}/>
           </Link>
         </Input>
         <AdvancedText onClick= {()=>{ (advancedSearch===false && getAdvancedInfo()); toggleAdvanced(); }}>

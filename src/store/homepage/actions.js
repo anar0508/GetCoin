@@ -44,13 +44,9 @@ export const getSearchResult = (coins) => {
     }
 }
 
-export const searchHandling = () => (dispatch, getState) => {
-    fetch('http://localhost:8000/searchCoins', {
+export const searchHandling = (search, ...args) => (dispatch, getState) => {
+    fetch(`http://localhost:8000/searchCoins?text=${search}&type=${args[0]}&country=${getState.adSearch.country}&composition=${getState.adSearch.composition}&priceFrom=${getState.adSearch.priceFrom}&priceTo=${getState.adSearch.priceTo}&yearFrom=${getState.adSearch.yearFrom}&yearTo=${getState.adSearch.yearTo}`, {
         method: "GET",
-        body: JSON.stringify({
-            login: getState().registration.login,
-            password: getState().registration.password
-        }),
         headers: {
             'Access-Control-Allow-Origin': 'http://localhost:8000',
             'Content-Type': 'application/json'

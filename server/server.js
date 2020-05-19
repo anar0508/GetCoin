@@ -1,5 +1,6 @@
-const CoinsQueries = require('./coinsQueries.js')
-const UsersQueries = require('./usersQueries.js')
+const CoinsQueries = require('./coinsQueries.js');
+const UsersQueries = require('./usersQueries.js');
+const ImgQueries = require('./imgQueries.js');
 const mysql = require('mysql');
 const express = require('express');
 const bcrypt = require('bcrypt');
@@ -9,6 +10,10 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 const connection = mysql.createPool("mysql://n1bvu94c8s6v7r6x:mirl9x26jbjnymyp@w1kr9ijlozl9l79i.chr7pe7iynqr.eu-west-1.rds.amazonaws.com:3306/ijcooavc5xu8fyo0");
 const query = util.promisify(connection.query).bind(connection);
 
@@ -16,9 +21,14 @@ app.get('/coins', (req, res) => {
     CoinsQueries.getCoins(query, connection, req, res);
 });
 
+app.get('/searchCoins', (req, res) => {
+    CoinsQueries.searchCoins(query, connection, req, res);
+});
+
 app.get('/coins/:id', (req, res) => {
     CoinsQueries.getCoin(query, connection, req, res);
 });
+
 app.get('/advanced', (req, res) => {
     CoinsQueries.getAdvancedSearchInfo(query, connection, req, res);
 });
@@ -38,7 +48,7 @@ app.delete('/admin/coins/:id', (req, res) => {
 
 app.get('/users', (req, res) => {
     UsersQueries.getUsers(query, req, res)
-})
+});
 
 app.post('/register', (req, res) => {
     UsersQueries.register(query, connection, bcrypt, req, res);
@@ -47,11 +57,16 @@ app.post('/register', (req, res) => {
 
 app.post('/login', (req, res) => {
     UsersQueries.login(query, connection, bcrypt, req, res);
-})
+});
 
 app.delete('/logout', (req, res) => {
     UsersQueries.logout(query, connection, req, res);
-})
+});
+
+app.get('/image', (req, res) => {
+    ImgQueries.getImg(query, connection, req, res);
+});
+
 
 app.get('/history-in/:number', (req, res) => {
     let getHistoryIn = `SELECT 

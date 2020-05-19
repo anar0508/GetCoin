@@ -2,7 +2,7 @@ import React from "react";
 import { bindActionCreators } from "redux";
 import ListType from './ListType';
 import { connect } from "react-redux";
-import {searchHandling, toggleAdvancedSearch, gettingAdvancedSearchInfo} from "../../store/homepage/actions";
+import {searchHandling} from "../../store/homepage/actions";
 
 function ListTypeContainer(props) {
   const { listName, submitSearch, toggleAdvanced, getAdvancedInfo } = props;
@@ -19,9 +19,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // submitSearch: bindActionCreators(searchHandling, dispatch),
-    // toggleAdvanced: bindActionCreators(toggleAdvancedSearch, dispatch),
-    // getAdvancedInfo: bindActionCreators(gettingAdvancedSearchInfo, dispatch)
+    submitSearch: bindActionCreators(searchHandling, dispatch)
   };
 };
 

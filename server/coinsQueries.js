@@ -1,4 +1,3 @@
-
 getCoins = async (query, connection, req, res) => {
     let getCoinsSQL = `SELECT * FROM coins`;
     try {
@@ -136,7 +135,46 @@ getAdvancedSearchInfo = async (query, connection, req, res) => {
     }
 }
 
-module.exports = { getCoins, getCoin, addCoin, changeCoin, deleteCoin, getAdvancedSearchInfo }
+searchCoins = async(query, connection, req, res) =>{
+    const text = req.query.text;
+    const type = req.query.type;
+    const country = req.query.country;
+    const composition = req.query.composition;
+    const priceFrom = +req.query.priceFrom;
+    const priceTo = +req.query.priceTo;
+    const yearFrom = +req.query.yearFrom;
+    const yearTo = +req.query.yearTo;
+  
+    let getSearchSQL    
+    if (!type){
+        getSearchSQL = `SELECT * FROM coins WHERE 
+        ${!country? `` :`country = ${connection.escape(country)} AND`}
+        ${!composition? `` :`сomposition= ${connection.escape(composition)} AND`} 
+        ${!priceFrom? `` :`price > ${connection.escape(priceFrom)} AND`} 
+        ${!priceTo? `` :`price < ${connection.escape(priceTo)} AND`} 
+        ${!yearFrom? `` :`issuance_year < ${connection.escape(yearFrom)} AND`} 
+        ${!yearTo? `` :`issuance_year < ${connection.escape(yearTo)} AND`} 
+        (coin_name LIKE '%${text}%' OR
+        short_description LIKE '%${text}%' OR
+        description LIKE '%${text}%')`;
+    } else {
+        getSearchSQL = `SELECT * FROM coins WHERE coin_type=${connection.escape(type)}`
+    }
+    try {
+        let coinsList = await query(getSearchSQL);
+        if (!coinsList) {
+            res.status(404);
+        } else {
+            const count = +req.query.count;
+            const offset = +req.query.offset;
+            (!count ? res.status(200).json(coinsList) : res.status(200).send({ users: JSON.parse(coinsList).slice(offset, offset + count), count: coinsList.length }))
+        }
+    } catch (error) {
+        res.status(404);
+    }
+}
+
+module.exports = { getCoins, getCoin, addCoin, changeCoin, deleteCoin, getAdvancedSearchInfo, searchCoins }
 
 
 
