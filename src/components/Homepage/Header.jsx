@@ -10,16 +10,17 @@ align-items: baseline;
 padding: 60px 0 35px 0  ;
 
 `;
-const PageContainer = styled.div`
+const PageContainer = styled.h1`
 width: 64%;
 font-size: 50px;
 font-weight: 300;
 text-align:left;
 `;
-const LinkContainer = styled.div`
+const LinkContainer = styled.h2`
 width: 12%;
 text-align:right;
 font-size: 25px;
+font-weight: 300;
 `;
 
 

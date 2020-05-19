@@ -32,7 +32,7 @@ export const submitForm = (token) => {
 }
 
 export const submittingForm = () => (dispatch, getState) => {
-    fetch('http://localhost:3000/register', {
+    fetch('http://localhost:8000/register', {
         method: "POST",
         body: JSON.stringify({
             login: getState().registration.login,
@@ -43,7 +43,7 @@ export const submittingForm = () => (dispatch, getState) => {
             'Content-Type': 'application/json'
         }
     }).then(res => res.json).then((res) => {
-        fetch('http://localhost:3000/token', {
+        fetch('http://localhost:8000/token', {
             method: "POST",
             body: JSON.stringify({
                 login: getState().registration.login,

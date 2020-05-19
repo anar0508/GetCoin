@@ -5,16 +5,17 @@ import { connect } from "react-redux";
 import { loggingOut } from "../../store/homepage/actions";
 
 function HomePageContainer(props) {
-  const { token, logged, logOut } = props;
+  const { token, logged, logOut, advancedSearch } = props;
   return (
-    <HomePage token={token} logOut={logOut} logged={logged}/>
+    <HomePage token={token} logOut={logOut} logged={logged} advancedSearch={advancedSearch}/>
   );
 }
 
 const mapStateToProps = (state) => {
     return {
         token:state.login.token,
-        logged:state.login.logged
+        logged:state.login.logged, 
+        advancedSearch:state.homepage.advancedSearch
     }
 }
 

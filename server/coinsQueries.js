@@ -1,5 +1,5 @@
 
-getCoins = async (query, req, res) => {
+getCoins = async (query, connection, req, res) => {
     let getCoinsSQL = `SELECT * FROM coins`;
     try {
         let coinsList = await query(getCoinsSQL);
@@ -15,7 +15,7 @@ getCoins = async (query, req, res) => {
     }
 }
 
-getCoin = async (query, req, res) => {
+getCoin = async (query, connection, req, res) => {
     let getCoinSQL = `SELECT * FROM coins WHERE (idCoin=${connection.escape(req.params.id)});`;
     try {
         let coin = await query(getCoinSQL);
@@ -120,7 +120,23 @@ deleteCoin = async (query, connection, req, res) => {
     }
 }
 
-module.exports = { getCoins, getCoin, addCoin, changeCoin, deleteCoin }
+getAdvancedSearchInfo = async (query, connection, req, res) => {
+    let getDistinctCountries = `SELECT DISTINCT country FROM coins;`;
+    let getDistinctCompositions = `SELECT DISTINCT сomposition FROM coins;`;
+    let getDistinctQualities = `SELECT DISTINCT quality FROM coins;`;
+
+    try {
+        let countriesList = await query(getDistinctCountries);
+        let compositionsList = await query(getDistinctCompositions);
+        let qualitiesList = await query(getDistinctQualities);
+        
+            res.status(200).json({countriesList, compositionsList, qualitiesList})
+    } catch (error) {
+        res.status(404).send('somthing is wrong');
+    }
+}
+
+module.exports = { getCoins, getCoin, addCoin, changeCoin, deleteCoin, getAdvancedSearchInfo }
 
 
 

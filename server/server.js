@@ -13,12 +13,16 @@ const connection = mysql.createPool("mysql://n1bvu94c8s6v7r6x:mirl9x26jbjnymyp@w
 const query = util.promisify(connection.query).bind(connection);
 
 app.get('/coins', (req, res) => {
-    CoinsQueries.getCoins(query, req, res);
+    CoinsQueries.getCoins(query, connection, req, res);
 });
 
 app.get('/coins/:id', (req, res) => {
-    CoinsQueries.getCoin(query, req, res);
+    CoinsQueries.getCoin(query, connection, req, res);
 });
+app.get('/advanced', (req, res) => {
+    CoinsQueries.getAdvancedSearchInfo(query, connection, req, res);
+});
+
 
 app.post('/admin/coins', (req, res) => {
     CoinsQueries.addCoin(query, connection, req, res);
