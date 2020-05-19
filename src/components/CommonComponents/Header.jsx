@@ -7,7 +7,7 @@ display: flex;
 width: 93%;
 margin: 0 auto;
 align-items: baseline;
-padding: 60px 0 35px 0  ;
+padding: 30px 0 25px 0  ;
 
 `;
 const PageContainer = styled.h1`
@@ -22,14 +22,20 @@ text-align:right;
 font-size: 25px;
 font-weight: 300;
 `;
+const P = styled.p`
+  font-weight: 300;
+  font-size: 14px;
+  margin: 10px 0;
+`;
 
 
 function Header(props) {
-const {token, logged, logOut} = props;
+const {token, logged, logOut, headerText} = props;
 return (
         <Menu>
             <PageContainer>
-            <Link to="/" > GetCoin </Link>
+            <Link to="/" > {headerText} </Link>
+            {headerText!=='GetCoin'&& <Link to="/"> <P> {"< Back to Homepage"}</P></Link>}
             </PageContainer>
             
             <LinkContainer>

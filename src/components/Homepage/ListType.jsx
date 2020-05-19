@@ -26,15 +26,15 @@ const Image = styled.img`
 `;
 
 function ListType(props) {
-  const { listName } = props;
+  const { listName, submitSearch} = props;
 
   return (
     <ColumnContainer>
-      <Link to="/coins" onClick={()=>{}}>
-        <H3> {listName + " coins"} </H3>
-        <P> Show all > </P>
-        <Image src={`http://localhost:8000/image?type=${listName}`} alt="Coin"/>
-      </Link>
+      
+      <Link to="/coins" > <H3 onClick={()=>{submitSearch(listName)}}>  {listName + " coins"} </H3> </Link>
+      <Link to="/coins" > <P onClick={()=>{submitSearch(listName)}}> Show all > </P></Link>
+      <Image src={`http://localhost:8000/image?type=${listName}`} alt="Coin"/>
+      
     </ColumnContainer>
   );
 }

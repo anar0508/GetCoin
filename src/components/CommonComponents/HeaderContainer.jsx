@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 import { loggingOut } from "../../store/homepage/actions";
 
 function HeaderContainer(props) {
-  const { token, logged, logOut } = props;
+  const { token, logged, logOut, headerText } = props;
   return (
-    <Header token={token} logOut={logOut} logged={logged}/>
+    <Header token={token} logOut={logOut} headerText={headerText} logged={logged}/>
   );
 }
 

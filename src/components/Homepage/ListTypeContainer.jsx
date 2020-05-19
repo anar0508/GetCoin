@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 import {searchHandling} from "../../store/homepage/actions";
 
 function ListTypeContainer(props) {
-  const { listName, submitSearch, toggleAdvanced, getAdvancedInfo } = props;
+  const { listName, submitSearch } = props;
   return (
-    <ListType listName={listName} />
+    <ListType listName={listName} submitSearch={submitSearch} />
   );
 }
 

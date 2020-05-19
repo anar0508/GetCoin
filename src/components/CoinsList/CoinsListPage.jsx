@@ -1,18 +1,18 @@
 import React from "react";
 import HeaderContainer from '../CommonComponents/HeaderContainer';
 import SearchContainer from '../CommonComponents/SearchContainer';
-import CoinLists from './CoinLists';
+import SearchResultsContainer from '../CommonComponents/SearchResultsContainer';
 import '../../index.css';
 
 
-function HomePage(props) {
+function CoinsListPage(props) {
 const {token, logged, logOut, advancedSearch} = props;
 return (
     <div>
-        <HeaderContainer headerText='GetCoin'/>
+        <HeaderContainer headerText='Results of search'/>
         <SearchContainer/>
-        {!advancedSearch && <CoinLists/>}
+        {!advancedSearch && <SearchResultsContainer/>}
     </div>
 )
 }
-export default HomePage;
+export default CoinsListPage;

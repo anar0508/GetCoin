@@ -1,13 +1,13 @@
 import React from "react";
 import { bindActionCreators } from "redux";
-import HomePage from './HomePage';
+import CoinsListPage from './CoinsListPage';
 import { connect } from "react-redux";
 import { loggingOut } from "../../store/homepage/actions";
 
-function HomePageContainer(props) {
+function CoinsListPageContainer(props) {
   const { token, logged, logOut, advancedSearch} = props;
   return (
-    <HomePage token={token} logOut={logOut} logged={logged} advancedSearch={advancedSearch}/>
+    <CoinsListPage token={token} logOut={logOut} logged={logged} advancedSearch={advancedSearch}/>
   );
 }
 
@@ -25,4 +25,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePageContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(CoinsListPageContainer)

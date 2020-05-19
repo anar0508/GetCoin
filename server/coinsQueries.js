@@ -16,9 +16,12 @@ getCoins = async (query, connection, req, res) => {
 
 getCoin = async (query, connection, req, res) => {
     let getCoinSQL = `SELECT * FROM coins WHERE (idCoin=${connection.escape(req.params.id)});`;
+    let increasePopularitySQL = `UPDATE coins SET popularity = popularity+1 WHERE (idCoin=${connection.escape(req.params.id)});
+    `;
     try {
         let coin = await query(getCoinSQL);
-        res.status(200).json(coin)
+        query(increasePopularitySQL);
+        res.status(200).json(coin);
     } catch (error) {
         res.status(404);
     }
@@ -137,7 +140,6 @@ getAdvancedSearchInfo = async (query, connection, req, res) => {
 
 searchCoins = async(query, connection, req, res) =>{
     const text = req.query.text;
-    const type = req.query.type;
     const country = req.query.country;
     const composition = req.query.composition;
     const priceFrom = +req.query.priceFrom;
@@ -146,19 +148,20 @@ searchCoins = async(query, connection, req, res) =>{
     const yearTo = +req.query.yearTo;
   
     let getSearchSQL    
-    if (!type){
+    if (text ==='exclusive' || text ==='bullion'|| text==='commemorative'){
+        getSearchSQL = `SELECT * FROM coins WHERE coin_type=${connection.escape(text)}`
+        
+    } else {
         getSearchSQL = `SELECT * FROM coins WHERE 
         ${!country? `` :`country = ${connection.escape(country)} AND`}
         ${!composition? `` :`сomposition= ${connection.escape(composition)} AND`} 
         ${!priceFrom? `` :`price > ${connection.escape(priceFrom)} AND`} 
         ${!priceTo? `` :`price < ${connection.escape(priceTo)} AND`} 
-        ${!yearFrom? `` :`issuance_year < ${connection.escape(yearFrom)} AND`} 
+        ${!yearFrom? `` :`issuance_year > ${connection.escape(yearFrom)} AND`} 
         ${!yearTo? `` :`issuance_year < ${connection.escape(yearTo)} AND`} 
         (coin_name LIKE '%${text}%' OR
         short_description LIKE '%${text}%' OR
         description LIKE '%${text}%')`;
-    } else {
-        getSearchSQL = `SELECT * FROM coins WHERE coin_type=${connection.escape(type)}`
     }
     try {
         let coinsList = await query(getSearchSQL);

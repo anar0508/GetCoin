@@ -2,26 +2,26 @@ import React from "react";
 import { bindActionCreators } from "redux";
 import Coin from './Coin';
 import { connect } from "react-redux";
-import { loggingOut } from "../../store/homepage/actions";
+import "../../index.css";
+// import { loggingOut } from "../../store/homepage/actions";
 
 function CoinContainer(props) {
-  const { token, logged, logOut } = props;
+  const { coin } = props;
   return (
-    <Coin token={token} logOut={logOut} logged={logged}/>
+    <Coin coin={coin} />
   );
 }
 
 const mapStateToProps = (state) => {
     return {
-        token:state.login.token,
-        logged:state.login.logged
+        coin:state.coinlist.coin
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        logOut: bindActionCreators(loggingOut, dispatch)
-    }
-}
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         logOut: bindActionCreators(loggingOut, dispatch)
+//     }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoinContainer)
+export default connect(mapStateToProps)(CoinContainer)

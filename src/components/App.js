@@ -5,7 +5,7 @@ import LoginContainer from './Login/LoginContainer';
 import HomePageContainer from './Homepage/HomePageContainer';
 import RegistrationContainer from './Registration/RegistrationContainer';
 import CabinetContainer from './Cabinet/CabinetContainer';
-import CoinsListContainer from './CoinsList/CoinsListContainer';
+import CoinsListPageContainer from './CoinsList/CoinsListPageContainer';
 import CoinContainer from './Coin/CoinContainer';
 import CartContainer from './Cart/CartContainer';
 import {Route} from "react-router-dom";
@@ -26,9 +26,9 @@ function App(props) {
                 <CabinetContainer />
             </Route>
             <Route path="/coins" exact>
-                <CoinsListContainer />
+                <CoinsListPageContainer />
             </Route>
-            <Route path="/coins/:id" exact>
+            <Route path="/coin/:id" exact>
                 <CoinContainer />
             </Route>
             <Route path="/cart" exact>

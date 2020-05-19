@@ -64,8 +64,11 @@ const Arrow = styled.img`
 
 function Search(props) {
   const [search, handleSearchInput] = useState("");
-
   const { advancedSearch, toggleAdvanced, getAdvancedInfo, submitSearch } = props;
+  let path;
+  if (!advancedSearch&&search===''){
+    path='/';
+  } else path='/coins';
   return (
     <SearchBar>
       <InputContainer>
@@ -73,8 +76,8 @@ function Search(props) {
         <Input>
           <SearchInput
             type="text" value={search} onChange={(e) => {handleSearchInput(e.target.value);}}/>
-          <Link to="/coins">
-            <Button type="submit" value="Search" onClick={() => {submitSearch(search); }}/>
+          <Link to={path}>
+            <Button type="submit" value="Search" onClick={() => {submitSearch(search); (advancedSearch&& toggleAdvanced()) }}/>
           </Link>
         </Input>
         <AdvancedText onClick= {()=>{ (advancedSearch===false && getAdvancedInfo()); toggleAdvanced(); }}>

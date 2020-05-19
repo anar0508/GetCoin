@@ -44,14 +44,20 @@ export const getSearchResult = (coins) => {
     }
 }
 
-export const searchHandling = (search, ...args) => (dispatch, getState) => {
-    fetch(`http://localhost:8000/searchCoins?text=${search}&type=${args[0]}&country=${getState.adSearch.country}&composition=${getState.adSearch.composition}&priceFrom=${getState.adSearch.priceFrom}&priceTo=${getState.adSearch.priceTo}&yearFrom=${getState.adSearch.yearFrom}&yearTo=${getState.adSearch.yearTo}`, {
+export const searchHandling = (search) => (dispatch, getState) => {
+    const country = getState().adSearch.country;
+    const composition =getState().adSearch.composition;
+    const priceFrom =getState().adSearch.priceFrom;
+    const priceTo =getState().adSearch.priceTo;
+    const yearFrom =getState().adSearch.yearFrom;
+    const yearTo =getState().adSearch.yearTo;
+    fetch(`http://localhost:8000/searchCoins?text=${search}&country=${country}&composition=${composition}&priceFrom=${priceFrom}&priceTo=${priceTo}&yearFrom=${yearFrom}&yearTo=${yearTo}`, {
         method: "GET",
         headers: {
             'Access-Control-Allow-Origin': 'http://localhost:8000',
             'Content-Type': 'application/json'
         }
-    }).then(res => res.json).then(res => { dispatch(getSearchResult(res))})
+    }).then(res => res.json()).then(res => { dispatch(getSearchResult(res))})
     
 }
 
