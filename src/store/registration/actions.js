@@ -24,15 +24,9 @@ export const changeRepeatPassword = (newRepeatPassword) => {
     }
 }
 
-export const submitForm = (token) => {
-    return {
-        type: SUBMIT_FORM,
-        payload: token
-    }
-}
 
 export const submittingForm = () => (dispatch, getState) => {
-    fetch('http://localhost:8000/register', {
+    fetch('http://localhost:3000/register', {
         method: "POST",
         body: JSON.stringify({
             login: getState().registration.login,
@@ -42,17 +36,5 @@ export const submittingForm = () => (dispatch, getState) => {
             'Access-Control-Allow-Origin': 'http://localhost:3000',
             'Content-Type': 'application/json'
         }
-    }).then(res => res.json).then((res) => {
-        fetch('http://localhost:8000/token', {
-            method: "POST",
-            body: JSON.stringify({
-                login: getState().registration.login,
-                password: getState().registration.password
-            }),
-            headers: {
-                'Access-Control-Allow-Origin': 'http://localhost:3000',
-                'Content-Type': 'application/json'
-            }
-        }).then(res => res.json).then(res => { dispatch(submitForm(res)); dispatch(changePassword('')); dispatch(changeRepeatPassword('')) })
-    })
+    }).then(res => { dispatch(changePassword('')); dispatch(changeRepeatPassword('')) })
 }

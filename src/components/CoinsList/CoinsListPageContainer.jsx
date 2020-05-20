@@ -2,7 +2,7 @@ import React from "react";
 import { bindActionCreators } from "redux";
 import CoinsListPage from './CoinsListPage';
 import { connect } from "react-redux";
-import { loggingOut } from "../../store/homepage/actions";
+import { loggingOut } from "../../store/login/actions";
 
 function CoinsListPageContainer(props) {
   const { token, logged, logOut, advancedSearch} = props;

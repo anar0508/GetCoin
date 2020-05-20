@@ -38,7 +38,7 @@ login = async (query, connection, bcrypt, req, res) => {
         let users = await query(getUsersListSQL);
         const userInBase = users.find(user => user.login === login && checkUser(password, user.user_hash, bcrypt))
         if (!userInBase) {
-            res.status(400).json({ message: 'Can not find user' })
+            res.status(400).json({ message: 'Can not find user or password is wrong' })
         } else {
             let findUserTokensSQL = `SELECT token FROM tokens WHERE login=${connection.escape(login)}`;
             try {
@@ -84,6 +84,7 @@ logout = async (query, connection, req, res) => {
     const { token } = req.body;
     let deleteTokenSQL = `DELETE FROM tokens WHERE token = ${connection.escape(token)}`;
     try {
+
         let deleted = await query(deleteTokenSQL);
         res.status(200).json({message:'User is logged out'});
     } catch (error) {

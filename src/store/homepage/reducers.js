@@ -1,8 +1,6 @@
-import { LOG_OUT, HANDLE_SEARCH, TOGGLE_ADVANCED_SEARCH, GET_ADVANCED_SEARCH_INFO} from './actions';
+import { HANDLE_SEARCH, TOGGLE_ADVANCED_SEARCH, GET_ADVANCED_SEARCH_INFO} from './actions';
 
 const initialState = {
-    token: '',
-    coins: null,
     advancedSearch: false,
     adSearchInfo: '',
     coins: []
@@ -10,10 +8,6 @@ const initialState = {
 
 export const homepageReducer = (state = initialState, action) => {
     switch (action.type) {
-        case LOG_OUT:
-            return {
-                ...state, token: action.payload
-            }
         case HANDLE_SEARCH:
             return {
                 ...state, coins: action.payload

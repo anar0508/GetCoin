@@ -2,7 +2,7 @@ import React from "react";
 import { bindActionCreators } from "redux";
 import Cart from './Cart';
 import { connect } from "react-redux";
-import { loggingOut } from "../../store/homepage/actions";
+import { loggingOut } from "../../store/login/actions";
 
 function CartContainer(props) {
   const { token, logged, logOut } = props;

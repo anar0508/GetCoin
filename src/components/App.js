@@ -1,7 +1,7 @@
 import React from 'react';
 import '../index.css';
 import { connect } from 'react-redux';
-import LoginContainer from './Login/LoginContainer';
+import Login from './Login/Login';
 import HomePageContainer from './Homepage/HomePageContainer';
 import RegistrationContainer from './Registration/RegistrationContainer';
 import CabinetContainer from './Cabinet/CabinetContainer';
@@ -20,7 +20,7 @@ function App(props) {
                 <RegistrationContainer />
             </Route>
             <Route path="/login" exact>
-                <LoginContainer />
+                <Login />
             </Route>
             <Route path="/cabinet" exact>
                 <CabinetContainer />

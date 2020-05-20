@@ -1,27 +1,50 @@
-import { CHANGE_FIRST_NAME, CHANGE_SECOND_NAME, CHANGE_LOGGED } from './actions';
+import { CHANGE_LOGIN, CHANGE_PASSWORD, CHANGE_LOGGED, LOG_IN, LOG_OUT, CRED_ERR, REDIRECT } from './actions';
 
 
 const initialState = {
-    firstName: '',
-    secondName: '',
-    logged: false
+    login: '',
+    password: '',
+    logged: false,
+    token: '',
+    credError: false,
+    redirect: false
 }
 
 export const logReducer = (state = initialState, action) => {
     switch (action.type) {
-        case CHANGE_FIRST_NAME:
+        case CHANGE_LOGIN:
             return {
-                ...state, firstName: action.payload
+                ...state, login: action.payload
             }
 
-        case CHANGE_SECOND_NAME:
+        case CHANGE_PASSWORD:
             return {
-                ...state, secondName: action.payload
+                ...state, password: action.payload
             }
 
         case CHANGE_LOGGED:
             return {
                 ...state, logged: action.payload
+            }
+
+        case LOG_IN:
+            return {
+                ...state, token: action.payload
+            }
+
+        case CRED_ERR:
+            return {
+                ...state, credError: action.payload
+            }
+
+        case LOG_OUT:
+            return {
+                ...state, token: action.payload
+            }
+
+        case REDIRECT:
+            return {
+                ...state, redirect: action.payload
             }
 
         default:

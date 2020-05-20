@@ -2,7 +2,7 @@ import React from "react";
 import { bindActionCreators } from "redux";
 import HomePage from './HomePage';
 import { connect } from "react-redux";
-import { loggingOut } from "../../store/homepage/actions";
+import { loggingOut } from "../../store/login/actions";
 
 function HomePageContainer(props) {
   const { token, logged, logOut, advancedSearch} = props;
