@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Header from "./Header";
 import UserLoginContainer from "./UserLoginContainer";
-import {Redirect} from "react-router-dom";
-import styled from "styled-components";
 import "../../index.css";
 
 

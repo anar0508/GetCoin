@@ -9,7 +9,7 @@ getUsers = async (query, req, res) => {
 };
 
 register = async (query, connection, bcrypt, req, res) => {
-    const { login, password } = req.body;
+    const { login, password, name } = req.body;
     let getUsersSQL = `SELECT login FROM users`;
     try {
         let users = await query(getUsersSQL);
@@ -17,7 +17,7 @@ register = async (query, connection, bcrypt, req, res) => {
         let checkLogin = users.find(user => user.login === login);
         if (!checkLogin) {
             let hash = await bcrypt.hash(password, 10);
-            let addUserSQL = `INSERT INTO users (login, user_hash) VALUE (${connection.escape(login)}, ${connection.escape(hash)})`;
+            let addUserSQL = `INSERT INTO users (login, user_hash, name) VALUE (${connection.escape(login)}, ${connection.escape(hash)}, ${connection.escape(name)})`;
             try {
                 let user = await query(addUserSQL);
                 res.status(200).json({ message: 'User is registered' });
@@ -34,9 +34,12 @@ register = async (query, connection, bcrypt, req, res) => {
 login = async (query, connection, bcrypt, req, res) => {
     const { login, password } = req.body;
     try {
-        let getUsersListSQL = `SELECT login, user_hash FROM users`;
+        let getUsersListSQL = `SELECT login, user_hash, name, admin FROM users`;
         let users = await query(getUsersListSQL);
-        const userInBase = users.find(user => user.login === login && checkUser(password, user.user_hash, bcrypt))
+        const userInBase = users.find(user => {
+            if (user.login === login && checkUser(password, user.user_hash, bcrypt)) { 
+             return user; } 
+            else return null;});
         if (!userInBase) {
             res.status(400).json({ message: 'Can not find user or password is wrong' })
         } else {
@@ -50,7 +53,7 @@ login = async (query, connection, bcrypt, req, res) => {
                     let addTokenSQL = `INSERT INTO tokens (login, token) VALUE (${connection.escape(login)}, ${connection.escape(newToken)})`;
                     try {
                         let token = await query(addTokenSQL);
-                        res.status(200).json({ token: newToken });
+                        res.status(200).json({ token: newToken, name:userInBase.name, admin:userInBase.admin });
                     } catch (error) {
                         res.status(404).send(error);
                     }
@@ -65,8 +68,9 @@ login = async (query, connection, bcrypt, req, res) => {
 
 }
 
-checkUser = async (password, hash, bcrypt) => {
-    const match = await bcrypt.compare(password, hash);
+checkUser = (password, hash, bcrypt) => {
+    let match;
+    match = bcrypt.compareSync(password, hash);
     return match;
 }
 
@@ -86,7 +90,7 @@ logout = async (query, connection, req, res) => {
     try {
 
         let deleted = await query(deleteTokenSQL);
-        res.status(200).json({message:'User is logged out'});
+        res.status(200).json({ message: 'User is logged out' });
     } catch (error) {
         res.status(400).send("error");
     }

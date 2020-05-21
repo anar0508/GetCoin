@@ -1,18 +1,29 @@
-export const CHANGE_LOGIN = 'CHANGE_LOGIN';
-export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
+export const CHANGE_NAME = 'CHANGE_NAME';
+export const CHANGE_REGISTER_LOGIN = 'CHANGE_REGISTER_LOGIN';
+export const CHANGE_REGISTER_PASSWORD = 'CHANGE_REGISTER_PASSWORD';
 export const CHANGE_REPEAT_PASSWORD = 'CHANGE_REPEAT_PASSWORD';
-export const SUBMIT_FORM = 'SUBMIT_FORM';
+export const SUBMIT_REGISTER_FORM = 'SUBMIT_REGISTER_FORM';
+export const SHOW_ERROR = 'SHOW_ERROR';
+export const REGISTER_REDIRECT = 'REGISTER_REDIRECT';
 
-export const changeLogin = (newLogin) => {
+
+export const changeName = (newName) => {
     return {
-        type: CHANGE_LOGIN,
+        type: CHANGE_NAME,
+        payload: newName
+    }
+}
+
+export const changeRegisterLogin = (newLogin) => {
+    return {
+        type: CHANGE_REGISTER_LOGIN,
         payload: newLogin
     }
 }
 
-export const changePassword = (newPassword) => {
+export const changeRegisterPassword = (newPassword) => {
     return {
-        type: CHANGE_PASSWORD,
+        type: CHANGE_REGISTER_PASSWORD,
         payload: newPassword
     }
 }
@@ -24,17 +35,40 @@ export const changeRepeatPassword = (newRepeatPassword) => {
     }
 }
 
+export const showError = (error) => {
+    return {
+        type: SHOW_ERROR,
+        payload: error
+    }
+}
 
-export const submittingForm = () => (dispatch, getState) => {
-    fetch('http://localhost:3000/register', {
+export const registerRedirect = (newRed) => {
+    return {
+        type: REGISTER_REDIRECT,
+        payload: newRed
+    }
+}
+
+export const submittingRegisterForm = () => async (dispatch, getState) => {
+    let res = await fetch('http://localhost:8000/register', {
         method: "POST",
         body: JSON.stringify({
-            login: getState().registration.login,
-            password: getState().registration.password
+            login: getState().registration.registerLogin,
+            password: getState().registration.registerPassword,
+            name: getState().registration.name
         }),
         headers: {
             'Access-Control-Allow-Origin': 'http://localhost:3000',
             'Content-Type': 'application/json'
         }
-    }).then(res => { dispatch(changePassword('')); dispatch(changeRepeatPassword('')) })
+    })
+    if (res.status !== 200) { dispatch(showError(true)); dispatch(registerRedirect(false));  }
+    else { dispatch(showError(false)); 
+        dispatch(changeRegisterLogin('')); 
+        dispatch(changeName('')); 
+        dispatch(changeRegisterPassword('')); 
+        dispatch(changeRepeatPassword('')) 
+        dispatch(registerRedirect(true));
+    }
 }
+

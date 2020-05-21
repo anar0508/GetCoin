@@ -1,46 +1,59 @@
 import React from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { changeLogin, changePassword, changeRepeatPassword, submittingForm } from "../../store/registration/actions";
+import { changeRegisterLogin, changeRegisterPassword, changeRepeatPassword, submittingRegisterForm, changeName } from "../../store/registration/actions";
 import Registration from "./Registration";
 
 function RegistrationContainer(props) {
   const {
     login,
+    name,
     password,
     repeatPassword,
     changeLogin,
     changePassword,
     changeRepeatPassword,
-    submitForm
+    submitForm,
+    changeName,
+    showError,
+    redirect
   } = props;
   return (
     <Registration
+      name={name}
       login={login}
       password={password}
       repeatPassword={repeatPassword}
       changeLogin={changeLogin}
       changePassword={changePassword}
+      changeName={changeName}
       changeRepeatPassword={changeRepeatPassword}
       submitForm = {submitForm}
+      showError = {showError}
+      redirect = {redirect}
     />
   );
 }
 
 const mapStateToProps = (state) => {
   return {
-    login: state.registration.login,
-    password: state.registration.password,
+    name: state.registration.name,
+    login: state.registration.registerLogin,
+    password: state.registration.registerPassword,
     repeatPassword: state.registration.repeatPassword,
+    showError: state.registration.showError,
+    redirect: state.registration.registerRedirect
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeLogin: bindActionCreators(changeLogin, dispatch),
-    changePassword: bindActionCreators(changePassword, dispatch),
+    changeLogin: bindActionCreators(changeRegisterLogin, dispatch),
+    changePassword: bindActionCreators(changeRegisterPassword, dispatch),
     changeRepeatPassword: bindActionCreators(changeRepeatPassword, dispatch),
-    submitForm: bindActionCreators(submittingForm, dispatch)
+    submitForm: bindActionCreators(submittingRegisterForm, dispatch),
+    changeName: bindActionCreators(changeName, dispatch),
+    
   };
 };
 

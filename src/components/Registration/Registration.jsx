@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Redirect} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import Header from "./Header";
 import styled from "styled-components";
 import "../../index.css";
@@ -58,45 +58,58 @@ const Button = styled.input`
 
 function Registration(props) {
   const [passwordsError, showPasswordsError] = useState(false);
-  const [redirect, handleRedirect] = useState(false);
-  const [willRedirect, changeWillRedirect] = useState(false);
   const {
+    name,
     login,
     password,
     repeatPassword,
+    changeName,
     changeLogin,
     changePassword,
     changeRepeatPassword,
     submitForm,
+    showError,
+    redirect,
   } = props;
-  useEffect(()=>{}, [passwordsError])
-  return (
-    (redirect? <Redirect to="/login" />:
+
+  return redirect ? (
+    <Redirect to="/login" />
+  ) : (
     <section>
       <Header headerText="GetCoin" />
       <Form
         onSubmit={(e) => {
-          
           if (password !== repeatPassword) {
             showPasswordsError(true);
-            setTimeout(()=>{showPasswordsError(false);}, 3000)
+            // setTimeout(() => {
+            //   showPasswordsError(false);
+            // }, 3000);
           } else {
-            submitForm(login, password);
             showPasswordsError(false);
-            changeWillRedirect(true);
-            setTimeout(()=>{
-              changeWillRedirect(false);
-              handleRedirect(true);}, 3000);
+            submitForm(login, password);
           }
           e.preventDefault();
         }}
       >
         <InputBox>
-          <Label> Login </Label>
+          <Label> Name </Label>
           <Input
             type="text"
+            value={name}
+            placeholder="name"
+            onChange={(e) => {
+              changeName(e.target.value);
+            }}
+          />
+        </InputBox>
+
+        <InputBox>
+          <Label> Email </Label>
+          <Input
+            type="email"
             value={login}
-            placeholder="login"
+            maxLength={48}
+            placeholder="Email"
             onChange={(e) => {
               changeLogin(e.target.value);
             }}
@@ -128,8 +141,8 @@ function Registration(props) {
             }}
           />
         </InputBox>
-            {passwordsError && <p> Passwords don't match </p> }
-            {willRedirect && <p> You were registered. We will proceed you to Login page. </p> }
+        {passwordsError && <p> Passwords don't match </p>}
+        {showError && <p> There is another person with this login </p>}
         <Button
           type="submit"
           disabled={!login || !password || !repeatPassword}
@@ -137,7 +150,7 @@ function Registration(props) {
         />
       </Form>
     </section>
-  ));
+  );
 }
 
 export default Registration;

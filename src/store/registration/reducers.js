@@ -1,28 +1,45 @@
-import { CHANGE_LOGIN, CHANGE_PASSWORD, CHANGE_REPEAT_PASSWORD, SUBMIT_FORM } from '../registration/actions';
+import { CHANGE_NAME, CHANGE_REGISTER_LOGIN, CHANGE_REGISTER_PASSWORD, CHANGE_REPEAT_PASSWORD, SHOW_ERROR, REGISTER_REDIRECT } from '../registration/actions';
 
 
 const initialState = {
-    login: '',
-    password: '',
-    repeatPassword: ''
+    name:'',
+    registerLogin: '',
+    registerPassword: '',
+    repeatPassword: '',
+    showError: false,
+    registerRedirect: false
 }
 
 export const regReducer = (state = initialState, action) => {
     switch (action.type) {
 
-        case CHANGE_LOGIN:
+        case CHANGE_NAME:
             return {
-                ...state, login: action.payload
+                ...state, name: action.payload
             }
 
-        case CHANGE_PASSWORD:
+        case CHANGE_REGISTER_LOGIN:
             return {
-                ...state, password: action.payload
+                ...state, registerLogin: action.payload
+            }
+
+        case CHANGE_REGISTER_PASSWORD:
+            return {
+                ...state, registerPassword: action.payload
             }
 
         case CHANGE_REPEAT_PASSWORD:
             return {
                 ...state, repeatPassword: action.payload
+            }
+        case SHOW_ERROR:
+            return {
+                ...state, showError: action.payload
+            }
+
+        case REGISTER_REDIRECT:
+            return {
+                ...state, registerRedirect: action.payload
             }
 
         default:

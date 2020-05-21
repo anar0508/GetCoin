@@ -32,8 +32,6 @@ export const searchHandling = (search) => (dispatch, getState) => {
     const priceTo =getState().adSearch.priceTo;
     const yearFrom =getState().adSearch.yearFrom;
     const yearTo =getState().adSearch.yearTo;
-    console.log(search);
-    
     fetch(`http://localhost:8000/searchCoins?text=${search}&country=${country}&composition=${composition}&priceFrom=${priceFrom}&priceTo=${priceTo}&yearFrom=${yearFrom}&yearTo=${yearTo}`, {
         method: "GET",
         headers: {

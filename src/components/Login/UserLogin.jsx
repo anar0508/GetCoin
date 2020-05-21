@@ -1,5 +1,5 @@
-import React, { useState} from "react";
-import {Redirect} from "react-router-dom";
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
 import styled from "styled-components";
 import "../../index.css";
 const Form = styled.form`
@@ -13,7 +13,6 @@ const Form = styled.form`
   min-width: 350px;
   margin: 0 auto;
   width: 100%;
-
 `;
 
 const InputBox = styled.div`
@@ -47,50 +46,62 @@ const Button = styled.input`
   outline: none;
   border: none;
   padding: 9px;
-  margin-left: 20px;
   background: #833ae0;
   color: white;
   text-align: center;
-  vertical-align: middle;
   font-size: 14px;
 `;
 
 function UserLogin(props) {
-    const { login, password, changeLogin, changePassword, submitForm, showError, redirect} = props;
-    return (
-      (redirect? <Redirect to="/" />:
-      <Form onSubmit={(e) => {
-       
+  const {
+    login,
+    password,
+    changeLogin,
+    changePassword,
+    submitForm,
+    showError,
+    redirect,
+  } = props;
+  return redirect ? (
+    <Redirect to="/" />
+  ) : (
+    <Form
+      onSubmit={(e) => {
         submitForm(login, password);
         e.preventDefault();
-        }}>
-        <InputBox>
-        <Label> Login </Label>
-          <Input
-            type="text"
-            value={login}
-            placeholder="login"
-            onChange={(e) => {
-              changeLogin(e.target.value);
-            }}
-          />
-        </InputBox>
-        <InputBox>
+      }}
+    >
+      <InputBox>
+        <Label> email </Label>
+        <Input
+          type="email"
+          value={login}
+          placeholder="email"
+          onChange={(e) => {
+            changeLogin(e.target.value);
+          }}
+        />
+      </InputBox>
+      <InputBox>
         <Label> Password </Label>
-          <Input
-            type="password"
-            value={password}
-            placeholder="password"
-            onChange={(e) => {
-              changePassword(e.target.value);
-            }}
-          />
-        </InputBox>
-        {showError===true && <div> Login or Password is incorrect</div>}
-        <Button type="submit" disabled={!login||!password} value='submit'/>
-      </Form>)
-    );
-  }
-  
-  
-  export default UserLogin;
+        <Input
+          type="password"
+          value={password}
+          placeholder="password"
+          onChange={(e) => {
+            changePassword(e.target.value);
+          }}
+        />
+        {/* <Label >
+          <label htmlFor="save">Save me </label>
+          <input id="save" value={true} type="checkbox" />
+        </Label> */}
+      </InputBox>
+
+      {showError === true && <div> Login or Password is incorrect</div>}
+      <Button type="submit" disabled={!login || !password} value="submit" />
+    </Form>
+  );
+}
+
+export default UserLogin;
