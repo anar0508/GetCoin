@@ -1,5 +1,6 @@
 const CoinsQueries = require('./coinsQueries.js');
 const path = require("path");
+const fileUpload = require('express-fileupload');
 const UsersQueries = require('./usersQueries.js');
 const ImgQueries = require('./imgQueries.js');
 const mysql = require('mysql');
@@ -10,6 +11,7 @@ const util = require('util');
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(fileUpload());
 app.use(cors());
 
 const connection = mysql.createPool("mysql://n1bvu94c8s6v7r6x:mirl9x26jbjnymyp@w1kr9ijlozl9l79i.chr7pe7iynqr.eu-west-1.rds.amazonaws.com:3306/ijcooavc5xu8fyo0");
@@ -43,6 +45,24 @@ app.put('/admin/coins/:id', (req, res) => {
 app.delete('/admin/coins/:id', (req, res) => {
     CoinsQueries.deleteCoin(query, connection, req, res);
 });
+
+app.post('/upload', function(req, res) {
+    if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).send('No files were uploaded.');
+    }
+  
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let sampleFile = req.files.sampleFile;
+    console.log(sampleFile);
+    
+    // Use the mv() method to place the file somewhere on your server
+    sampleFile.mv('./img/obverse/'+sampleFile.name, function(err) {
+      if (err)
+        return res.status(500).send(err);
+  
+      res.send('File uploaded!');
+    });
+  });
 
 app.get('/users', (req, res) => {
     UsersQueries.getUsers(query, req, res)

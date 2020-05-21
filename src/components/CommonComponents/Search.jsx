@@ -6,7 +6,7 @@ import arrow_up from "../../img/arrow_up.svg";
 import arrow_down from "../../img/arrow_down.svg";
 
 import "../../index.css";
-const SearchBar = styled.form`
+export const SearchBar = styled.form`
   display: flex;
   flex-direction: column;
   width: 60%;
@@ -86,9 +86,6 @@ function Search(props) {
         </AdvancedText>
       </InputContainer>
       {advancedSearch && <AdvancedSearchContainer/>}
-
-
-    
     </SearchBar>
   );
 }

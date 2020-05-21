@@ -6,7 +6,7 @@ import '../../index.css';
 
 
 function HomePage(props) {
-const {token, logged, logOut, advancedSearch} = props;
+const {advancedSearch} = props;
 return (
     <div>
         <HeaderContainer headerText='GetCoin'/>

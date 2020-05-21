@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import arrow_down from "../../img/arrow_down.svg";
 import "../../index.css";

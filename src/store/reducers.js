@@ -4,11 +4,14 @@ import {regReducer} from './registration/reducers';
 import {homepageReducer} from './homepage/reducers';
 import {advancedSearchReducer}from './homepage/adSearch/reducers';
 import {coinslistReducer}from './coinlist/reducers';
+import {adminReducer}from './adminCabinet/reducers';
+
 
 export default combineReducers({
     login: logReducer,
     registration: regReducer,
     homepage: homepageReducer,
     adSearch:advancedSearchReducer,
-    coinlist:coinslistReducer
+    coinlist:coinslistReducer,
+    adminPage:adminReducer
 });

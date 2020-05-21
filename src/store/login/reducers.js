@@ -2,7 +2,7 @@ import { CHANGE_ADMIN, CHANGE_LOG_NAME, CHANGE_LOGIN, CHANGE_PASSWORD, LOG_IN, L
 
 let checkTokenStorage = localStorage.getItem('token');
 let checkNameStorage = localStorage.getItem('name');
-let checkAdminStorage = localStorage.getItem('admin');
+let checkAdminStorage = JSON.parse(localStorage.getItem('admin'));
 
 const initialState = {
     login: '',

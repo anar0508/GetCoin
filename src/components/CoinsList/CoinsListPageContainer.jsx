@@ -1,28 +1,20 @@
 import React from "react";
-import { bindActionCreators } from "redux";
 import CoinsListPage from './CoinsListPage';
 import { connect } from "react-redux";
-import { loggingOut } from "../../store/login/actions";
+
 
 function CoinsListPageContainer(props) {
-  const { token, logged, logOut, advancedSearch} = props;
+  const { advancedSearch} = props;
   return (
-    <CoinsListPage token={token} logOut={logOut} logged={logged} advancedSearch={advancedSearch}/>
+    <CoinsListPage advancedSearch={advancedSearch}/>
   );
 }
 
 const mapStateToProps = (state) => {
     return {
-        token:state.login.token,
-        logged:state.login.logged, 
         advancedSearch:state.homepage.advancedSearch
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        logOut: bindActionCreators(loggingOut, dispatch)
-    }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoinsListPageContainer)
+export default connect(mapStateToProps)(CoinsListPageContainer)

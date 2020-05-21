@@ -1,6 +1,5 @@
 import React from "react";
 import SearchPointContainer from "./SearchPointContainer";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import "../../index.css";
 

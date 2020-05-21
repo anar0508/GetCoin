@@ -32,7 +32,7 @@ const P = styled.p`
 
 
 function Header(props) {
-const {token, logged, logOut, headerText, name, isAdmin} = props;
+const {token, logOut, headerText, name, isAdmin} = props;
 return (
         <Menu>
             <PageContainer>
@@ -52,9 +52,9 @@ return (
             :<Link to="/login"> Login </Link>}
             </LinkContainer>
 
-            <LinkContainer style={{minWidth: '60px'}} >
+            {!isAdmin && <LinkContainer style={{minWidth: '60px'}} >
             <Link to="/cart"> Cart </Link>
-            </LinkContainer>
+            </LinkContainer>}
         </Menu>
 )
 }

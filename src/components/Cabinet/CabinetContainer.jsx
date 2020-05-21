@@ -5,16 +5,15 @@ import { connect } from "react-redux";
 // import { changeFirstName, changeSecondName } from "../../store/login/actions";
 
 function CabinetContainer(props) {
-  // const { firstName, secondName, changeName, changeSurname } = props;
+  const { isAdmin} = props;
   return (
-    <Cabinet />
+    <Cabinet isAdmin={isAdmin}/>
   );
 }
 
 const mapStateToProps = (state) => {
     return {
-        firstName: state.login.login,
-        secondName: state.login.password
+        isAdmin: state.login.admin
     }
 }
 

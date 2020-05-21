@@ -1,5 +1,4 @@
 import React from "react";
-import { bindActionCreators } from "redux";
 import SearchResults from './SearchResults';
 import { connect } from "react-redux";
 // import {} from "../../store/homepage/actions";
@@ -17,10 +16,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    // submitSearch: bindActionCreators(searchHandling, dispatch)
-  };
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     // submitSearch: bindActionCreators(searchHandling, dispatch)
+//   };
+// };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchResultsContainer)
+export default connect(mapStateToProps)(SearchResultsContainer)
