@@ -61,7 +61,7 @@ function SearchPoint(props) {
          <Link to={path} onClick={()=>{getCoin(coin.idCoin)}}>  <h4> {coin.coin_name}</h4> </Link> 
             <p> {coin.short_description} </p>
             {isAdmin && <div>
-          <button onClick ={()=>{editCoin(true, coin)}}> Edit </button> 
+          <button onClick ={()=>{editCoin(true, coin); }}> Edit </button> 
           <button onClick={()=>{deleteCoin(coin.idCoin)}}> Delete </button>
            </div>}
          </Description>

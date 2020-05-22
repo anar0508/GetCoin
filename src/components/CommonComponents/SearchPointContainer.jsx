@@ -3,7 +3,7 @@ import { bindActionCreators } from "redux";
 import SearchPoint from './SearchPoint';
 import { connect } from "react-redux";
 import {gettingCoin} from "../../store/coinlist/actions";
-import {coinDeleting, editCoin} from "../../store/adminCabinet/actions";
+import {coinDeleting, startCoinEditing} from "../../store/adminCabinet/actions";
 import "../../index.css";
 
 
@@ -25,7 +25,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getCoin: bindActionCreators(gettingCoin, dispatch), 
     deleteCoin: bindActionCreators(coinDeleting, dispatch), 
-    editCoin: bindActionCreators(editCoin, dispatch)
+    editCoin: bindActionCreators(startCoinEditing, dispatch)
   };
 };
 

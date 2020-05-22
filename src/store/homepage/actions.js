@@ -42,9 +42,9 @@ export const searchHandling = (search) => (dispatch, getState) => {
     
 }
 
-export const gettingAdvancedSearchInfo = () => (dispatch, getState) => {
-    fetch('http://localhost:8000/advanced').then(res => { return res.json()}).then(res => { 
-dispatch(getAdvancedSearchInfo(res));})
-    
+export const gettingAdvancedSearchInfo = () => async (dispatch, getState) => {
+  const info= await fetch('http://localhost:8000/advanced');
+  const parsedInfo = await info.json(); 
+  await dispatch(getAdvancedSearchInfo(parsedInfo));
 }
 

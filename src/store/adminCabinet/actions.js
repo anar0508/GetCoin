@@ -1,7 +1,9 @@
 import { searchHandling } from "../../store/homepage/actions";
+import { gettingAdvancedSearchInfo as getSelectInfo } from "../../store/homepage/actions";
 
 export const DELETE_COIN = 'DELETE_COIN';
 export const EDIT_COIN = 'EDIT_COIN';
+
 
 
 
@@ -18,6 +20,7 @@ export const editCoin = (editing, coin) => {
         payload: {editing, coin}
     }
 }
+
 
 export const coinDeleting = (idCoin) => async (dispatch, getState) => {
     let res = await fetch(`http://localhost:8000/admin/coins/${idCoin}`, {
@@ -67,3 +70,11 @@ export const coinEditing = (idCoin) => async (dispatch, getState) => {
         dispatch(searchHandling('')); 
     }
 }
+
+
+export const startCoinEditing = (editing, coin) => async (dispatch, getState) => {
+    const info = await dispatch( getSelectInfo());
+    dispatch (editCoin(editing, coin));
+}
+
+

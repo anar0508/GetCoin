@@ -1,25 +1,28 @@
 import React, { useState, useEffect } from "react";
 import InputComponent from "./InputComponent";
+import SelectComponent from "./SelectComponent";
 import styled from "styled-components";
 
 const Form = styled.form`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 96.5%;
   min-width: 500px;
+  margin-top: 50px;
   margin-left: 3.5%;
   justify-content: space-evenly;
   align-items: flex-start;
   article {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: nowrap;
     margin-top: 5px;
     margin-bottom: 5px;
-    width: 40%;
-    min-width: 300px;
-
+    width: 100%;
+    min-width: 500px;
   }
   button {
+      display: block;
     width: 100px;
     outline: none;
     border: none;
@@ -30,6 +33,48 @@ const Form = styled.form`
     text-align: center;
     vertical-align: middle;
     font-size: 14px;
+  }
+`;
+
+const Submit =styled.input`
+width: 100px;
+outline: none;
+border: none;
+padding: 9px;
+margin-left: 20px;
+background: #833ae0;
+color: white;
+text-align: center;
+vertical-align: middle;
+font-size: 14px;
+display: block;
+`;
+
+const File = styled.div`
+display: flex;
+position:relative;
+flex-direction: row;
+align-items: center;
+  input {
+    cursor: pointer;
+    padding: 120px 0 0 0;
+    display: inline-block;
+    color: black;
+    text-align: center;
+    background: white;
+    width: 120px;
+    height: 120px;
+    border: 1px solid black;
+    border-radius: 50%;
+  }
+  label {
+    cursor: pointer;
+
+    display: block;
+  }
+  span{
+      position: absolute;
+      left: 55px;
   }
 `;
 
@@ -50,75 +95,86 @@ const Container = styled.div`
     border: 1px solid black;
     text-align: left;
     font-size: 14px;
-    height: 121px;
-    resize: none
+    padding: 3px;
+    height: 118px;
+    resize: none;
+    overflow: hidden;
   }
 `;
 
+const Buttons= styled.div`
+      display: flex;
+      flex-direction: row;
+`;
+
 function EditComponent(props) {
-  const { editCoin, coin } = props;
+  const { editCoin, coin, countries, compositions, qualities } = props;
   useEffect(() => {}, [coin]);
   const [name, changeName] = useState(coin.coin_name);
-  const [denomination, changeDenomination] = useState(`${coin.denomination} ${coin.den_currency}`);
+  const [denomination, changeDenomination] = useState(
+    `${coin.denomination} ${coin.den_currency}`
+  );
   const [year, changeYear] = useState(coin.issuance_year);
   const [price, changePrice] = useState(coin.price);
   const [country, changeCountry] = useState(coin.country);
   const [сomposition, changeComposition] = useState(coin.сomposition);
-  const [shortDescription, changeShortDescription] = useState(coin.short_description);
+  const [shortDescription, changeShortDescription] = useState(
+    coin.short_description
+  );
   const [description, changeDescription] = useState(coin.description);
   const [quality, changeQuality] = useState(coin.quality);
   const [weight, changeWeight] = useState(coin.weight);
 
   return (
-    <Form>
-      <article >
-        <InputComponent
-          labelText="Coin name"
-          type="text"
-          value={name}
-          handleChange={changeName}
-        />
-        <InputComponent
-          labelText="Face value"
-          type="text"
-          value={denomination}
-          handleChange={changeDenomination}
-        />
-        <InputComponent
-          labelText="Year of issue"
-          type="number"
-          value={year}
-          handleChange={changeYear}
-        />
-        <InputComponent
-          labelText="Price"
-          type="number"
-          value={price}
-          handleChange={changePrice}
-        />
-        <InputComponent
-          labelText="Country"
-          type="select"
-          value={country}
-          handleChange={changeCountry}
-        />
-        <InputComponent
-          labelText="Metall"
-          type="select"
-          value={сomposition}
-          handleChange={changeComposition}
-        />
-      </article>
-
-      <article >
+    <Form encType="multipart/form-data">
+      <article>
         <Container>
-  
+          <InputComponent
+            labelText="Coin name"
+            type="text"
+            value={name}
+            handleChange={changeName}
+          />
+          <InputComponent
+            labelText="Face value"
+            type="text"
+            value={denomination}
+            handleChange={changeDenomination}
+          />
+        </Container>
+        <Container>
           <label> Short description </label>
           <textarea
             cols="30"
             rows="10"
             value={shortDescription}
             onChange={(e) => changeShortDescription(e.target.value)}
+          />
+        </Container>
+        <Container>
+          <File>
+            <input type="file" name="sampleFile"  
+            // onChange= {e=>{ getObverseFileName(e)}} 
+            />
+            <label> Upload obverse </label>
+            <span>+</span>
+          </File>
+        </Container>
+      </article>
+
+      <article>
+        <Container>
+          <InputComponent
+            labelText="Year of issue"
+            type="number"
+            value={year}
+            handleChange={changeYear}
+          />
+          <InputComponent
+            labelText="Price"
+            type="number"
+            value={price}
+            handleChange={changePrice}
           />
         </Container>
 
@@ -131,41 +187,53 @@ function EditComponent(props) {
             onChange={(e) => changeDescription(e.target.value)}
           />
         </Container>
-
-        <InputComponent
-          labelText="Quality of the coin"
-          type="select"
-          value={quality}
-          handleChange={changeQuality}
-        />
-        <InputComponent
-          labelText="Weight"
-          type="text"
-          value={weight}
-          handleChange={changeWeight}
-        />
+        <Container>
+          <File>
+            <input type="file" name="sampleFile" 
+            // onChange= {e=>{ getReverseFileName(e)}}
+            />
+            <label> Upload reverse </label>
+            <span>+</span>
+          </File>
+        </Container>
       </article>
 
-      <article >
-      <form 
-      id='uploadForm' 
-      action='http://localhost:8000/upload' 
-      method='post' 
-      encType="multipart/form-data">
-        <input type="file" name="sampleFile" />
-        <input type='submit' value='Upload obverse!' />
-    </form>    
-     
-    <form 
-      id='uploadForm' 
-      action='http://localhost:8000/upload' 
-      method='post' 
-      encType="multipart/form-data">
-        <input type="file" name="sampleFile" />
-        <input type='submit' value='Upload reverse' />
-    </form>     
-        <button> Save </button>
-        <button> Cansel </button>
+      <article>
+        <Container>
+          <SelectComponent
+            labelText="Country"
+            options={countries}
+            value={country}
+            handleChangeState={changeCountry}
+          />
+          <SelectComponent
+            labelText="Metall"
+            options={compositions}
+            value={сomposition}
+            handleChangeState={changeComposition}
+          />
+        </Container>
+
+        <Container>
+          <SelectComponent
+            labelText="Quality of the coin"
+            options={qualities}
+            value={quality}
+            handleChangeState={changeQuality}
+          />
+          <InputComponent
+            labelText="Weight"
+            type="text"
+            value={weight}
+            handleChange={changeWeight}
+          />
+        </Container>
+        <Container>
+          <Buttons>
+          <Submit type='submit' value='Save' />
+          <button  > Cancel </button>
+          </Buttons>
+        </Container>
       </article>
     </Form>
   );

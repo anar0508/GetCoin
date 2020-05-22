@@ -1,4 +1,4 @@
-import React from "react";
+import React  from "react";
 import styled from "styled-components";
 import arrow_down from "../../img/arrow_down.svg";
 import "../../index.css";
@@ -46,7 +46,6 @@ function SelectContainer(props) {
   if (options !== undefined) {
     let propertyName = Object.getOwnPropertyNames(options[0])[0];
     newOptions = options.map((opt) => {
-      console.log(opt[propertyName]);
       return <option value={opt[propertyName]}>{opt[propertyName]}</option>;
     });
   } else {
