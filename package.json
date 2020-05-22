@@ -26,11 +26,11 @@
     "styled-components": "^5.1.0"
   },
   "scripts": {
-    "client": "npm run start --prefix client",
+    "client": "npm run start",
     "server": "cd server && node server.js",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "start": "node index.js",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "start": "react-scripts start",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build --prefix client"
   },
   "engines": {
     "node": "12.16.1"

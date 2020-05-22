@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import InputComponent from "./InputComponent";
 import styled from "styled-components";
 
-const Section = styled.section`
+const Form = styled.form`
   display: flex;
   flex-direction: row;
   width: 96.5%;
@@ -70,7 +70,7 @@ function EditComponent(props) {
   const [weight, changeWeight] = useState(coin.weight);
 
   return (
-    <Section>
+    <Form>
       <article >
         <InputComponent
           labelText="Coin name"
@@ -167,7 +167,7 @@ function EditComponent(props) {
         <button> Save </button>
         <button> Cansel </button>
       </article>
-    </Section>
+    </Form>
   );
 }
 
