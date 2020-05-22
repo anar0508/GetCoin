@@ -46,22 +46,35 @@ app.delete('/admin/coins/:id', (req, res) => {
     CoinsQueries.deleteCoin(query, connection, req, res);
 });
 
-app.post('/upload', function(req, res) {
+app.post('/admin/upload', function(req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send('No files were uploaded.');
     }
-  
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-    let sampleFile = req.files.sampleFile;
-    console.log(sampleFile);
     
-    // Use the mv() method to place the file somewhere on your server
-    sampleFile.mv('./img/obverse/'+sampleFile.name, function(err) {
-      if (err)
-        return res.status(500).send(err);
-  
-      res.send('File uploaded!');
-    });
+    if (Object.keys(req.files).length===2){
+      let reverseFile = req.files.reverseFile;
+      let obverseFile = req.files.obverseFile;
+      reverseFile.mv('./img/obverse/'+reverseFile.name, function(err) {
+        if (err)
+          return res.status(500).send(err);
+    
+        res.status(200);
+      });
+      obverseFile.mv('./img/obverse/'+obverseFile.name, function(err) {
+        if (err)
+          return res.status(500).send(err);
+    
+          res.status(200);;
+      });
+    } else if (Object.keys(req.files).length===1) {
+       let newFile= (Object.keys(req.files)[0]);
+       newFile.mv('./img/obverse/'+newFile.name, function(err) {
+        if (err)
+          return res.status(500).send(err);
+    
+        res.status(200);
+      });
+    }
   });
 
 app.get('/users', (req, res) => {

@@ -41,16 +41,11 @@ function SelectComponent(props) {
     }
 
   const handleChange = (newValue: any, actionMeta: any) => {
-    console.log(newValue.value);
-    
     handleChangeState(newValue.value);
     };
  const handleInputChange = (inputValue: any, actionMeta: any) => {
   handleChangeState(inputValue);
     };
-
-console.log(value);
-
 
   let propertyName = Object.getOwnPropertyNames(options[0])[0];
   let newOptions = options.map((el)=>{ return {value: el[propertyName], label: el[propertyName]} })

@@ -9,7 +9,7 @@ getImg = async (query, connection, req, res) => {
         try {
             let img = await query(getImageSQL);
             let property= Object.keys(img[0]);
-            let fileName= img[0][property] + '.png';             
+            let fileName= 'img/obverse/'+img[0][property] + '.png';             
             res.sendFile(path.join(__dirname, fileName))
         } catch (error) {
             res.status(400).send(error);
@@ -20,7 +20,7 @@ getImg = async (query, connection, req, res) => {
         try {
             let img = await query(getImageSQL);
             let property= Object.keys(img[0]);
-            let fileName= img[0][property] + '.png';             
+            let fileName= 'img/obverse/'+img[0][property] + '.png';             
             res.sendFile(path.join(__dirname, fileName))
         } catch (error) {
             res.status(400).send(error);

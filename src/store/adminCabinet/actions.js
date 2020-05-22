@@ -5,8 +5,6 @@ export const DELETE_COIN = 'DELETE_COIN';
 export const EDIT_COIN = 'EDIT_COIN';
 
 
-
-
 export const deleteCoin = (coins) => {
     return {
         type: DELETE_COIN,
@@ -39,25 +37,26 @@ export const coinDeleting = (idCoin) => async (dispatch, getState) => {
     }
 }
 
-export const coinEditing = (idCoin) => async (dispatch, getState) => {
+export const coinEditing = (idCoin, coin) => async (dispatch, getState) => {
+    
     let res = await fetch(`http://localhost:8000/admin/coins/${idCoin}`, {
         method: "PUT",
         body: JSON.stringify({
-            type:3,
-            name:'Looney',
-            country:'Canada',
-            composition: 'gold',
-            quality:1,
-            denomination:'1 dollar',
-            year:1970,
-            weight:'5.4 g',
-            price:65,
+            type:coin.coin_type,
+            name:coin.coin_name,
+            country:coin.country,
+            composition:coin.сomposition,
+            quality:coin.quality,
+            denomination:coin.denomination,
+            year:+coin.year,
+            weight:coin.weight,
+            price:+coin.price,
             price_currency:1,
-            description:'',
-            short_description:'"Looney". Unique coin with the image of a goat. Canadian dollar symbol.',
-            obverse:'img/obverse/Looney_2',
-            reverse:'img/obverse/Looney_1',
-            quantity:10,
+            description:coin.description,
+            short_description:coin.shortDescription,
+            obverse:coin.obverse,
+            reverse:coin.reverse,
+            quantity:coin.quantity,
             token: getState().login.token
         }),
         headers: {
@@ -67,7 +66,8 @@ export const coinEditing = (idCoin) => async (dispatch, getState) => {
     if (res.status!==200){ console.log('Ups, check error');
     } 
     else {
-        dispatch(searchHandling('')); 
+        dispatch(searchHandling(''));
+        dispatch(editCoin(false, {})); 
     }
 }
 

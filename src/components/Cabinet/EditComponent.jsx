@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import InputComponent from "./InputComponent";
 import SelectComponent from "./SelectComponent";
 import styled from "styled-components";
@@ -22,7 +22,7 @@ const Form = styled.form`
     min-width: 500px;
   }
   button {
-      display: block;
+    display: block;
     width: 100px;
     outline: none;
     border: none;
@@ -36,25 +36,25 @@ const Form = styled.form`
   }
 `;
 
-const Submit =styled.input`
-width: 100px;
-outline: none;
-border: none;
-padding: 9px;
-margin-left: 20px;
-background: #833ae0;
-color: white;
-text-align: center;
-vertical-align: middle;
-font-size: 14px;
-display: block;
+const Submit = styled.input`
+  width: 100px;
+  outline: none;
+  border: none;
+  padding: 9px;
+  margin-left: 20px;
+  background: #833ae0;
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 14px;
+  display: block;
 `;
 
 const File = styled.div`
-display: flex;
-position:relative;
-flex-direction: row;
-align-items: center;
+  display: flex;
+  position: relative;
+  flex-direction: row;
+  align-items: center;
   input {
     cursor: pointer;
     padding: 120px 0 0 0;
@@ -72,9 +72,9 @@ align-items: center;
 
     display: block;
   }
-  span{
-      position: absolute;
-      left: 55px;
+  span {
+    position: absolute;
+    left: 55px;
   }
 `;
 
@@ -102,14 +102,20 @@ const Container = styled.div`
   }
 `;
 
-const Buttons= styled.div`
-      display: flex;
-      flex-direction: row;
+const Buttons = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
 function EditComponent(props) {
-  const { editCoin, coin, countries, compositions, qualities } = props;
-  useEffect(() => {}, [coin]);
+  const {
+    editCoin,
+    coin,
+    countries,
+    compositions,
+    qualities,
+    isEditing,
+  } = props;
   const [name, changeName] = useState(coin.coin_name);
   const [denomination, changeDenomination] = useState(
     `${coin.denomination} ${coin.den_currency}`
@@ -124,9 +130,49 @@ function EditComponent(props) {
   const [description, changeDescription] = useState(coin.description);
   const [quality, changeQuality] = useState(coin.quality);
   const [weight, changeWeight] = useState(coin.weight);
+  const [obverse, changeObverse] = useState(coin.obverse_coin);
+  const [reverse, changeReverse] = useState(coin.reverse_coin);
+
+  const submitCoin = (e) => {
+    e.preventDefault();
+    let newCoin = {
+      coin_name: name,
+      quantity: coin.quantity,
+      coin_type: coin.coin_type,
+      denomination: denomination,
+      year: year,
+      price: price,
+      country: country,
+      сomposition: сomposition,
+      shortDescription: shortDescription,
+      description: description,
+      quality: quality,
+      weight: weight,
+      obverse: obverse,
+      reverse: reverse,
+      quantity: coin.quantity,
+    };
+    editCoin(coin.idCoin, newCoin);
+  };
+  const getObverseFileName = (e) => {
+    let obName = e.target.files[0].name.slice(0, -4);
+    changeObverse(obName);
+  };
+
+  const getReverseFileName = (e) => {
+    let reName = e.target.files[0].name.slice(0, -4);
+    changeReverse(reName);
+  };
 
   return (
-    <Form encType="multipart/form-data">
+    <Form
+      encType="multipart/form-data"
+      action="http://localhost:8000/upload"
+      method="post"
+      onSubmit={(e) => {
+        submitCoin(e);
+      }}
+    >
       <article>
         <Container>
           <InputComponent
@@ -153,8 +199,12 @@ function EditComponent(props) {
         </Container>
         <Container>
           <File>
-            <input type="file" name="sampleFile"  
-            // onChange= {e=>{ getObverseFileName(e)}} 
+            <input
+              type="file"
+              name="obverseFile"
+              onChange={(e) => {
+                getObverseFileName(e);
+              }}
             />
             <label> Upload obverse </label>
             <span>+</span>
@@ -177,7 +227,6 @@ function EditComponent(props) {
             handleChange={changePrice}
           />
         </Container>
-
         <Container>
           <label> Long description </label>
           <textarea
@@ -189,8 +238,12 @@ function EditComponent(props) {
         </Container>
         <Container>
           <File>
-            <input type="file" name="sampleFile" 
-            // onChange= {e=>{ getReverseFileName(e)}}
+            <input
+              type="file"
+              name="reverseFile"
+              onChange={(e) => {
+                getReverseFileName(e);
+              }}
             />
             <label> Upload reverse </label>
             <span>+</span>
@@ -213,7 +266,6 @@ function EditComponent(props) {
             handleChangeState={changeComposition}
           />
         </Container>
-
         <Container>
           <SelectComponent
             labelText="Quality of the coin"
@@ -230,8 +282,15 @@ function EditComponent(props) {
         </Container>
         <Container>
           <Buttons>
-          <Submit type='submit' value='Save' />
-          <button  > Cancel </button>
+            <Submit type="submit" value="Save" />
+            <button
+              onClick={() => {
+                isEditing(false, {});
+              }}
+            >
+              {" "}
+              Cancel{" "}
+            </button>
           </Buttons>
         </Container>
       </article>

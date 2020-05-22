@@ -44,7 +44,30 @@ button{
   vertical-align: middle;
   font-size: 14px;
 }
+`;
 
+const NewCoin = styled.div`
+display: flex;
+flex-direction: row;
+margin-top: 20px;
+align-items: center; 
+div{
+  
+  cursor: pointer;
+      margin-left: 3.5%;
+    color: black;
+    text-align: center;
+    vertical-align: middle;
+    padding-top: 50px;
+    background: white;
+    width: 130px;
+    height: 130px;
+    border: 1px solid black;
+    border-radius: 50%;
+    margin-right: 40px;
+}
+p{text-decoration: underline;
+  cursor: pointer;}
 `;
 
 function AdminCabinet(props) {
@@ -66,6 +89,10 @@ function AdminCabinet(props) {
           <button onClick={() => submitSearch(search)}> Search </button>
         </div>
       </SearchBar>
+      <NewCoin>
+          <div>+</div>
+          <p>Add new coin</p>
+      </NewCoin>
     <SearchResultsContainer/> </>
     :<EditComponentContainer/>
 }
