@@ -57,7 +57,7 @@ function SelectComponent(props) {
     placeholder={value}
     styles={customStyles}
     onChange={handleChange} 
-    onInputChange={handleInputChange}
+    // onInputChange={handleInputChange}
     options={newOptions}/>
 
   </Container>

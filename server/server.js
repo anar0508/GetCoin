@@ -50,6 +50,7 @@ app.post('/admin/upload', function(req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send('No files were uploaded.');
     }
+    console.log(req.files);
     
     if (Object.keys(req.files).length===2){
       let reverseFile = req.files.reverseFile;
@@ -57,7 +58,6 @@ app.post('/admin/upload', function(req, res) {
       reverseFile.mv('./img/obverse/'+reverseFile.name, function(err) {
         if (err)
           return res.status(500).send(err);
-    
         res.status(200);
       });
       obverseFile.mv('./img/obverse/'+obverseFile.name, function(err) {

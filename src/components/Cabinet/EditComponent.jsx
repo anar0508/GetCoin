@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputComponent from "./InputComponent";
 import SelectComponent from "./SelectComponent";
 import styled from "styled-components";
@@ -116,6 +116,7 @@ function EditComponent(props) {
     qualities,
     isEditing,
   } = props;
+
   const [name, changeName] = useState(coin.coin_name);
   const [denomination, changeDenomination] = useState(
     `${coin.denomination} ${coin.den_currency}`
@@ -135,6 +136,7 @@ function EditComponent(props) {
 
   const submitCoin = (e) => {
     e.preventDefault();
+    const files = e.target.form.reverseFile.files;
     let newCoin = {
       coin_name: name,
       quantity: coin.quantity,
@@ -150,10 +152,11 @@ function EditComponent(props) {
       weight: weight,
       obverse: obverse,
       reverse: reverse,
-      quantity: coin.quantity,
+      quantity: coin.quantity
     };
     editCoin(coin.idCoin, newCoin);
   };
+
   const getObverseFileName = (e) => {
     let obName = e.target.files[0].name.slice(0, -4);
     changeObverse(obName);
@@ -167,11 +170,9 @@ function EditComponent(props) {
   return (
     <Form
       encType="multipart/form-data"
-      action="http://localhost:8000/upload"
+      action="http://localhost:8000/admin/upload"
       method="post"
-      onSubmit={(e) => {
-        submitCoin(e);
-      }}
+      onSubmit={submitCoin}
     >
       <article>
         <Container>
