@@ -57,19 +57,19 @@ addCoin = async (query, connection, req, res) => {
         short_description,
         obverse,
         reverse,
-        quantity } = req.body;
+        popularity } = req.body;
     if (!(await checkAdmin(token, connection, query))) {
         res.status(401).json({ message: 'User is not authorized' });
     } else {
         try {
             let denominationArr = denomination.split(' ');
-            let addCoinSQL = `INSERT INTO coins (coin_type, coin_name, country, сomposition, quality, denomination, den_currency, issuance_year, weight, price, price_currency, description, short_description, obverse_coin, reverse_coin, quantity) 
-    VALUE (${type}, '${name}', '${country}', ${composition}, ${quality}, ${Number(denominationArr[0])}, '${denominationArr[1]}', ${year}, '${weight}', ${price}, ${price_currency}, '${description}', '${short_description}', '${obverse}', '${reverse}', ${quantity} )`
+            let addCoinSQL =
+                `INSERT INTO coins (coin_type, coin_name, country, сomposition, quality, denomination, den_currency, issuance_year, weight, price, price_currency, description, short_description, obverse_coin, reverse_coin, quantity, popularity) VALUE (${connection.escape(Number(type))}, ${connection.escape(name)}, ${connection.escape(country)}, ${connection.escape(composition)}, ${connection.escape(quality)}, ${connection.escape(Number(denominationArr[0]))}, ${connection.escape(denominationArr[1])}, ${connection.escape(Number(year))}, ${connection.escape(weight)}, ${connection.escape(Number(price))}, ${connection.escape(price_currency)}, ${connection.escape(description)}, ${connection.escape(short_description)}, ${connection.escape(obverse)}, ${connection.escape(reverse)}, 10, ${connection.escape(Number(popularity))} )`
             let newCoin = await connection.query(addCoinSQL);
             res.status(200).json(newCoin);
         }
         catch (error) {
-            res.status(400).send(error);
+            res.status(200).send('Some error');
         }
     }
 }
@@ -131,14 +131,14 @@ getAdvancedSearchInfo = async (query, connection, req, res) => {
         let countriesList = await query(getDistinctCountries);
         let compositionsList = await query(getDistinctCompositions);
         let qualitiesList = await query(getDistinctQualities);
-        
-            res.status(200).json({countriesList, compositionsList, qualitiesList})
+
+        res.status(200).json({ countriesList, compositionsList, qualitiesList })
     } catch (error) {
         res.status(404).send('somthing is wrong');
     }
 }
 
-searchCoins = async(query, connection, req, res) =>{
+searchCoins = async (query, connection, req, res) => {
     const text = req.query.text;
     const country = req.query.country;
     const composition = req.query.composition;
@@ -146,22 +146,27 @@ searchCoins = async(query, connection, req, res) =>{
     const priceTo = +req.query.priceTo;
     const yearFrom = +req.query.yearFrom;
     const yearTo = +req.query.yearTo;
-  
-    let getSearchSQL    
-    if (text ==='exclusive' || text ==='bullion'|| text==='commemorative'){
+
+    let getSearchSQL
+    if (text === 'exclusive' || text === 'bullion' || text === 'commemorative') {
         getSearchSQL = `SELECT * FROM coins WHERE coin_type=${connection.escape(text)}`
-        
+
     } else {
-        getSearchSQL = `SELECT * FROM coins WHERE 
-        ${!country? `` :`country = ${connection.escape(country)} AND`}
-        ${!composition? `` :`сomposition= ${connection.escape(composition)} AND`} 
-        ${!priceFrom? `` :`price > ${connection.escape(priceFrom)} AND`} 
-        ${!priceTo? `` :`price < ${connection.escape(priceTo)} AND`} 
-        ${!yearFrom? `` :`issuance_year > ${connection.escape(yearFrom)} AND`} 
-        ${!yearTo? `` :`issuance_year < ${connection.escape(yearTo)} AND`} 
-        (coin_name LIKE '%${text}%' OR
-        short_description LIKE '%${text}%' OR
-        description LIKE '%${text}%')`;
+        let advancedParam = `${!country ? `` : ` country = ${connection.escape(country)} AND `}${!composition ? `` : ` сomposition= ${connection.escape(composition)} AND `}${!priceFrom ? `` : ` price > ${connection.escape(priceFrom)} AND `}${!priceTo ? `` : ` price < ${connection.escape(priceTo)} AND `}${!yearFrom ? `` : ` issuance_year > ${connection.escape(yearFrom)} AND `}${!yearTo ? `` : ` issuance_year < ${connection.escape(yearTo)} AND `}`;
+        let searchText = !text ? ''
+            : `coin_name LIKE '%${text}%' 
+        UNION 
+        SELECT * FROM coins WHERE ${advancedParam} short_description LIKE '%${text}%'
+        UNION 
+        SELECT * FROM coins WHERE ${advancedParam} description LIKE '%${text}%'`;
+        if (text === '') {
+            let finParam = advancedParam.slice(0, -4);
+            getSearchSQL = `SELECT * FROM coins WHERE${finParam};`;
+        } else getSearchSQL = `SELECT * FROM coins WHERE ${advancedParam} ${searchText};`;
+        let lastFive = getSearchSQL.substr(getSearchSQL.length - 6);
+        if (lastFive === 'WHERE;') {
+            getSearchSQL = 'SELECT * FROM coins';
+        }
     }
     try {
         let coinsList = await query(getSearchSQL);

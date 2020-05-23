@@ -46,15 +46,17 @@ function SelectComponent(props) {
  const handleInputChange = (inputValue: any, actionMeta: any) => {
   handleChangeState(inputValue);
     };
-
-  let propertyName = Object.getOwnPropertyNames(options[0])[0];
-  let newOptions = options.map((el)=>{ return {value: el[propertyName], label: el[propertyName]} })
+    let newOptions;
+    if (Object.getOwnPropertyNames(options[0])[0]==='type'){
+      newOptions = options.map((el)=>{ return {value: el.type, label: (el.type===3? 'Commemorative': el.type===2? 'Exclusive': 'Bullion')}})}
+  else {let propertyName = Object.getOwnPropertyNames(options[0])[0];
+  newOptions = options.map((el)=>{ return {value: el[propertyName], label: el[propertyName]} })}
   return (
     <Container>    
     <label > {labelText} </label>
     <CreatableSelect
     defaultValue={value}
-    placeholder={value}
+    placeholder={Object.getOwnPropertyNames(options[0])[0]==='type'? value===3? 'Commemorative': value===2? 'Exclusive': 'Bullion': value}
     styles={customStyles}
     onChange={handleChange} 
     // onInputChange={handleInputChange}

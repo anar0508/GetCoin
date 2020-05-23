@@ -50,7 +50,7 @@ app.post('/admin/upload', function(req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send('No files were uploaded.');
     }
-    console.log(req.files);
+    
     
     if (Object.keys(req.files).length===2){
       let reverseFile = req.files.reverseFile;
@@ -67,7 +67,9 @@ app.post('/admin/upload', function(req, res) {
           res.status(200);;
       });
     } else if (Object.keys(req.files).length===1) {
-       let newFile= (Object.keys(req.files)[0]);
+       let propName =Object.keys(req.files)[0];
+        
+       let newFile= req.files.propName;
        newFile.mv('./img/obverse/'+newFile.name, function(err) {
         if (err)
           return res.status(500).send(err);

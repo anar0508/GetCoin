@@ -38,7 +38,6 @@ export const advancedSearchReducer = (state = initialState, action) => {
             return {
                 ...state, yearFrom: action.payload
             }
-
             
         case CHANGE_YEAR_TO:
             return {

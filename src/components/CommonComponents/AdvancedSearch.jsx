@@ -7,9 +7,10 @@ const AdvancedSearchSection = styled.section`
 width: 100%;
 display: flex;
 align-content: flex-start;
-flex-direction: column;
+flex-direction: row;
 flex-wrap: wrap;
-height: 230px;
+width: 100%;
+min-width: 650px;
 `;
 
 function AdvancedSearch(props) {
@@ -17,13 +18,15 @@ function AdvancedSearch(props) {
     changeComposition, changeQuality, changePriceFrom, changePriceTo, changeYearFrom, changeYearTo, countries, compositions, qualities} = props;        
     return (
     <AdvancedSearchSection>
-      <SelectContainer select= {country} changeSelect= {changeCountry} options={countries} labelText='Issuing country'/>
-      <SelectContainer select= {composition} changeSelect= {changeComposition} options= {compositions} labelText='Metal'/>
-      <SelectContainer select= {quality} changeSelect= {changeQuality} options= {qualities} labelText='Quality'/>
+      <SelectContainer value= {country} changeSelect= {changeCountry} options={countries} labelText='Issuing country'/>
       <MultipleSelectContainer from= {priceFrom} to={priceTo} changeFrom= {changePriceFrom} 
       changeTo= {changePriceTo} labelText='Price'/>
+      <SelectContainer value= {composition} changeSelect= {changeComposition} options= {compositions} labelText='Metal'/>
       <MultipleSelectContainer from= {yearFrom} to={yearTo} changeFrom= {changeYearFrom} 
       changeTo= {changeYearTo} labelText='Year of issue'/>
+      <SelectContainer value= {quality} changeSelect= {changeQuality} options= {qualities} labelText='Quality'/>
+
+
     </AdvancedSearchSection>
   );
 }

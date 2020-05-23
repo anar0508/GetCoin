@@ -71,7 +71,7 @@ p{text-decoration: underline;
 `;
 
 function AdminCabinet(props) {
-  const { isAdmin, submitSearch, isEditing } = props;
+  const { isAdmin, submitSearch, isEditing, addCoin } = props;
   const [search, handleSearchInput] = useState("");
     
   return (
@@ -90,8 +90,8 @@ function AdminCabinet(props) {
         </div>
       </SearchBar>
       <NewCoin>
-          <div>+</div>
-          <p>Add new coin</p>
+          <div onClick={()=>addCoin(true, {})}>+</div>
+          <p onClick={()=>addCoin(true, {})}>Add new coin</p>
       </NewCoin>
     <SearchResultsContainer/> </>
     :<EditComponentContainer/>

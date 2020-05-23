@@ -19,15 +19,15 @@ const InputContainer = styled.div`
   flex-direction: column;
   width: 100%;
   text-align: left;
-`;
-const Input = styled.div`
-  display: flex;
+  div{
+    display: flex;
   flex-direction: row;
   margin-top: 5px;
   margin-bottom: 5px;
   width:100%;
   min-width: 250px;
   align-items: center;
+  }
 `;
 const Button = styled.input`
   width: 100px;
@@ -56,33 +56,30 @@ cursor: pointer;
 font-size: 14px;
 text-decoration-line: underline;
 min-width:60px;
+img{  vertical-align: middle;
+  margin-left:4px}
 `;
-const Arrow = styled.img`
-  vertical-align: middle;
-  margin-left:4px
-`;
+
 
 function Search(props) {
   const [search, handleSearchInput] = useState("");
   const { advancedSearch, toggleAdvanced, getAdvancedInfo, submitSearch } = props;
-  let path;
-  if (!advancedSearch&&search===''){
-    path='/';
-  } else path='/coins';
+  let path='/coins';
+
   return (
     <SearchBar>
       <InputContainer>
-        <label style={{ fontSize: "14px" }} htmlFor="searchInput"> Input field </label>
-        <Input>
+        <label htmlFor="searchInput"> Input field </label>
+        <div>
           <SearchInput
             type="text" value={search} onChange={(e) => {handleSearchInput(e.target.value);}}/>
           <Link to={path}>
-            <Button type="submit" value="Search" onClick={() => {submitSearch(search); (advancedSearch&& toggleAdvanced()) }}/>
+            <Button type="submit" value="Search" disabled={!advancedSearch && search===''} onClick={() => {submitSearch(search); (advancedSearch && toggleAdvanced()) }}/>
           </Link>
-        </Input>
+        </div>
         <AdvancedText onClick= {()=>{ (advancedSearch===false && getAdvancedInfo()); toggleAdvanced(); }}>
           Advanced filter
-          <Arrow src={advancedSearch ? arrow_up : arrow_down} alt="arrow" />
+          <img src={advancedSearch ? arrow_up : arrow_down} alt="arrow" />
         </AdvancedText>
       </InputContainer>
       {advancedSearch && <AdvancedSearchContainer/>}

@@ -55,3 +55,13 @@ export const changeYearTo = (newYearTo) => {
         payload: newYearTo   
      }
 }
+
+export const resetAdvancedSearchParms = () => (dispatch, getState) => {
+    dispatch(changeCountry(''));
+    dispatch(changeComposition(''));
+    dispatch(changeQuality(''));
+    dispatch(changePriceFrom(''));
+    dispatch(changePriceTo(''));
+    dispatch(changeYearFrom(''));
+    dispatch(changeYearTo(''));
+}

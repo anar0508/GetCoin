@@ -19,7 +19,6 @@ export const editCoin = (editing, coin) => {
     }
 }
 
-
 export const coinDeleting = (idCoin) => async (dispatch, getState) => {
     let res = await fetch(`http://localhost:8000/admin/coins/${idCoin}`, {
         method: "DELETE",
@@ -69,6 +68,54 @@ export const coinEditing = (idCoin, coin) => async (dispatch, getState) => {
         dispatch(searchHandling(''));
         dispatch(editCoin(false, {})); 
     }
+
+    let filesUpload = await fetch(`http://localhost:8000/admin/upload`, {
+        method: "POST",
+        body: coin.formData
+    })
+        if (filesUpload.status!==200){ console.log('Ups, check error');
+    }     
+}
+
+export const coinAdding = (coin) => async (dispatch, getState) => {
+    let res = await fetch(`http://localhost:8000/admin/coins`, {
+        method: "POST",
+        body: JSON.stringify({
+            type:coin.coin_type,
+            name:coin.coin_name,
+            country:coin.country,
+            composition:coin.сomposition,
+            quality:coin.quality,
+            denomination:coin.denomination,
+            year:+coin.year,
+            weight:coin.weight,
+            price:+coin.price,
+            price_currency:1,
+            description:coin.description,
+            short_description:coin.shortDescription,
+            obverse:coin.obverse,
+            reverse:coin.reverse,
+            popularity: 0,
+            token: getState().login.token
+        }),
+        headers: {
+            'Access-Control-Allow-Origin': 'http://localhost:8000',
+            'Content-Type': 'application/json'
+        }})
+       
+    if (res.status!==200){ console.log('Ups, check error');
+    } 
+    else {
+        dispatch(searchHandling(''));
+        dispatch(editCoin(false, {})); 
+    }
+
+    let filesUpload = await fetch(`http://localhost:8000/admin/upload`, {
+        method: "POST",
+        body: coin.formData
+    })
+        if (filesUpload.status!==200){ console.log('Ups, check error');
+    } 
 }
 
 

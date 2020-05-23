@@ -5,26 +5,32 @@ import "../../index.css";
 const SelectBox = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-  width: 50%;
-  min-width: 250px;
-  margin-top: 20px;
-`;
-const InputBox = styled.div`
-  display: flex;
-  align-items: center;
-  min-width: 250px;
-  width: 60%;
-`;
-
-const Input = styled.input`
-  min-width: 100px;
-  width: 30%;
-  outline: none;
-  border: 1px solid black;
-  text-align: left;
-  padding: 5px;
-  font-size: 20px;
+  flex-direction: column;
+  width: 37%;
+  min-width: 200px;
+  margin-bottom: 20px;
+  
+  label {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  div {
+    display: flex;
+    align-items: center;
+    min-width: 250px;
+    width: 80%;
+    justify-content: space-evenly;
+  }
+  input {
+    min-width: 100px;
+    width: 30%;
+    outline: none;
+    border: 1px solid black;
+    text-align: left;
+    padding: 5px;
+    font-size: 20px;
+    height: 40px
+  }
 `;
 
 function MultipleSelectContainer(props) {
@@ -32,32 +38,37 @@ function MultipleSelectContainer(props) {
 
   return (
     <SelectBox>
-      <label style={({ fontSize: "14px" }, { fontWeight: "bold" })} htmlFor="">
-        {labelText}
-      </label>
-      <InputBox>
+      <label htmlFor="">{labelText}</label>
+      <div>
         <label style={({ fontSize: "12px" }, { width: "15%" })} htmlFor="">
           from
         </label>
-        <Input
+        <input
           type="number"
           value={from}
           onChange={(e) => {
             changeFrom(e.target.value);
           }}
         />
-        <label style={({ fontSize: "12px" }, { width: "15%" }, {textAlign:'center'}, {padding: '0 5px'}) } htmlFor="">
+        <label
+          style={
+            ({ fontSize: "12px" },
+            { width: "15%" },
+            { textAlign: "center" },
+            { padding: "0 5px" })
+          }
+          htmlFor=""
+        >
           to
         </label>
-        <Input
+        <input
           type="number"
           value={to}
           onChange={(e) => {
             changeTo(e.target.value);
           }}
         />
-
-      </InputBox>
+      </div>
     </SelectBox>
   );
 }

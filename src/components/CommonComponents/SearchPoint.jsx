@@ -7,10 +7,11 @@ const InfoContainer = styled.section`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 45%;
-  height: 135px;
-  min-width: 300px;
-  margin-bottom: 15px
+  width: 50%;
+  height: 140px;
+  min-width: 430px;
+  margin-bottom: 50px
+  
 `;
 
 const Description = styled.div`

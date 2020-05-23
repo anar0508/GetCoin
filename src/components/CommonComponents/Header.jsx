@@ -8,14 +8,19 @@ width: 93%;
 margin: 0 auto;
 align-items: baseline;
 padding: 30px 0 25px 0  ;
-
 `;
+
 const PageContainer = styled.h1`
 width: 64%;
 font-size: 50px;
 font-weight: 300;
 text-align:left;
 min-width: 180px;
+p{
+  font-weight: 300;
+  font-size: 14px;
+  margin: 10px 0;
+}
 `;
 const LinkContainer = styled.h2`
 width: 12%;
@@ -24,25 +29,21 @@ font-size: 25px;
 font-weight: 300;
 padding-left: 5px; 
 `;
-const P = styled.p`
-  font-weight: 300;
-  font-size: 14px;
-  margin: 10px 0;
-`;
+
 
 
 function Header(props) {
-const {token, logOut, headerText, name, isAdmin} = props;
+const {token, logOut, headerText, name, resetCoinsSearch, isAdmin, resetAdvancedSearch} = props;
 return (
         <Menu>
             <PageContainer>
             <Link to="/" > {headerText} </Link>
-            {headerText!=='GetCoin'&& <Link to="/"> <P> {"< Back to Homepage"}</P></Link>}
+            {headerText!=='GetCoin'&& <Link to="/"> <p> {"< Back to Homepage"}</p></Link>}
             </PageContainer>
             
             <LinkContainer style={{minWidth: '200px'}} >
             {token
-            ?<Link to="/cabinet"> {isAdmin? 'Admin': name}'s cabinet </Link> 
+            ?<Link to="/cabinet" onClick ={()=>{resetCoinsSearch([]); resetAdvancedSearch()}}> {isAdmin? 'Admin': name}'s cabinet </Link> 
             :<Link to="/register"> Registration </Link>}
             </LinkContainer>
             

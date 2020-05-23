@@ -115,11 +115,20 @@ function EditComponent(props) {
     compositions,
     qualities,
     isEditing,
+    cancelEdit,
+    addCoin
   } = props;
+  let typeNum;
+
+  if (coin.coin_type==='Commemorative'){
+    typeNum= 3;
+      } else if (coin.coin_type==='Exclusive') {
+        typeNum= 2;
+      } else {typeNum= 1;}
 
   const [name, changeName] = useState(coin.coin_name);
   const [denomination, changeDenomination] = useState(
-    `${coin.denomination} ${coin.den_currency}`
+    coin.denomination ? `${coin.denomination} ${coin.den_currency}` : ""
   );
   const [year, changeYear] = useState(coin.issuance_year);
   const [price, changePrice] = useState(coin.price);
@@ -129,6 +138,7 @@ function EditComponent(props) {
     coin.short_description
   );
   const [description, changeDescription] = useState(coin.description);
+  const [type, changeType] = useState(typeNum);
   const [quality, changeQuality] = useState(coin.quality);
   const [weight, changeWeight] = useState(coin.weight);
   const [obverse, changeObverse] = useState(coin.obverse_coin);
@@ -136,11 +146,19 @@ function EditComponent(props) {
 
   const submitCoin = (e) => {
     e.preventDefault();
-    const files = e.target.form.reverseFile.files;
+    const formData = new FormData();
+
+    if(!(!e.target.obverseFile.files[0])){
+      formData.append('obverseFile', e.target.obverseFile.files[0])
+    }
+     if(!(!e.target.reverseFile.files[0])){
+      formData.append('reverseFile', e.target.reverseFile.files[0])
+     }
+    
     let newCoin = {
       coin_name: name,
-      quantity: coin.quantity,
-      coin_type: coin.coin_type,
+      quantity: coin.quantity? coin.quantity : 10,
+      coin_type: type,
       denomination: denomination,
       year: year,
       price: price,
@@ -152,9 +170,13 @@ function EditComponent(props) {
       weight: weight,
       obverse: obverse,
       reverse: reverse,
-      quantity: coin.quantity
+      quantity: coin.quantity,
+      popularity: coin.popularity? coin.popularity: 0,
+      formData: formData
     };
-    editCoin(coin.idCoin, newCoin);
+    
+    coin.idCoin ? editCoin(coin.idCoin, newCoin) : addCoin(newCoin);
+
   };
 
   const getObverseFileName = (e) => {
@@ -168,12 +190,7 @@ function EditComponent(props) {
   };
 
   return (
-    <Form
-      encType="multipart/form-data"
-      action="http://localhost:8000/admin/upload"
-      method="post"
-      onSubmit={submitCoin}
-    >
+    <Form onSubmit={submitCoin} >
       <article>
         <Container>
           <InputComponent
@@ -242,7 +259,7 @@ function EditComponent(props) {
             <input
               type="file"
               name="reverseFile"
-              onChange={(e) => {
+              onChange={(e) => {                
                 getReverseFileName(e);
               }}
             />
@@ -282,15 +299,16 @@ function EditComponent(props) {
           />
         </Container>
         <Container>
+          <SelectComponent
+            labelText="Coin type"
+            options={[{type:1}, {type:2}, {type:3}]}
+            value={type}
+            handleChangeState={changeType}
+          />
           <Buttons>
             <Submit type="submit" value="Save" />
-            <button
-              onClick={() => {
-                isEditing(false, {});
-              }}
-            >
-              {" "}
-              Cancel{" "}
+            <button onClick={() => {cancelEdit(false, {});}}>
+              Cancel
             </button>
           </Buttons>
         </Container>
