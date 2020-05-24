@@ -120,7 +120,7 @@ export const coinAdding = (coin) => async (dispatch, getState) => {
 
 
 export const startCoinEditing = (editing, coin) => async (dispatch, getState) => {
-    const info = await dispatch( getSelectInfo());
+    await dispatch( getSelectInfo());
     dispatch (editCoin(editing, coin));
 }
 

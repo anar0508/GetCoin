@@ -11,7 +11,7 @@ const ResultsContainer = styled.section`
   width: 90%;
   min-width: 830px;
   margin-left: 3.5%;
-  margin-top: 30px;
+  margin-top: 20px;
   justify-content: space-between;
 `;
 

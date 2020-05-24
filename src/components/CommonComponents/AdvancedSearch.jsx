@@ -11,6 +11,7 @@ flex-direction: row;
 flex-wrap: wrap;
 width: 100%;
 min-width: 650px;
+margin-top: 30px;
 `;
 
 function AdvancedSearch(props) {

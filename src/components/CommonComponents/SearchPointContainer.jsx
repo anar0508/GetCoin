@@ -8,16 +8,17 @@ import "../../index.css";
 
 
 function SearchPointContainer(props) {
-  const { coin, key, getCoin, isAdmin, deleteCoin, editCoin } = props;
+  const { coin, key, getCoin, isAdmin, deleteCoin, editCoin, token } = props;
   return (
-    <SearchPoint key={key} coin={coin} getCoin={getCoin} isAdmin={isAdmin} deleteCoin={deleteCoin} editCoin={editCoin}/>
+    <SearchPoint key={key} coin={coin} getCoin={getCoin} isAdmin={isAdmin} deleteCoin={deleteCoin} editCoin={editCoin} token={token}/>
   );
 }
 
 const mapStateToProps = (state) => {
     return {
       coins:state.homepage.coins, 
-      isAdmin:state.login.admin
+      isAdmin:state.login.admin,
+      token:state.login.token
     }
 }
 

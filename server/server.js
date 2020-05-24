@@ -1,8 +1,8 @@
-const CoinsQueries = require('./coinsQueries.js');
-const path = require("path");
 const fileUpload = require('express-fileupload');
+const CoinsQueries = require('./coinsQueries.js');
 const UsersQueries = require('./usersQueries.js');
 const ImgQueries = require('./imgQueries.js');
+const HistoryQueries = require('./historyQueries.js');
 const mysql = require('mysql');
 const express = require('express');
 const bcrypt = require('bcrypt');
@@ -101,48 +101,7 @@ app.get('/image', (req, res) => {
 });
 
 
-app.get('/history-in/:number', (req, res) => {
-    let getHistoryIn = `SELECT 
-    transactions.idTransaction,
-    transactions.transSum,
-    usersFrom.fullname AS fromUser,
-    usersTo.fullname AS toUser
-FROM
-    transactions
-        LEFT JOIN users AS usersFrom ON transactions.fromId = usersFrom.idUser
-        LEFT JOIN users AS usersTo ON transactions.toId = usersTo.idUser
-    WHERE usersTo.card_number=${connection.escape(req.params.number)}
-;`;
-    connection.query(getHistoryIn, (err, data) => {
-        if (!err) {
-            res.status(200).json(data);
-        } else {
-            res.status(404);
-        }
-    });
-});
 
-app.get('/history-out/:number', (req, res) => {
-    let getHistoryOut = `SELECT 
-    transactions.idTransaction,
-    transactions.transSum,
-    usersFrom.fullname AS fromUser,
-    usersTo.fullname AS toUser
-FROM
-    transactions
-        LEFT JOIN users AS usersFrom ON transactions.fromId = usersFrom.idUser
-        LEFT JOIN users AS usersTo ON transactions.toId = usersTo.idUser
-    WHERE usersFrom.card_number=${connection.escape(req.params.number)}
-;`;
-    connection.query(getHistoryOut, (err, data) => {
-        if (!err) {
-            res.status(200).json(data);
-
-        } else {
-            res.status(404);
-        }
-    });
-});
 
 
 let port = process.env.PORT;

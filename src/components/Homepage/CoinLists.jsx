@@ -8,7 +8,7 @@ const ListsContainer = styled.section`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  width: 80%;
+  width: 90%;
   min-width: 500px;
   margin-left: 3.5%;
   margin-top: 50px;
@@ -22,6 +22,7 @@ function CoinLists(props) {
       <ListTypeContainer listName = 'Bullion'/>
       <ListTypeContainer listName = 'Exclusive'/>
       <ListTypeContainer listName = 'Commemorative'/>
+      <ListTypeContainer listName = 'Popular'/>
     </ListsContainer>
   );
 }

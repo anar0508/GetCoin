@@ -3,8 +3,6 @@ export const TOGGLE_ADVANCED_SEARCH = 'TOGGLE_ADVANCED_SEARCH';
 export const GET_ADVANCED_SEARCH_INFO = 'GET_ADVANCED_SEARCH_INFO';
 
 
-
-
 export const toggleAdvancedSearch=()=>{
     return {
         type: TOGGLE_ADVANCED_SEARCH
@@ -38,10 +36,8 @@ export const searchHandling = (search) => (dispatch, getState) => {
             'Access-Control-Allow-Origin': 'http://localhost:8000',
             'Content-Type': 'application/json'
         }
-    }).then(res => res.json()).then(res => { dispatch(getSearchResult(res))})
-    
+    }).then(res => res.json()).then(res => { dispatch(getSearchResult(res))})    
 }
-
 
 export const gettingAdvancedSearchInfo = () => async (dispatch, getState) => {
   const info= await fetch('http://localhost:8000/advanced');

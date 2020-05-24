@@ -15,6 +15,15 @@ const Form = styled.form`
   min-width: 350px;
   margin: 0 auto;
   width: 100%;
+  div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:space-between;
+  min-width: 350px;
+  margin: 10px auto;
+  width: 100%;
+  }
 `;
 
 const InputBox = styled.div`
@@ -22,7 +31,6 @@ const InputBox = styled.div`
   flex-direction: column;
   align-items: center;
   min-width: 250px;
-  margin: 0 auto 20px;
   width: 80%;
 `;
 
@@ -44,11 +52,12 @@ const Label = styled.label`
 `;
 
 const Button = styled.input`
-  width: 100px;
+  min-width: 70px;
+  width: 10%;
   outline: none;
   border: none;
   padding: 9px;
-  margin-left: 20px;
+  margin-top: 20px;
   background: #833ae0;
   color: white;
   text-align: center;
@@ -77,13 +86,14 @@ function Registration(props) {
   ) : (
     <section>
       <Header headerText="GetCoin" />
+      
       <Form
         onSubmit={(e) => {
           if (password !== repeatPassword) {
             showPasswordsError(true);
-            // setTimeout(() => {
-            //   showPasswordsError(false);
-            // }, 3000);
+            setTimeout(() => {
+              showPasswordsError(false);
+            }, 3000);
           } else {
             showPasswordsError(false);
             submitForm(login, password);
@@ -91,6 +101,7 @@ function Registration(props) {
           e.preventDefault();
         }}
       >
+        <div >
         <InputBox>
           <Label> Name </Label>
           <Input
@@ -141,14 +152,18 @@ function Registration(props) {
             }}
           />
         </InputBox>
-        {passwordsError && <p> Passwords don't match </p>}
-        {showError && <p> There is another person with this login </p>}
+
         <Button
           type="submit"
           disabled={!login || !password || !repeatPassword}
           value="Register"
         />
+  </div>
+  {passwordsError && <p> Passwords don't match </p>}
+        {showError && <p> There is another person with this login </p>}
       </Form>
+     
+
     </section>
   );
 }

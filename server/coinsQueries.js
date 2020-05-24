@@ -148,10 +148,13 @@ searchCoins = async (query, connection, req, res) => {
     const yearTo = +req.query.yearTo;
 
     let getSearchSQL
-    if (text === 'exclusive' || text === 'bullion' || text === 'commemorative') {
+    if (text === 'exclusive' || text === 'bullion' || text === 'commemorative' ) {
         getSearchSQL = `SELECT * FROM coins WHERE coin_type=${connection.escape(text)}`
 
-    } else {
+    } else if (text === 'popular'){
+        getSearchSQL = `SELECT * FROM coins WHERE popularity> 5 ORDER BY popularity DESC`
+    }
+    else {
         let advancedParam = `${!country ? `` : ` country = ${connection.escape(country)} AND `}${!composition ? `` : ` сomposition= ${connection.escape(composition)} AND `}${!priceFrom ? `` : ` price > ${connection.escape(priceFrom)} AND `}${!priceTo ? `` : ` price < ${connection.escape(priceTo)} AND `}${!yearFrom ? `` : ` issuance_year > ${connection.escape(yearFrom)} AND `}${!yearTo ? `` : ` issuance_year < ${connection.escape(yearTo)} AND `}`;
         let searchText = !text ? ''
             : `coin_name LIKE '%${text}%' 

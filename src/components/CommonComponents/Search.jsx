@@ -28,6 +28,18 @@ const InputContainer = styled.div`
   min-width: 250px;
   align-items: center;
   }
+  p{
+    font-weight: 300;
+cursor: pointer;
+font-size: 14px;
+text-decoration-line: underline;
+min-width:60px;
+img{  vertical-align: middle;
+  margin-left:4px}
+  &:hover{
+    font-weight: 600;
+  }
+}
 `;
 const Button = styled.input`
   width: 100px;
@@ -35,11 +47,14 @@ const Button = styled.input`
   border: none;
   padding: 9px;
   margin-left: 20px;
-  background: #833ae0;
+  background: rgb(131, 58, 224);
   color: white;
   text-align: center;
   vertical-align: middle;
   font-size: 14px;
+  &:hover{
+    background: rgba(131, 58, 224, 0.5);
+  }
 `;
 const SearchInput = styled.input`
   min-width: 250px;
@@ -50,15 +65,7 @@ const SearchInput = styled.input`
   text-align: left;
   font-size: 25px;
 `;
-const AdvancedText = styled.div`
-font-weight: 300;
-cursor: pointer;
-font-size: 14px;
-text-decoration-line: underline;
-min-width:60px;
-img{  vertical-align: middle;
-  margin-left:4px}
-`;
+
 
 
 function Search(props) {
@@ -77,10 +84,10 @@ function Search(props) {
             <Button type="submit" value="Search" disabled={!advancedSearch && search===''} onClick={() => {submitSearch(search); (advancedSearch && toggleAdvanced()) }}/>
           </Link>
         </div>
-        <AdvancedText onClick= {()=>{ (advancedSearch===false && getAdvancedInfo()); toggleAdvanced(); }}>
+        <p onClick= {()=>{ (advancedSearch===false && getAdvancedInfo()); toggleAdvanced(); }}>
           Advanced filter
           <img src={advancedSearch ? arrow_up : arrow_down} alt="arrow" />
-        </AdvancedText>
+        </p>
       </InputContainer>
       {advancedSearch && <AdvancedSearchContainer/>}
     </SearchBar>

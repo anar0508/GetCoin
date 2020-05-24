@@ -1,59 +1,65 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import PaginatorPageBar from "./PaginatorPageBar";
-import { PaginatorMain, Page } from "./stylePaginator";
+import { PaginatorMain, Page, SelectContainer } from "./stylePaginator";
 
-const PAGE_SIZE = 4;
 
-class Paginator extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { curPage: 1, pageAmount: 0 };
-  }
 
-  incrementIndex = (e) => {
+function Paginator (props) {
+  const [curPage, handleCurPage] = useState(1);
+  const [coinPerPage, handleCoinPerPage] = useState(6);
+ 
+ const incrementIndex = (e) => {
     const newPage =
-      this.state.curPage + 1 > Math.ceil(this.props.rowElems.length / PAGE_SIZE)
-        ? Math.ceil(this.props.rowElems.length / PAGE_SIZE)
-        : this.state.curPage + 1;
-    this.setState({ curPage: newPage });
+      curPage + 1 > Math.ceil(props.rowElems.length / coinPerPage)
+        ? Math.ceil(props.rowElems.length / coinPerPage)
+        : curPage + 1;
+        handleCurPage( newPage);
   };
 
-  decrementIndex = (e) => {
-    const newPage = this.state.curPage - 1 < 1 ? 1 : this.state.curPage - 1;
-    this.setState({ curPage: newPage });
+  const  decrementIndex = (e) => {
+    const newPage = curPage - 1 < 1 ? 1 : curPage - 1;
+    handleCurPage( newPage);
   };
 
-  handleChangePage = (selectedPage) => {
-    this.setState({ curPage: selectedPage });
+  const  handleChangePage = (selectedPage) => {
+    handleCurPage(selectedPage);
   };
 
-  componentDidUpdate() {
-    if (
-      this.state.curPage >
-      Math.ceil(this.props.rowElems.length / PAGE_SIZE) + 1
-    )
-      this.setState({ curPage: 1 });
-  }
 
-  render() {
+    if ( curPage >  Math.ceil(props.rowElems.length / coinPerPage) + 1) handleCurPage(1);
+    
+  
+
     return (
       <PaginatorMain>
+       <SelectContainer>
+         <label htmlFor="coinsNum"> Coins per page</label>
+       <select id='coinsNum' value={6} onChange={e=>{handleCoinPerPage(e.target.value)}}> 
+        <option value="6" > 6 </option>
+        <option value="10"> 10 </option>
+        <option value="20"> 20 </option>
+        <option value="50"> 50 </option>
+        <option value="100"> 100 </option>
+        </select>
+       </SelectContainer>
+
+        
         <Page>
-          {this.props.rowElems.slice(
-            (this.state.curPage - 1) * PAGE_SIZE,
-            (this.state.curPage - 1) * PAGE_SIZE + PAGE_SIZE
+          {props.rowElems.slice(
+            (curPage - 1) * coinPerPage,
+            (curPage - 1) * coinPerPage + coinPerPage
           )}
         </Page>
         <PaginatorPageBar
-          pageAmount={Math.ceil(this.props.rowElems.length / PAGE_SIZE)}
-          onChange={this.handleChangePage}
-          incrCallback={this.incrementIndex}
-          decrCallback={this.decrementIndex}
-          curSelectedPage={this.state.curPage}
+          pageAmount={Math.ceil(props.rowElems.length / coinPerPage)}
+          onChange={handleChangePage}
+          incrCallback={incrementIndex}
+          decrCallback={decrementIndex}
+          curSelectedPage={curPage}
         />
       </PaginatorMain>
     );
   }
-}
+
 
 export default Paginator;

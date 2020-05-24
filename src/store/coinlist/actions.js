@@ -8,9 +8,12 @@ export const getCoin = (newCoin) => {
     }
 }
 
-export const gettingCoin = (id) => (dispatch, getState) => {
-    fetch(`http://localhost:8000/coins/${id}`)
-    .then(res => res.json()).then(res => { dispatch(getCoin(res[0]))})
+export const gettingCoin = (id) => async (dispatch, getState) => {
+   let res = await fetch(`http://localhost:8000/coins/${id}`);
+   let parsedRes = await res.json();
+   dispatch(getCoin(parsedRes[0]));
+   
+   let history = await fetch(`http://localhost:8000/coins/${id}`);
 }
 
 

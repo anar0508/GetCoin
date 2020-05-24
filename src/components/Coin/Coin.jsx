@@ -23,16 +23,16 @@ const ImageContainer = styled.div`
 `;
 
 const Reverse = styled.img`
-  width: 100%;
+  width: 90%;
   display: block;
 `;
 const Obverse = styled.img`
-  width: 100%;
+  width: 90%;
   display: block;
 `;
 
 const DescriptionContainer = styled.div`
-  width: 35%;
+  width: 50%;
   background: rgba(196, 196, 196, 0.5);
   padding: 20px 40px;
   display: flex;
@@ -42,7 +42,7 @@ const DescriptionContainer = styled.div`
 `;
 
 const P = styled.p`
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 15px;
 `;
 
@@ -51,7 +51,7 @@ function Coin(props) {
 
   let paragraphs = coin.description.split("/p");
   paragraphs = paragraphs.map((line) => {
-    return <P>{line}</P>;
+    return <P key = {coin.idCoin}>{line}</P>;
   });
 
   return (
@@ -70,7 +70,8 @@ function Coin(props) {
         <h2>{coin.coin_name}</h2>
         {paragraphs}
 
-        <table >
+        <table>
+          <tbody>
           <tr>
             <td>Issuing country</td>
             <td>{coin.country}</td>
@@ -105,6 +106,7 @@ function Coin(props) {
             <td>Price</td>
             <td>{`${coin.price} ${coin.price_currency} `}</td>
           </tr>
+          </tbody>
         </table>
 
         <P style={{color: coin.quantity>0? 'green': 'red'}}> Available: {coin.quantity} </P>

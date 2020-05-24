@@ -13,11 +13,11 @@ register = async (query, connection, bcrypt, req, res) => {
     let getUsersSQL = `SELECT login FROM users`;
     try {
         let users = await query(getUsersSQL);
-
+        
         let checkLogin = users.find(user => user.login === login);
         if (!checkLogin) {
             let hash = await bcrypt.hash(password, 10);
-            let addUserSQL = `INSERT INTO users (login, user_hash, name) VALUE (${connection.escape(login)}, ${connection.escape(hash)}, ${connection.escape(name)})`;
+            let addUserSQL = `INSERT INTO users (login, user_hash, user_name) VALUE (${connection.escape(login)}, ${connection.escape(hash)}, ${connection.escape(name)})`;
             try {
                 let user = await query(addUserSQL);
                 res.status(200).json({ message: 'User is registered' });
@@ -34,7 +34,7 @@ register = async (query, connection, bcrypt, req, res) => {
 login = async (query, connection, bcrypt, req, res) => {
     const { login, password } = req.body;
     try {
-        let getUsersListSQL = `SELECT login, user_hash, name, admin FROM users`;
+        let getUsersListSQL = `SELECT login, user_hash, user_name, admin FROM users`;
         let users = await query(getUsersListSQL);
         const userInBase = users.find(user => {
             if (user.login === login && checkUser(password, user.user_hash, bcrypt)) { 
@@ -53,7 +53,7 @@ login = async (query, connection, bcrypt, req, res) => {
                     let addTokenSQL = `INSERT INTO tokens (login, token) VALUE (${connection.escape(login)}, ${connection.escape(newToken)})`;
                     try {
                         let token = await query(addTokenSQL);
-                        res.status(200).json({ token: newToken, name:userInBase.name, admin:userInBase.admin });
+                        res.status(200).json({ token: newToken, name:userInBase.user_name, admin:userInBase.admin });
                     } catch (error) {
                         res.status(404).send(error);
                     }
@@ -97,58 +97,4 @@ logout = async (query, connection, req, res) => {
 }
 
 module.exports = { getUsers, register, login, logout }
-
-
-// getUser = async (query, req, res) => {
-//     let getUserSQL = `SELECT * FROM users WHERE (idUser=${connection.escape(req.params.id)});`;
-//     try {
-//         let coin = await query(getCoinSQL);
-//         res.status(200).json(coin)
-//     } catch (error) {
-//         res.status(404);
-//     }
-// }
-
-// app.get('/users/:id', (req, res) => {
-//     let getUser = ` SELECT * FROM bootcamp.users WHERE idUser="${connection.escape(req.params.id)}";`;
-//     connection.query(getUser, (err, data) => {
-//         if (!err) {
-//             res.status(200).send('user is found')
-//         } else {
-//             console.log(err);
-//         }
-//     })
-// });
-
-
-// app.put('/users/:id', (req, res) => {
-//     let changeBalanсeFrom = `UPDATE bootcamp.users SET balance =  balance - ${connection.escape(sum)} WHERE idUser=${from};`;
-//     let changeBalanсeTo = `UPDATE bootcamp.users SET balance =  balance + ${connection.escape(sum)}WHERE idUser=${to};`;
-//     const { fullName, sex, birthday, card_number } = req.body;
-//     let updateUser = `UPDATE bootcamp.users SET 
-//     fullName=${connection.escape(fullName)}, 
-//     sex=${connection.escape(sex)},
-//     birthday=${connection.escape(birthday)},
-//     card_number=${connection.escape(card_number)}
-//     WHERE idUser=${connection.escape(req.params.id)};`;
-//     connection.query(updateUser, (err, data) => {
-//         if (!err) {
-//             res.status(200).send('user is changed')
-//         } else {
-//             console.log(err);
-//         }
-//     })
-// });
-
-
-// app.delete('/users/:id', (req, res) => {
-//     let deleteUser = `DELETE FROM bootcamp.users WHERE (idUser=${connection.escape(req.params.id)});`;
-//     connection.query(deleteUser, (err, data) => {
-//         if (!err) {
-//             res.status(200).send('user is deleted')
-//         } else {
-//             console.log(err);
-//         }
-//     });
-// });
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import InputComponent from "./InputComponent";
 import SelectComponent from "./SelectComponent";
 import styled from "styled-components";
@@ -114,7 +114,6 @@ function EditComponent(props) {
     countries,
     compositions,
     qualities,
-    isEditing,
     cancelEdit,
     addCoin
   } = props;
@@ -170,7 +169,6 @@ function EditComponent(props) {
       weight: weight,
       obverse: obverse,
       reverse: reverse,
-      quantity: coin.quantity,
       popularity: coin.popularity? coin.popularity: 0,
       formData: formData
     };

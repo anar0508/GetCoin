@@ -1,5 +1,5 @@
 import React from "react";
-import { bindActionCreators } from "redux";
+// import { bindActionCreators } from "redux";
 import Cabinet from './Cabinet';
 import { connect } from "react-redux";
 // import { changeFirstName, changeSecondName } from "../../store/login/actions";

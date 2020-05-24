@@ -43,9 +43,7 @@ function SelectComponent(props) {
   const handleChange = (newValue: any, actionMeta: any) => {
     handleChangeState(newValue.value);
     };
- const handleInputChange = (inputValue: any, actionMeta: any) => {
-  handleChangeState(inputValue);
-    };
+
     let newOptions;
     if (Object.getOwnPropertyNames(options[0])[0]==='type'){
       newOptions = options.map((el)=>{ return {value: el.type, label: (el.type===3? 'Commemorative': el.type===2? 'Exclusive': 'Bullion')}})}
@@ -59,7 +57,6 @@ function SelectComponent(props) {
     placeholder={Object.getOwnPropertyNames(options[0])[0]==='type'? value===3? 'Commemorative': value===2? 'Exclusive': 'Bullion': value}
     styles={customStyles}
     onChange={handleChange} 
-    // onInputChange={handleInputChange}
     options={newOptions}/>
 
   </Container>

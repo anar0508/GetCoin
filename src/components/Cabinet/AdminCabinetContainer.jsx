@@ -6,15 +6,14 @@ import {startCoinEditing} from '../../store/adminCabinet/actions';
 import { searchHandling } from "../../store/homepage/actions";
 
 function AdminCabinetContainer(props) {
-  const { isAdmin, submitSearch, isEditing, addCoin} = props;
+  const { submitSearch, isEditing, addCoin} = props;
   return (
-    <AdminCabinet isAdmin={isAdmin} submitSearch={submitSearch}  addCoin={addCoin} isEditing={isEditing}/>
+    <AdminCabinet  submitSearch={submitSearch}  addCoin={addCoin} isEditing={isEditing}/>
   );
 }
 
 const mapStateToProps = (state) => {
     return {
-        isAdmin: state.login.admin,
         isEditing: state.adminPage.isEditing
     }
 }

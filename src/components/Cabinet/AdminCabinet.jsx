@@ -71,7 +71,7 @@ p{text-decoration: underline;
 `;
 
 function AdminCabinet(props) {
-  const { isAdmin, submitSearch, isEditing, addCoin } = props;
+  const { submitSearch, isEditing, addCoin } = props;
   const [search, handleSearchInput] = useState("");
     
   return (

@@ -37,9 +37,7 @@ function SelectComponent(props) {
   const handleChange = (newValue: any, actionMeta: any) => {
     changeSelect(newValue.value);
     };
- const handleInputChange = (inputValue: any, actionMeta: any) => {
-  changeSelect(inputValue);
-    };
+
     let newOptions = [{value: '', label: 'any'}];
     if (options !== undefined) {
       let propertyName = Object.getOwnPropertyNames(options[0])[0];
@@ -55,7 +53,6 @@ function SelectComponent(props) {
     placeholder={value}
     styles={customStyles}
     onChange={handleChange} 
-    // onInputChange={handleInputChange}
     options={newOptions}
     />
 
