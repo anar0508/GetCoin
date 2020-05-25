@@ -31,7 +31,10 @@ export const searchHandling = (search) => (dispatch, getState) => {
     const yearFrom =getState().adSearch.yearFrom;
     const yearTo =getState().adSearch.yearTo;
     fetch(`http://localhost:8000/searchCoins?text=${search}&country=${country}&composition=${composition}&priceFrom=${priceFrom}&priceTo=${priceTo}&yearFrom=${yearFrom}&yearTo=${yearTo}`, {
-        method: "GET",
+        method: "POST",
+        body: JSON.stringify({
+            token: getState().login.token
+        }),
         headers: {
             'Access-Control-Allow-Origin': 'http://localhost:8000',
             'Content-Type': 'application/json'

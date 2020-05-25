@@ -15,16 +15,23 @@ getCoins = async (query, connection, req, res) => {
 }
 
 getCoin = async (query, connection, req, res) => {
+    let {token, date} = req.body; 
+    let login = await query(`SELECT login FROM tokens WHERE token=${connection.escape(token)}`);
+    let updateHistorySQL;    
+    if(!login){
+        updateHistorySQL = `INSERT INTO history (id_coin, view_date) VALUE (${req.params.id}, '${date}')`;
+    } else updateHistorySQL = `INSERT INTO history (id_coin, user_login, view_date) VALUE (${req.params.id}, '${login[0].login}', '${date}')`;
     let getCoinSQL = `SELECT * FROM coins WHERE (idCoin=${connection.escape(req.params.id)});`;
-    let increasePopularitySQL = `UPDATE coins SET popularity = popularity+1 WHERE (idCoin=${connection.escape(req.params.id)});
-    `;
-    try {
-        let coin = await query(getCoinSQL);
-        query(increasePopularitySQL);
-        res.status(200).json(coin);
-    } catch (error) {
-        res.status(404);
-    }
+    let increasePopularitySQL = `UPDATE coins SET popularity = popularity+1 WHERE (idCoin=${connection.escape(req.params.id)});`;
+     
+        try {
+            let coin = await query(getCoinSQL);
+            query(increasePopularitySQL);
+            query(updateHistorySQL);
+            res.status(200).json(coin);
+        } catch (error) {
+            res.status(404);
+        }
 }
 
 checkAdmin = async (token, connection, query) => {
@@ -99,7 +106,7 @@ changeCoin = async (query, connection, req, res) => {
     reverse_coin=${connection.escape(reverse)},
     quantity=${connection.escape(quantity)}
     WHERE idCoin=${connection.escape(req.params.id)};`;
-            let changedCoin = await connection.query(updateCoinSQL);
+            await connection.query(updateCoinSQL);
             res.status(200).json({ message: 'coin is changed' });
         } catch (error) {
             res.status(404);
@@ -114,7 +121,7 @@ deleteCoin = async (query, connection, req, res) => {
     } else {
         try {
             let deleteCoinSQL = `DELETE FROM coins WHERE (idCoin=${connection.escape(req.params.id)});`;
-            let deteledCoin = await query(deleteCoinSQL);
+            await query(deleteCoinSQL);
             res.status(200).send('Coin is deleted');
         } catch (error) {
             res.status(404).json(error);
@@ -146,6 +153,7 @@ searchCoins = async (query, connection, req, res) => {
     const priceTo = +req.query.priceTo;
     const yearFrom = +req.query.yearFrom;
     const yearTo = +req.query.yearTo;
+    const {token} = req.body;
 
     let getSearchSQL
     if (text === 'exclusive' || text === 'bullion' || text === 'commemorative' ) {
@@ -153,6 +161,20 @@ searchCoins = async (query, connection, req, res) => {
 
     } else if (text === 'popular'){
         getSearchSQL = `SELECT * FROM coins WHERE popularity> 5 ORDER BY popularity DESC`
+    }
+    else if (text === 'history'){
+        let login = await query(`SELECT login FROM tokens WHERE token=${connection.escape(token)}`);        
+        if(!login){
+            res.send('You should not even be there')
+        } else {
+            let coinsListSQL = `SELECT id_coin FROM history WHERE user_login= '${login[0].login}' ORDER BY view_date DESC`;
+            let coinsList = await query(coinsListSQL);
+            getSearchSQL = `SELECT history.view_date, coins.* FROM history 
+            LEFT JOIN coins ON coins.idCoin=${coinsList[0].id_coin}`
+            for (const id of coinsList) {
+                getSearchSQL+= ` or coins.idCoin = ${id.id_coin}`;
+              }
+        }
     }
     else {
         let advancedParam = `${!country ? `` : ` country = ${connection.escape(country)} AND `}${!composition ? `` : ` сomposition= ${connection.escape(composition)} AND `}${!priceFrom ? `` : ` price > ${connection.escape(priceFrom)} AND `}${!priceTo ? `` : ` price < ${connection.escape(priceTo)} AND `}${!yearFrom ? `` : ` issuance_year > ${connection.escape(yearFrom)} AND `}${!yearTo ? `` : ` issuance_year < ${connection.escape(yearTo)} AND `}`;
@@ -181,6 +203,8 @@ searchCoins = async (query, connection, req, res) => {
             (!count ? res.status(200).json(coinsList) : res.status(200).send({ users: JSON.parse(coinsList).slice(offset, offset + count), count: coinsList.length }))
         }
     } catch (error) {
+        console.log(error);
+        
         res.status(404);
     }
 }

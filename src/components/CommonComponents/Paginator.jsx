@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PaginatorPageBar from "./PaginatorPageBar";
-import { PaginatorMain, Page, SelectContainer } from "./stylePaginator";
+import { PaginatorMain, Page, SelectContainer } from "./Styles/stylePaginator";
 
 
 

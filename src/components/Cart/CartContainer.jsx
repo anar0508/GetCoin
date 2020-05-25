@@ -7,14 +7,13 @@ import { loggingOut } from "../../store/login/actions";
 function CartContainer(props) {
   const { token, logged, logOut } = props;
   return (
-    <Cart token={token} logOut={logOut} logged={logged}/>
+    <Cart token={token} logOut={logOut} headerText='GetCoin'/>
   );
 }
 
 const mapStateToProps = (state) => {
     return {
-        token:state.login.token,
-        logged:state.login.logged
+        token:state.login.token
     }
 }
 

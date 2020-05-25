@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PaginatorButton from "./PaginatorButton";
-import { MainBar, IncDecButton } from "./stylePaginatorPageBar";
+import { MainBar, IncDecButton } from "./Styles/stylePaginatorPageBar";
 
 class PaginatorPageBar extends Component {
   constructor(props) {

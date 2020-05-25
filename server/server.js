@@ -21,11 +21,11 @@ app.get('/coins', (req, res) => {
     CoinsQueries.getCoins(query, connection, req, res);
 });
 
-app.get('/searchCoins', (req, res) => {
+app.post('/searchCoins', (req, res) => {
     CoinsQueries.searchCoins(query, connection, req, res);
 });
 
-app.get('/coins/:id', (req, res) => {
+app.put('/coins/:id', (req, res) => {
     CoinsQueries.getCoin(query, connection, req, res);
 });
 

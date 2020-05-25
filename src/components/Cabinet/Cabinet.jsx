@@ -1,12 +1,12 @@
 import React from "react";
 import AdminCabinetContainer from './AdminCabinetContainer';
-import UserCabinet from './UserCabinet';
+import UserCabinetContainer from './UserCabinetContainer';
 
 function Cabinet(props) {
   const { isAdmin } = props;
   return (
     <>
-      {isAdmin? <AdminCabinetContainer/>: <UserCabinet/>}
+      {isAdmin? <AdminCabinetContainer/>: <UserCabinetContainer/>}
     </>
   );
 }

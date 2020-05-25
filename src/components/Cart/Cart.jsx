@@ -1,24 +1,34 @@
 import React from "react";
-import {Link} from "react-router-dom";
-import '../../index.css';
+import { Link } from "react-router-dom";
+import styled from "styled-components";
+import "../../index.css";
+const Menu = styled.nav`
+  display: flex;
+  width: 93%;
+  margin: 0 auto;
+  align-items: baseline;
+  padding: 30px 0 25px 0;
+`;
+const PageContainer = styled.h1`
+  width: 64%;
+  font-size: 50px;
+  font-weight: 300;
+  text-align: left;
+  p {
+    font-weight: 300;
+    font-size: 14px;
+    margin: 10px 0;
+  }
+`;
 
 function Cart(props) {
-const {token, logged, logOut, downloadCredits} = props;
-return (
-    <div>
-        <nav className="menu">
-            <Link className="menu-points" to="/" > GetCoin </Link>
-            {logged
-            ?<Link className="menu-points" to="/cabinet"> My cabinet </Link> 
-            :<Link className="menu-points" to="/register"> Registration </Link>}
-
-            {logged
-            ?<Link className="menu-points" to="/" onClick={()=>{logOut(token)}}> Logout </Link> 
-            :<Link className="menu-points" to="/login"> Login </Link>}
-
-            <Link className="menu-points" to="/cart"> Cart </Link>
-        </nav>
-    </div>
-)
+  const { headerText } = props;
+  return (
+    <Menu>
+      <PageContainer>
+        <Link to="/"> {headerText} </Link>
+      </PageContainer>
+    </Menu>
+  );
 }
 export default Cart;

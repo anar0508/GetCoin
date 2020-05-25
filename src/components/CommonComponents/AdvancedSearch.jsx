@@ -1,19 +1,8 @@
 import React from "react";
-import styled from "styled-components";
 import SelectContainer from './SelectContainer';
 import MultipleSelectContainer from './MultipleSelectContainer';
 import "../../index.css";
-const AdvancedSearchSection = styled.section`
-width: 100%;
-display: flex;
-align-content: flex-start;
-flex-direction: row;
-flex-wrap: wrap;
-width: 100%;
-min-width: 650px;
-margin-top: 30px;
-`;
-
+import { AdvancedSearchSection } from "./Styles/StyleAdvancedSearch";
 function AdvancedSearch(props) {
   const { country, composition, quality, priceFrom, priceTo, yearFrom, yearTo, changeCountry,
     changeComposition, changeQuality, changePriceFrom, changePriceTo, changeYearFrom, changeYearTo, countries, compositions, qualities} = props;        

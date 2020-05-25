@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "./stylePaginatorButton";
+import { Button } from "./Styles/stylePaginatorButton";
 
 class PaginatorButton extends Component {
   constructor(props) {

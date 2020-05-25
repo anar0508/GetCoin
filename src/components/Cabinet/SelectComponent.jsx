@@ -1,26 +1,6 @@
 import React from "react";
-import styled from "styled-components";
 import CreatableSelect from 'react-select/creatable';
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-width: 300px;
-    margin-bottom: 20px;
-  label {
-    font-size: 14px;
-  }
-  Select {
-    min-width: 250px;
-    width: 60%;
-    padding: 5px;
-    outline: none;
-    border: 1px solid black;
-    text-align: left;
-    font-size: 25px;
-  }
-`;
+import { Container } from "./Styles/StylesSelectComponent";
 
 function SelectComponent(props) {
   const { labelText, options, value, handleChangeState} = props; 

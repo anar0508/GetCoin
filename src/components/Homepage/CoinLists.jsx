@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import ListTypeContainer from './ListTypeContainer';
-
-
 import "../../index.css";
+
 const ListsContainer = styled.section`
   display: flex;
   flex-direction: row;

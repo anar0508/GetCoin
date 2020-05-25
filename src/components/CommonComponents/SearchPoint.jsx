@@ -1,58 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
 import "../../index.css";
-
-const InfoContainer = styled.section`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 45%;
-  height: 140px;
-  min-width: 430px;
-  margin-bottom: 20px;
-  margin-right: 30px;
-`;
-
-const Description = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-  min-width: 150px;
-  padding-left: 5px;
-  a {
-    color: #833ae0;
-  }
-  p {
-    font-size: 12px;
-    padding: 10px 0;
-  }
-  h4 {
-    color: #833ae0;
-    padding: 10px 0;
-    &:hover {
-      color: black;
-    }
-  }
-
-  button {
-    background: #e5e5e5;
-    width: 120px;
-    outline: none;
-    border: none;
-    margin-right: 20px;
-    padding: 10px;
-  }
-`;
-
-const ImageContainer = styled.div`
-  width: 25%;
-  min-width: 140px;
-  img {
-    width: 100%;
-    min-width: 140px;
-  }
-`;
+import { InfoContainer, ImageContainer, Description } from "./Styles/StyleSearchPoint";
 
 function SearchPoint(props) {
   const { coin, getCoin, isAdmin, deleteCoin, editCoin, token } = props;
@@ -77,51 +26,25 @@ function SearchPoint(props) {
         )}
       </ImageContainer>
       <Description>
-        <Link
-          to={path}
-          onClick={() => {
-            getCoin(coin.idCoin);
-          }}
-        >
-          {" "}
-          <h4> {coin.coin_name}</h4>{" "}
-        </Link>
+        <Link to={path} onClick={() => getCoin(coin.idCoin)}> <h4> {coin.coin_name}</h4> </Link>
         <p> {coin.short_description} </p>
-        {isAdmin ? (
-          <div>
-            <button
-              onClick={() => {
-                editCoin(true, coin);
-              }}
-            >
-              {" "}
-              Edit{" "}
+        {isAdmin 
+        ? (<div>
+            <button onClick={() => {editCoin(true, coin);}}>
+              Edit
             </button>
-            <button
-              onClick={() => {
-                deleteCoin(coin.idCoin);
-              }}
-            >
-              {" "}
-              Delete{" "}
+            <button onClick={() => { deleteCoin(coin.idCoin); }}>
+              Delete
             </button>
-          </div>
-        ) : !token ? (
-          <p>
-            {" "}
-            <Link to="/register">Register</Link> and{" "}
-            <Link to="/login"> Login</Link> to shop{" "}
-          </p>
-        ) : (
-          <Link
-          to={path}
-          onClick={() => {
-            getCoin(coin.idCoin);
-          }}
-        >
-          More...
-        </Link>
-        )}
+          </div>) 
+        : !token 
+        ? (<p>
+            <Link to="/register">Register</Link> and 
+            <Link to="/login"> Login</Link> to shop
+          </p>) 
+        : !coin.view_date
+          ?(<Link to={path} onClick={() => {getCoin(coin.idCoin);}}> More...</Link> )
+          : <p> Viewed on {coin.view_date.slice(0, 19).replace('T', ' ')} </p> }
       </Description>
     </InfoContainer>
   );
