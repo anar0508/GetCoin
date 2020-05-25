@@ -25,6 +25,17 @@ export const Description = styled.div`
   h4 {
     color: #833ae0;
     padding: 10px 0;
+    span{
+      font-size: 12px;
+      vertical-align:top;
+      &:hover{
+       color: rgba(0,0,0, 0.5)
+      }
+    }
+    img{
+      width: 15px;
+      vertical-align:top;
+    }
     &:hover {
       color: black;
     }

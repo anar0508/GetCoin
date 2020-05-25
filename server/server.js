@@ -2,7 +2,6 @@ const fileUpload = require('express-fileupload');
 const CoinsQueries = require('./coinsQueries.js');
 const UsersQueries = require('./usersQueries.js');
 const ImgQueries = require('./imgQueries.js');
-const HistoryQueries = require('./historyQueries.js');
 const mysql = require('mysql');
 const express = require('express');
 const bcrypt = require('bcrypt');
@@ -50,7 +49,6 @@ app.post('/admin/upload', function(req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
       return res.status(400).send('No files were uploaded.');
     }
-    
     
     if (Object.keys(req.files).length===2){
       let reverseFile = req.files.reverseFile;

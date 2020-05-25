@@ -7,7 +7,8 @@ export const ColumnContainer = styled.section`
   img{
     width: 214px;
     &:hover{
-      width: 220px;
+      transform: scale(1.1);
+      transition: 0.2s
   }
   }
 `;

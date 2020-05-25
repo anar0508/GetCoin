@@ -27,8 +27,8 @@ export const Form = styled.form`
     background: #833ae0;
     color: white;
     text-align: center;
-    vertical-align: middle;
     font-size: 14px;
+
   }
 `;
 export const Submit = styled.input`
@@ -40,7 +40,6 @@ export const Submit = styled.input`
   background: #833ae0;
   color: white;
   text-align: center;
-  vertical-align: middle;
   font-size: 14px;
   display: block;
 `;
@@ -63,7 +62,6 @@ export const File = styled.div`
   }
   label {
     cursor: pointer;
-
     display: block;
   }
   span {

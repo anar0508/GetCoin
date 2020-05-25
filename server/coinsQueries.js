@@ -15,23 +15,23 @@ getCoins = async (query, connection, req, res) => {
 }
 
 getCoin = async (query, connection, req, res) => {
-    let {token, date} = req.body; 
+    let { token, date } = req.body;
     let login = await query(`SELECT login FROM tokens WHERE token=${connection.escape(token)}`);
-    let updateHistorySQL;    
-    if(!login){
+    let updateHistorySQL;
+    if (!login) {
         updateHistorySQL = `INSERT INTO history (id_coin, view_date) VALUE (${req.params.id}, '${date}')`;
     } else updateHistorySQL = `INSERT INTO history (id_coin, user_login, view_date) VALUE (${req.params.id}, '${login[0].login}', '${date}')`;
     let getCoinSQL = `SELECT * FROM coins WHERE (idCoin=${connection.escape(req.params.id)});`;
     let increasePopularitySQL = `UPDATE coins SET popularity = popularity+1 WHERE (idCoin=${connection.escape(req.params.id)});`;
-     
-        try {
-            let coin = await query(getCoinSQL);
-            query(increasePopularitySQL);
-            query(updateHistorySQL);
-            res.status(200).json(coin);
-        } catch (error) {
-            res.status(404);
-        }
+
+    try {
+        let coin = await query(getCoinSQL);
+        query(increasePopularitySQL);
+        query(updateHistorySQL);
+        res.status(200).json(coin);
+    } catch (error) {
+        res.status(404);
+    }
 }
 
 checkAdmin = async (token, connection, query) => {
@@ -146,52 +146,24 @@ getAdvancedSearchInfo = async (query, connection, req, res) => {
 }
 
 searchCoins = async (query, connection, req, res) => {
-    const text = req.query.text;
-    const country = req.query.country;
-    const composition = req.query.composition;
-    const priceFrom = +req.query.priceFrom;
-    const priceTo = +req.query.priceTo;
-    const yearFrom = +req.query.yearFrom;
-    const yearTo = +req.query.yearTo;
-    const {token} = req.body;
-
-    let getSearchSQL
-    if (text === 'exclusive' || text === 'bullion' || text === 'commemorative' ) {
-        getSearchSQL = `SELECT * FROM coins WHERE coin_type=${connection.escape(text)}`
-
-    } else if (text === 'popular'){
-        getSearchSQL = `SELECT * FROM coins WHERE popularity> 5 ORDER BY popularity DESC`
-    }
-    else if (text === 'history'){
-        let login = await query(`SELECT login FROM tokens WHERE token=${connection.escape(token)}`);        
-        if(!login){
-            res.send('You should not even be there')
-        } else {
-            let coinsListSQL = `SELECT id_coin FROM history WHERE user_login= '${login[0].login}' ORDER BY view_date DESC`;
-            let coinsList = await query(coinsListSQL);
-            getSearchSQL = `SELECT history.view_date, coins.* FROM history 
-            LEFT JOIN coins ON coins.idCoin=${coinsList[0].id_coin}`
-            for (const id of coinsList) {
-                getSearchSQL+= ` or coins.idCoin = ${id.id_coin}`;
-              }
-        }
-    }
-    else {
-        let advancedParam = `${!country ? `` : ` country = ${connection.escape(country)} AND `}${!composition ? `` : ` сomposition= ${connection.escape(composition)} AND `}${!priceFrom ? `` : ` price > ${connection.escape(priceFrom)} AND `}${!priceTo ? `` : ` price < ${connection.escape(priceTo)} AND `}${!yearFrom ? `` : ` issuance_year > ${connection.escape(yearFrom)} AND `}${!yearTo ? `` : ` issuance_year < ${connection.escape(yearTo)} AND `}`;
-        let searchText = !text ? ''
-            : `coin_name LIKE '%${text}%' 
-        UNION 
-        SELECT * FROM coins WHERE ${advancedParam} short_description LIKE '%${text}%'
-        UNION 
-        SELECT * FROM coins WHERE ${advancedParam} description LIKE '%${text}%'`;
-        if (text === '') {
-            let finParam = advancedParam.slice(0, -4);
-            getSearchSQL = `SELECT * FROM coins WHERE${finParam};`;
-        } else getSearchSQL = `SELECT * FROM coins WHERE ${advancedParam} ${searchText};`;
-        let lastFive = getSearchSQL.substr(getSearchSQL.length - 6);
-        if (lastFive === 'WHERE;') {
-            getSearchSQL = 'SELECT * FROM coins';
-        }
+    const { text, country, composition, priceFrom, priceTo, yearFrom, yearTo } = req.query;
+    const { token } = req.body;
+    let getSearchSQL;
+    switch (text) {
+        case 'exclusive':
+        case 'bullion':
+        case 'commemorative':
+            getSearchSQL = `SELECT * FROM coins WHERE coin_type=${connection.escape(text)}`
+            break;
+        case 'popular':
+            getSearchSQL = getSearchSQL = `SELECT * FROM coins WHERE popularity> 5 ORDER BY popularity DESC`
+            break;
+        case 'history':
+            getSearchSQL = await historySearcher(query, connection, token, res, getSearchSQL);
+            break;
+        default:
+            getSearchSQL = mainSearcher(country, connection, composition, Number(priceFrom), Number(priceTo), Number(yearFrom), Number(yearTo), text, getSearchSQL);
+            break;
     }
     try {
         let coinsList = await query(getSearchSQL);
@@ -203,8 +175,6 @@ searchCoins = async (query, connection, req, res) => {
             (!count ? res.status(200).json(coinsList) : res.status(200).send({ users: JSON.parse(coinsList).slice(offset, offset + count), count: coinsList.length }))
         }
     } catch (error) {
-        console.log(error);
-        
         res.status(404);
     }
 }
@@ -212,5 +182,50 @@ searchCoins = async (query, connection, req, res) => {
 module.exports = { getCoins, getCoin, addCoin, changeCoin, deleteCoin, getAdvancedSearchInfo, searchCoins }
 
 
+function mainSearcher(country, connection, composition, priceFrom, priceTo, yearFrom, yearTo, text, getSearchSQL) {
+    let advancedParam = `${!country ? `` : ` country = ${connection.escape(country)} AND `}${!composition ? `` : ` сomposition= ${connection.escape(composition)} AND `}${!priceFrom ? `` : ` price > ${connection.escape(priceFrom)} AND `}${!priceTo ? `` : ` price < ${connection.escape(priceTo)} AND `}${!yearFrom ? `` : ` issuance_year > ${connection.escape(yearFrom)} AND `}${!yearTo ? `` : ` issuance_year < ${connection.escape(yearTo)} AND `}`;
+    let searchText = !text ? ''
+        : `coin_name LIKE '%${text}%' 
+        UNION 
+        SELECT * FROM coins WHERE ${advancedParam} short_description LIKE '%${text}%'
+        UNION 
+        SELECT * FROM coins WHERE ${advancedParam} description LIKE '%${text}%'`;
+    if (text === '') {
+        let finParam = advancedParam.slice(0, -4);
+        getSearchSQL = `SELECT * FROM coins WHERE${finParam};`;
+    }
+    else
+        getSearchSQL = `SELECT * FROM coins WHERE ${advancedParam} ${searchText};`;
+    let lastFive = getSearchSQL.substr(getSearchSQL.length - 6);
+    if (lastFive === 'WHERE;') {
+        getSearchSQL = 'SELECT * FROM coins';
+    }
+    return getSearchSQL;
+}
 
+async function historySearcher(query, connection, token, res, getSearchSQL) {
+    let login = await query(`SELECT login FROM tokens WHERE token=${connection.escape(token)}`);
+    if (!login) {
+        res.send('You should not even be there');
+    }
+    else {     
+        getSearchSQL = `SELECT 
+        history.view_date, coins.*
+    FROM
+        history
+            INNER JOIN
+        coins ON history.id_coin = coins.idCoin
+    WHERE
+        history.user_login = ${connection.escape(login[0].login)}
+            AND idHistory IN (SELECT 
+                MAX(history.idHistory)
+            FROM
+                history
+            WHERE
+                id_coin = coins.idCoin)
+    GROUP BY idCoin
+    ORDER BY idHistory DESC`;
+    }
+    return getSearchSQL;
+}
 
