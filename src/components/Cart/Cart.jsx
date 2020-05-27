@@ -84,7 +84,7 @@ function Cart(props) {
     const{coin, value}= el;
    return (<InfoContainer>
       <ImageContainer>
-        <img  src={`http://localhost:8000/image?id=${coin.idCoin}&side=reverse`}  alt="Coin" />
+        <img  src={`http://localhost:8000/api/image?id=${coin.idCoin}&side=reverse`}  alt="Coin" />
       </ImageContainer>
       <Description>
           <h4> {coin.coin_name}  </h4>
