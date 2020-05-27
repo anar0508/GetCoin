@@ -26,10 +26,9 @@
     "styled-components": "^5.1.0"
   },
   "scripts": {
-    "client": "npm run start",
     "server": "cd server && node server.js",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
-    "start": "react-scripts start",
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "client": "react-scripts start",
     "build": "react-scripts build",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install && npm run build"
   },
