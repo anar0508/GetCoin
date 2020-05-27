@@ -67,7 +67,7 @@ export const logOut = () => {
 }
 
 export const loggingIn = () => async (dispatch, getState) => {
-    let res = await fetch('http://localhost:8000/login', {
+    let res = await fetch('/api/login', {
         method: "POST",
         body: JSON.stringify({
             login: getState().login.login,
@@ -98,7 +98,7 @@ export const loggingIn = () => async (dispatch, getState) => {
 }
 
 export const loggingOut = () => async(dispatch, getState) => {
-    fetch('http://localhost:8000/logout', {
+    fetch('/api/logout', {
         method: "DELETE",
         body: JSON.stringify({
             token: getState().login.token

@@ -14,14 +14,14 @@ function SearchPoint(props) {
         {!isShown && (
           <img
             onMouseEnter={() => setIsShown(true)}
-            src={`http://localhost:8000/image?id=${coin.idCoin}&side=reverse`}
+            src={`/api/image?id=${coin.idCoin}&side=reverse`}
             alt="Coin"
           />
         )}
         {isShown && (
           <img
             onMouseLeave={() => setIsShown(false)}
-            src={`http://localhost:8000/image?id=${coin.idCoin}&side=obverse`}
+            src={`/api/image?id=${coin.idCoin}&side=obverse`}
             alt="Coin"
           />
         )}

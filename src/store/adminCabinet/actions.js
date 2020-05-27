@@ -20,7 +20,7 @@ export const editCoin = (editing, coin) => {
 }
 
 export const coinDeleting = (idCoin) => async (dispatch, getState) => {
-    let res = await fetch(`http://localhost:8000/admin/coins/${idCoin}`, {
+    let res = await fetch(`/api/admin/coins/${idCoin}`, {
         method: "DELETE",
         body: JSON.stringify({
             token: getState().login.token
@@ -38,7 +38,7 @@ export const coinDeleting = (idCoin) => async (dispatch, getState) => {
 
 export const coinEditing = (idCoin, coin) => async (dispatch, getState) => {
     
-    let res = await fetch(`http://localhost:8000/admin/coins/${idCoin}`, {
+    let res = await fetch(`/api/admin/coins/${idCoin}`, {
         method: "PUT",
         body: JSON.stringify({
             type:coin.coin_type,
@@ -69,7 +69,7 @@ export const coinEditing = (idCoin, coin) => async (dispatch, getState) => {
         dispatch(editCoin(false, {})); 
     }
 
-    let filesUpload = await fetch(`http://localhost:8000/admin/upload`, {
+    let filesUpload = await fetch(`/api/admin/upload`, {
         method: "POST",
         body: coin.formData
     })
@@ -78,7 +78,7 @@ export const coinEditing = (idCoin, coin) => async (dispatch, getState) => {
 }
 
 export const coinAdding = (coin) => async (dispatch, getState) => {
-    let res = await fetch(`http://localhost:8000/admin/coins`, {
+    let res = await fetch(`/api/admin/coins`, {
         method: "POST",
         body: JSON.stringify({
             type:coin.coin_type,
@@ -110,7 +110,7 @@ export const coinAdding = (coin) => async (dispatch, getState) => {
         dispatch(editCoin(false, {})); 
     }
 
-    let filesUpload = await fetch(`http://localhost:8000/admin/upload`, {
+    let filesUpload = await fetch(`/api/admin/upload`, {
         method: "POST",
         body: coin.formData
     })

@@ -11,7 +11,7 @@ function ListType(props) {
     <ColumnContainer>
       <Link to="/coins" > <H3 onClick={()=>{submitSearch(searchItem)}}>  {listName + " coins"} </H3> </Link>
       <Link to="/coins" > <P onClick={()=>{submitSearch(searchItem)}}> Show all > </P></Link>
-      <Link to="/coins" ><img src={`http://localhost:8000/image?type=${searchItem}`} onClick={()=>{submitSearch(searchItem)}} alt="Coin"/> </Link>
+      <Link to="/coins" ><img src={`/api/image?type=${searchItem}`} onClick={()=>{submitSearch(searchItem)}} alt="Coin"/> </Link>
     </ColumnContainer>
   );
 }

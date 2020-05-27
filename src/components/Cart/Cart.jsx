@@ -79,12 +79,11 @@ export const ImageContainer = styled.div`
 
 function Cart(props) {
   const  {coinsInCart, coinToCart } = props;
-  const [isShown, setIsShown] = useState(false);
   let coins  = coinsInCart.map(el=>{
     const{coin, value}= el;
    return (<InfoContainer>
       <ImageContainer>
-        <img  src={`http://localhost:8000/image?id=${coin.idCoin}&side=reverse`}  alt="Coin" />
+        <img  src={`/api/image?id=${coin.idCoin}&side=reverse`}  alt="Coin" />
       </ImageContainer>
       <Description>
           <h4> {coin.coin_name}  </h4>
@@ -104,7 +103,7 @@ function Cart(props) {
           {coins}
         </div>
         <div className='total'>
-
+              <p>Total price: </p>
         </div>
       </CartContent> 
     </>
