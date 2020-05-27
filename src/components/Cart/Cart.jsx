@@ -79,7 +79,6 @@ export const ImageContainer = styled.div`
 
 function Cart(props) {
   const  {coinsInCart, coinToCart } = props;
-  const [isShown, setIsShown] = useState(false);
   let coins  = coinsInCart.map(el=>{
     const{coin, value}= el;
    return (<InfoContainer>
@@ -104,7 +103,7 @@ function Cart(props) {
           {coins}
         </div>
         <div className='total'>
-
+              <p>Total price: </p>
         </div>
       </CartContent> 
     </>
