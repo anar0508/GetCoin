@@ -13,7 +13,7 @@ function Coin(props) {
   useEffect(()=>{submitSearch('same');}, [coin])
   let newCoins= coins.map(el=>{let path = `/coin/${el.idCoin}`; return  <div key= {el.idCoin}> <Link to={path} onClick={() => getCoin(el.idCoin)}> 
   <h3>{el.coin_name}</h3> 
-  <img src={`http://localhost:8000/api/image?id=${el.idCoin}&side=reverse`}
+  <img src={`/api/image?id=${el.idCoin}&side=reverse`}
   alt="Coin"
 />  </Link> </div>})
 
@@ -33,11 +33,11 @@ function Coin(props) {
       </SimilarCoins>  
       <CoinInfo><ImageContainer>
         <Reverse
-          src={`http://localhost:8000/api/image?id=${coin.idCoin}&side=reverse`}
+          src={`/api/image?id=${coin.idCoin}&side=reverse`}
           alt="Coin"
         />
         <Obverse
-          src={`http://localhost:8000/api/image?id=${coin.idCoin}&side=obverse`}
+          src={`/api/image?id=${coin.idCoin}&side=obverse`}
           alt="Coin"
         />
       </ImageContainer>

@@ -9,7 +9,7 @@ export const getCoin = (newCoin) => {
 }
 
 export const gettingCoin = (id) => async (dispatch, getState) => {
-   let res = await fetch(`http://localhost:8000/api/coins/${id}`,
+   let res = await fetch(`/api/coins/${id}`,
    {
     method: "PUT",
     body: JSON.stringify({

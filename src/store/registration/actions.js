@@ -50,7 +50,7 @@ export const registerRedirect = (newRed) => {
 }
 
 export const submittingRegisterForm = () => async (dispatch, getState) => {
-    let res = await fetch('http://localhost:8000/api/register', {
+    let res = await fetch('/api/register', {
         method: "POST",
         body: JSON.stringify({
             login: getState().registration.registerLogin,

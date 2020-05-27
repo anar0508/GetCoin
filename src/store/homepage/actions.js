@@ -30,7 +30,7 @@ export const searchHandling = (search) => (dispatch, getState) => {
     const priceTo =getState().adSearch.priceTo;
     const yearFrom =getState().adSearch.yearFrom;
     const yearTo =getState().adSearch.yearTo;
-    fetch(`http://localhost:8000/api/searchCoins?text=${search}&country=${country}&composition=${composition}&priceFrom=${priceFrom}&priceTo=${priceTo}&yearFrom=${yearFrom}&yearTo=${yearTo}`, {
+    fetch(`api/searchCoins?text=${search}&country=${country}&composition=${composition}&priceFrom=${priceFrom}&priceTo=${priceTo}&yearFrom=${yearFrom}&yearTo=${yearTo}`, {
         method: "POST",
         body: JSON.stringify({
             token: getState().login.token,
@@ -44,7 +44,7 @@ export const searchHandling = (search) => (dispatch, getState) => {
 }
 
 export const gettingAdvancedSearchInfo = () => async (dispatch, getState) => {
-  const info= await fetch('http://localhost:8000/api/advanced');
+  const info= await fetch('/api/advanced');
   const parsedInfo = await info.json(); 
   await dispatch(getAdvancedSearchInfo(parsedInfo));
 }
