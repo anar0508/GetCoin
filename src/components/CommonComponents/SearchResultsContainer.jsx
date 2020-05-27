@@ -1,7 +1,6 @@
 import React from "react";
 import SearchResults from './SearchResults';
 import { connect } from "react-redux";
-// import {} from "../../store/homepage/actions";
 
 function SearchResultsContainer(props) {
   const { coins } = props;
@@ -16,10 +15,6 @@ const mapStateToProps = (state) => {
     }
 }
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     // submitSearch: bindActionCreators(searchHandling, dispatch)
-//   };
-// };
+
 
 export default connect(mapStateToProps)(SearchResultsContainer)

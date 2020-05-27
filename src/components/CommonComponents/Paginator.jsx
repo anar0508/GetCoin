@@ -33,13 +33,13 @@ function Paginator (props) {
     return (
       <PaginatorMain>
        <SelectContainer>
-         <label htmlFor="coinsNum"> Coins per page</label>
-       <select id='coinsNum' value={6} onChange={e=>{handleCoinPerPage(e.target.value)}}> 
-        <option value="6" > 6 </option>
-        <option value="10"> 10 </option>
-        <option value="20"> 20 </option>
-        <option value="50"> 50 </option>
-        <option value="100"> 100 </option>
+        <label htmlFor="coinsNum"> Coins per page</label>
+        <select id='coinsNum'  onChange={e=>{handleCoinPerPage(e.target.value)}}> 
+          <option value="6" > 6 </option>
+          <option value="10"> 10 </option>
+          <option value="20"> 20 </option>
+          <option value="50"> 50 </option>
+          <option value="100"> 100 </option>
         </select>
        </SelectContainer>
 

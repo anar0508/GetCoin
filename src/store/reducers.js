@@ -5,6 +5,8 @@ import {homepageReducer} from './homepage/reducers';
 import {advancedSearchReducer}from './homepage/adSearch/reducers';
 import {coinslistReducer}from './coinlist/reducers';
 import {adminReducer}from './adminCabinet/reducers';
+import {coinReducer}from './coin/reducers';
+
 
 
 export default combineReducers({
@@ -13,5 +15,6 @@ export default combineReducers({
     homepage: homepageReducer,
     adSearch:advancedSearchReducer,
     coinlist:coinslistReducer,
-    adminPage:adminReducer
+    adminPage:adminReducer,
+    coin: coinReducer
 });

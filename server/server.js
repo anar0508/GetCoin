@@ -32,7 +32,6 @@ app.get('/advanced', (req, res) => {
     CoinsQueries.getAdvancedSearchInfo(query, connection, req, res);
 });
 
-
 app.post('/admin/coins', (req, res) => {
     CoinsQueries.addCoin(query, connection, req, res);
 });
@@ -46,35 +45,7 @@ app.delete('/admin/coins/:id', (req, res) => {
 });
 
 app.post('/admin/upload', function(req, res) {
-    if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(400).send('No files were uploaded.');
-    }
-    
-    if (Object.keys(req.files).length===2){
-      let reverseFile = req.files.reverseFile;
-      let obverseFile = req.files.obverseFile;
-      reverseFile.mv('./img/obverse/'+reverseFile.name, function(err) {
-        if (err)
-          return res.status(500).send(err);
-        res.status(200);
-      });
-      obverseFile.mv('./img/obverse/'+obverseFile.name, function(err) {
-        if (err)
-          return res.status(500).send(err);
-    
-          res.status(200);;
-      });
-    } else if (Object.keys(req.files).length===1) {
-       let propName =Object.keys(req.files)[0];
-        
-       let newFile= req.files.propName;
-       newFile.mv('./img/obverse/'+newFile.name, function(err) {
-        if (err)
-          return res.status(500).send(err);
-    
-        res.status(200);
-      });
-    }
+  ImgQueries.uploadImg(req, res);
   });
 
 app.get('/users', (req, res) => {
@@ -84,7 +55,6 @@ app.get('/users', (req, res) => {
 app.post('/register', (req, res) => {
     UsersQueries.register(query, connection, bcrypt, req, res);
 });
-
 
 app.post('/login', (req, res) => {
     UsersQueries.login(query, connection, bcrypt, req, res);
@@ -97,9 +67,6 @@ app.delete('/logout', (req, res) => {
 app.get('/image', (req, res) => {
     ImgQueries.getImg(query, connection, req, res);
 });
-
-
-
 
 
 let port = process.env.PORT;

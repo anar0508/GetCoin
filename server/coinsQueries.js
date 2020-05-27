@@ -18,9 +18,12 @@ getCoin = async (query, connection, req, res) => {
     let { token, date } = req.body;
     let login = await query(`SELECT login FROM tokens WHERE token=${connection.escape(token)}`);
     let updateHistorySQL;
-    if (!login) {
-        updateHistorySQL = `INSERT INTO history (id_coin, view_date) VALUE (${req.params.id}, '${date}')`;
-    } else updateHistorySQL = `INSERT INTO history (id_coin, user_login, view_date) VALUE (${req.params.id}, '${login[0].login}', '${date}')`;
+    
+    if (login.length === 1) {
+        updateHistorySQL = `INSERT INTO history (id_coin, user_login, view_date) VALUE (${req.params.id}, '${login[0].login}', '${date}')`;
+    }
+    else { updateHistorySQL = `INSERT INTO history (id_coin, view_date) VALUE (${req.params.id}, '${date}')`; }
+
     let getCoinSQL = `SELECT * FROM coins WHERE (idCoin=${connection.escape(req.params.id)});`;
     let increasePopularitySQL = `UPDATE coins SET popularity = popularity+1 WHERE (idCoin=${connection.escape(req.params.id)});`;
 
@@ -161,6 +164,9 @@ searchCoins = async (query, connection, req, res) => {
         case 'history':
             getSearchSQL = await historySearcher(query, connection, token, res, getSearchSQL);
             break;
+        case 'same':
+            getSearchSQL = await sameSearcher(query, connection, req, res, getSearchSQL);
+            break;
         default:
             getSearchSQL = mainSearcher(country, connection, composition, Number(priceFrom), Number(priceTo), Number(yearFrom), Number(yearTo), text, getSearchSQL);
             break;
@@ -205,10 +211,10 @@ function mainSearcher(country, connection, composition, priceFrom, priceTo, year
 
 async function historySearcher(query, connection, token, res, getSearchSQL) {
     let login = await query(`SELECT login FROM tokens WHERE token=${connection.escape(token)}`);
-    if (!login) {
+    if (login === []) {
         res.send('You should not even be there');
     }
-    else {     
+    else {
         getSearchSQL = `SELECT 
         history.view_date, coins.*
     FROM
@@ -222,10 +228,21 @@ async function historySearcher(query, connection, token, res, getSearchSQL) {
             FROM
                 history
             WHERE
-                id_coin = coins.idCoin)
+                id_coin = coins.idCoin AND history.user_login = ${connection.escape(login[0].login)})
     GROUP BY idCoin
     ORDER BY idHistory DESC`;
     }
     return getSearchSQL;
 }
+
+async function sameSearcher(query, connection, req, res, getSearchSQL) {
+    const { coin} = req.body;
+    
+    getSearchSQL = `SELECT * FROM coins WHERE coins.coin_type = ${connection.escape(coin.coin_type)} AND coins.idCoin<>${connection.escape(coin.idCoin)}
+                    UNION SELECT * FROM coins WHERE coins.country = ${connection.escape(coin.country)} AND coins.idCoin<>${connection.escape(coin.idCoin)}
+                    UNION SELECT * FROM coins WHERE coins.сomposition = ${connection.escape(coin.сomposition)} AND coins.idCoin<>${connection.escape(coin.idCoin)}`;
+                    
+    return getSearchSQL;
+}
+    
 

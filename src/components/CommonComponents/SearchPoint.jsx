@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import { Link } from "react-router-dom";
 import eye from '../../img/eye.svg';
 import "../../index.css";
@@ -28,7 +28,7 @@ function SearchPoint(props) {
       </ImageContainer>
       <Description>
         <Link to={path} onClick={() => getCoin(coin.idCoin)}>
-          <h4> {coin.coin_name} {isAdmin && <img src= {eye} alt="eye"/>} <span> {coin.popularity} </span> </h4>
+          <h4> {coin.coin_name} {isAdmin && <img src= {eye} alt="eye"/>} {isAdmin && <span> {coin.popularity} </span>} </h4>
         </Link>
         <p> {coin.short_description} </p>
         {chooseInterface(isAdmin, editCoin, coin, deleteCoin, token, path, getCoin)}

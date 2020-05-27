@@ -33,7 +33,8 @@ export const searchHandling = (search) => (dispatch, getState) => {
     fetch(`http://localhost:8000/searchCoins?text=${search}&country=${country}&composition=${composition}&priceFrom=${priceFrom}&priceTo=${priceTo}&yearFrom=${yearFrom}&yearTo=${yearTo}`, {
         method: "POST",
         body: JSON.stringify({
-            token: getState().login.token
+            token: getState().login.token,
+            coin: getState().coinlist.coin
         }),
         headers: {
             'Access-Control-Allow-Origin': 'http://localhost:8000',
@@ -47,4 +48,3 @@ export const gettingAdvancedSearchInfo = () => async (dispatch, getState) => {
   const parsedInfo = await info.json(); 
   await dispatch(getAdvancedSearchInfo(parsedInfo));
 }
-

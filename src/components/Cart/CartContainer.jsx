@@ -2,24 +2,24 @@ import React from "react";
 import { bindActionCreators } from "redux";
 import Cart from './Cart';
 import { connect } from "react-redux";
-import { loggingOut } from "../../store/login/actions";
+import {coinToCart} from "../../store/coin/actions";
 
 function CartContainer(props) {
-  const { token, logged, logOut } = props;
+  const { coinsInCart, coinToCart } = props;
   return (
-    <Cart token={token} logOut={logOut} headerText='GetCoin'/>
+    <Cart coinsInCart={coinsInCart} coinToCart={coinToCart} />
   );
 }
 
 const mapStateToProps = (state) => {
     return {
-        token:state.login.token
+        coinsInCart:state.coin.coinsInCart
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        logOut: bindActionCreators(loggingOut, dispatch)
+        coinToCart: bindActionCreators(coinToCart, dispatch)
     }
 }
 

@@ -1,19 +1,37 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
+import CartAdderContainer from './CartAdderContainer';
+import { useLocation } from 'react-router-dom'
 import "../../index.css";
-import { P, Article, ImageContainer, Reverse, Obverse, DescriptionContainer } from "./CoinPageStyles";
+import { P, Article, ImageContainer, Reverse, Obverse, DescriptionContainer, SimilarCoins, CoinInfo } from "./StylesCoinPage";
 
 function Coin(props) {
-  const { coin } = props;
+  const { coin, coins, submitSearch, getCoin} = props;
+  let location = useLocation();
+  let id = (location.pathname).split('coin/')[1];
+  useEffect(()=>{getCoin(Number(id));}, [])
+  useEffect(()=>{submitSearch('same');}, [coin])
+  let newCoins= coins.map(el=>{let path = `/coin/${el.idCoin}`; return  <div key= {el.idCoin}> <Link to={path} onClick={() => getCoin(el.idCoin)}> 
+  <h3>{el.coin_name}</h3> 
+  <img src={`http://localhost:8000/image?id=${el.idCoin}&side=reverse`}
+  alt="Coin"
+/>  </Link> </div>})
+
 
   let paragraphs = coin.description.split("/p");
+  let idAdder=''
   paragraphs = paragraphs.map((line) => {
-    return <P key = {coin.idCoin}>{line}</P>;
+    idAdder+='k';
+    return <P key = {coin.idCoin+idAdder}>{line}</P>;
   });
 
   return (
     <Article>
-      <ImageContainer>
+      <SimilarCoins>
+        <h2>Similar coins</h2>
+        {newCoins}
+      </SimilarCoins>  
+      <CoinInfo><ImageContainer>
         <Reverse
           src={`http://localhost:8000/image?id=${coin.idCoin}&side=reverse`}
           alt="Coin"
@@ -26,7 +44,6 @@ function Coin(props) {
       <DescriptionContainer>
         <h2>{coin.coin_name}</h2>
         {paragraphs}
-
         <table>
           <tbody>
           <tr>
@@ -61,16 +78,16 @@ function Coin(props) {
 
           <tr>
             <td>Price</td>
-            <td>{`${coin.price} ${coin.price_currency} `}</td>
+            <td>{`${coin.price} $ `}</td>
           </tr>
           </tbody>
         </table>
-
         <P style={{color: coin.quantity>0? 'green': 'red'}}> Available: {coin.quantity} </P>
-
-        <Link to ={'/coins'}> {'<--Back to list'} </Link>
-        
+        <Link to ={'/coins'}> {'Back to list'} </Link>
       </DescriptionContainer>
+      </CoinInfo>
+      <CartAdderContainer coin={coin} maxValue={coin.quantity} price={coin.price}/>
+
     </Article>
   );
 }
