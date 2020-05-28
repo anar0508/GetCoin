@@ -51,9 +51,48 @@ app.delete('/api/admin/coins/:id', (req, res) => {
     CoinsQueries.deleteCoin(query, connection, req, res);
 });
 
-app.post('/api/admin/upload', function(req, res) {
-  ImgQueries.uploadImg(req, res);
-  });
+app.post('/api/admin/upload', function (req, res) {
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+    const reversePath = path.join(
+        __dirname,
+        `/img/obverse/`
+      );
+    if (Object.keys(req.files).length === 2) {
+        let reverseFile = req.files.reverseFile;
+        let obverseFile = req.files.obverseFile;
+
+        reverseFile.mv(reversePath + '\\' + reverseFile.name, function (err) {
+            if (err) {
+                 res.status(500);
+            }
+            else {
+                 res.status(200);
+            }
+        });
+        obverseFile.mv(reversePath + '\\' + obverseFile.name, function (err) {
+            if (err) {
+                 res.status(500);
+            }
+
+            else {
+                 res.status(200);
+            }
+        });
+    } else if (Object.keys(req.files).length === 1) {
+        let propName = Object.keys(req.files)[0];
+
+        let newFile = req.files.propName;
+        newFile.mv(reversePath + '\\' +  newFile.name, function (err) {
+            if (err) {
+                 res.status(500).send(err);
+            }
+
+            else { res.status(200); }
+        });
+    }
+});
 
 app.get('/api/users', (req, res) => {
     UsersQueries.getUsers(query, req, res)
@@ -77,12 +116,12 @@ app.get('/api/image', (req, res) => {
 
 app.get('/*', function (_req, res) {
     res.sendFile(path.resolve('build/index.html'));
-  });
-  
+});
+
 
 let port = process.env.PORT;
 if (port == null || port == "") {
-  port = 8000;
+    port = 8000;
 }
 app.listen(port, function () {
     console.log('Example app listening on port 8000!');
