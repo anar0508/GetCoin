@@ -13,7 +13,7 @@ export const ColumnContainer = styled.section`
   }
 `;
 export const H3 = styled.h3`
-  font-size: 28px;
+  font-size: 25px;
   
 &:hover{
     color: #833ae0;
