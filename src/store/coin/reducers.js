@@ -1,7 +1,7 @@
 import { COIN_TO_CART} from './actions';
 
 const initialState = {
-    coinsInCart: []
+    coinsInCart: !localStorage.getItem('cart')? [] : JSON.parse(localStorage.getItem('cart'))   
 }
 
 export const coinReducer = (state = initialState, action) => {

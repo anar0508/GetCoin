@@ -23,6 +23,10 @@ app.get('/api/coins', (req, res) => {
     CoinsQueries.getCoins(query, connection, req, res);
 });
 
+app.post('/api/purchase', (req, res) => {
+    CoinsQueries.purchase(query, connection, req, res);
+});
+
 app.post('/api/searchCoins', (req, res) => {
     CoinsQueries.searchCoins(query, connection, req, res);
 });

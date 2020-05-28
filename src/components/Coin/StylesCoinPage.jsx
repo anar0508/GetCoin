@@ -10,9 +10,9 @@ export const Article = styled.article`
 `;
 
 export const CoinInfo = styled.article`
-width: 65%;
-display: flex;
-justify-content: space-around;
+  width: 65%;
+  display: flex;
+  justify-content: space-around;
 `;
 export const ImageContainer = styled.div`
   width: 45%;
@@ -37,12 +37,12 @@ export const DescriptionContainer = styled.div`
   flex-direction: column;
   min-width: 300px;
   align-content: space-between;
-  a{
+  a {
     margin-top: auto;
     text-decoration: underline;
-    &:hover{
+    &:hover {
       text-decoration: none;
-     color: rgba(0, 0, 0, 0.5);
+      color: rgba(0, 0, 0, 0.5);
     }
   }
 `;
@@ -52,40 +52,41 @@ export const P = styled.p`
 `;
 
 export const SimilarCoins = styled.section`
-display: flex;
-flex-direction:column;
-width: 250px;
-height: 560px;
-overflow:hidden;
-overflow-x:hidden;
-&:hover{
-  overflow:scroll;
-  overflow-x:hidden;
-}
-h3{
-  text-align: center;
-}
-h2{
-  text-align: center;
-  color:#833ae0;
-}
-div{
-  margin-top: 20px; 
-  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: middle;
-  a{
-    width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: middle;
+  width: 250px;
+  height: 560px;
+  overflow: hidden;
+  overflow-x: hidden;
+  &:hover {
+    overflow: scroll;
+    overflow-x: hidden;
   }
-}
-img{
-  margin: 0 auto;
-  width: 60%;
-  min-width: 150px;}
+  h3 {
+    text-align: center;
+  }
+  h2 {
+    text-align: center;
+    color: #833ae0;
+  }
+  div {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: middle;
+    a {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: middle;
+    }
+  }
+  img {
+    margin: 0 auto;
+    width: 60%;
+    min-width: 150px;
+  }
 `;
 
 export const CartAdder = styled.section`
@@ -101,8 +102,8 @@ p{
   font-size: 13px;
 }
 article{
-border: 1px solid black;
-padding: 5px;
+border: 2px solid #e3e3e3;
+padding: 10px;
 margin: 10px;
 div{
   margin-top: 20px;
@@ -135,5 +136,5 @@ button{
     &:hover{
     background: rgba(131, 58, 224, 0.5);
   }
-
+}
 `;

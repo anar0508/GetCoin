@@ -18,7 +18,7 @@ getCoin = async (query, connection, req, res) => {
     let { token, date } = req.body;
     let login = await query(`SELECT login FROM tokens WHERE token=${connection.escape(token)}`);
     let updateHistorySQL;
-    
+
     if (login.length === 1) {
         updateHistorySQL = `INSERT INTO history (id_coin, user_login, view_date) VALUE (${req.params.id}, '${login[0].login}', '${date}')`;
     }
@@ -164,6 +164,9 @@ searchCoins = async (query, connection, req, res) => {
         case 'history':
             getSearchSQL = await historySearcher(query, connection, token, res, getSearchSQL);
             break;
+        case 'mycoins':
+            getSearchSQL = await myCoinsSearcher(query, connection, req, res, getSearchSQL);
+            break;
         case 'same':
             getSearchSQL = await sameSearcher(query, connection, req, res, getSearchSQL);
             break;
@@ -173,6 +176,7 @@ searchCoins = async (query, connection, req, res) => {
     }
     try {
         let coinsList = await query(getSearchSQL);
+        
         if (!coinsList) {
             res.status(404);
         } else {
@@ -185,7 +189,34 @@ searchCoins = async (query, connection, req, res) => {
     }
 }
 
-module.exports = { getCoins, getCoin, addCoin, changeCoin, deleteCoin, getAdvancedSearchInfo, searchCoins }
+purchase = async (query, connection, req, res) => {
+    const { token, date, coins } = req.body;
+    let login = await query(`SELECT login FROM tokens WHERE token=${connection.escape(token)}`);
+    if (login.length != 1) {
+        res.status(403).send('User is not authorised');
+    }
+    else {
+        let valuesSQL = '';
+        for (let i = 0; i < coins.length; i++) {
+            valuesSQL += `(${connection.escape(login[0].login)}, 
+            ${connection.escape(date)}, 
+            ${connection.escape(coins[i].id)}, 
+            ${connection.escape(coins[i].quantity)}),`
+        }
+        valuesSQL = valuesSQL.slice(0, -1);
+        let purchaseSQL = `INSERT INTO orders (login, purchaseDate, coin_id, purchased_quantity) 
+        VALUES ${valuesSQL}`
+        try {
+            await query(purchaseSQL);
+            await query(`UPDATE coins SET quantity = quantity - ${connection.escape(coins.quantity)} 
+            WHERE (idCoin = ${connection.escape(coins.id)})`);
+        } catch (error) {
+            res.status(404);
+        }
+    }
+}
+
+module.exports = { getCoins, getCoin, addCoin, changeCoin, deleteCoin, getAdvancedSearchInfo, searchCoins, purchase }
 
 
 function mainSearcher(country, connection, composition, priceFrom, priceTo, yearFrom, yearTo, text, getSearchSQL) {
@@ -236,13 +267,34 @@ async function historySearcher(query, connection, token, res, getSearchSQL) {
 }
 
 async function sameSearcher(query, connection, req, res, getSearchSQL) {
-    const { coin} = req.body;
-    
+    const { coin } = req.body;
+
     getSearchSQL = `SELECT * FROM coins WHERE coins.coin_type = ${connection.escape(coin.coin_type)} AND coins.idCoin<>${connection.escape(coin.idCoin)}
                     UNION SELECT * FROM coins WHERE coins.country = ${connection.escape(coin.country)} AND coins.idCoin<>${connection.escape(coin.idCoin)}
                     UNION SELECT * FROM coins WHERE coins.сomposition = ${connection.escape(coin.сomposition)} AND coins.idCoin<>${connection.escape(coin.idCoin)}`;
-                    
+
     return getSearchSQL;
 }
-    
+
+async function myCoinsSearcher(query, connection, req, res, getSearchSQL) {
+    const { token } = req.body;
+
+    let login = await query(`SELECT login FROM tokens WHERE token=${connection.escape(token)}`);
+    if (login === []) {
+        res.send('You should not even be there');
+    }
+    else {
+        getSearchSQL = `SELECT 
+        coins.*, orders.purchased_quantity, orders.purchaseDate
+    FROM
+        orders
+            JOIN
+        coins ON orders.coin_id = coins.idCoin
+    WHERE
+        orders.login = ${connection.escape(login[0].login)}`;
+    }
+    return getSearchSQL;
+}
+
+
 

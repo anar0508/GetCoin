@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
-import CartAdderContainer from './CartAdderContainer';
+import CartAdderComponentContainer from './CartAdderComponentContainer';
 import { useLocation } from 'react-router-dom'
 import "../../index.css";
 import { P, Article, ImageContainer, Reverse, Obverse, DescriptionContainer, SimilarCoins, CoinInfo } from "./StylesCoinPage";
@@ -86,7 +86,7 @@ function Coin(props) {
         <Link to ={'/coins'}> {'Back to list'} </Link>
       </DescriptionContainer>
       </CoinInfo>
-      <CartAdderContainer coin={coin} maxValue={coin.quantity} price={coin.price}/>
+      <CartAdderComponentContainer coin={coin} maxValue={coin.quantity} price={coin.price}/>
 
     </Article>
   );

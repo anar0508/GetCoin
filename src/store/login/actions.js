@@ -111,6 +111,7 @@ export const loggingOut = () => async(dispatch, getState) => {
         localStorage.setItem('token', '');
         localStorage.setItem('admin', false);
         localStorage.setItem('name', '');
+        localStorage.removeItem('cart');
         dispatch(changeLogName('')); 
         dispatch(redirect(false)); 
         dispatch(registerRedirect(false)); })

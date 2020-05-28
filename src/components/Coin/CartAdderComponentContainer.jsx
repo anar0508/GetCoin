@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import {coinToCart} from "../../store/coin/actions";
 import "../../index.css";
 
-function CoinContainer(props) {
+function CartAdderComponentContainer(props) {
   const { coin, maxValue, price, coinToCart, coinsInCart } = props;
   return (
     <CartAdderComponent coin={coin} maxValue={maxValue} price={price} coinToCart={coinToCart} coinsInCart={coinsInCart}/>
@@ -25,4 +25,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoinContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(CartAdderComponentContainer)

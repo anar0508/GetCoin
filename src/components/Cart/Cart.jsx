@@ -1,112 +1,101 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
 import HeaderContainer from "../CommonComponents/HeaderContainer";
 import "../../index.css";
-const CartContent = styled.article`
-  display: flex;
-  justify-content: space-between;
-  width: 90%;
-  min-width: 500px;
-  margin-left: 3.5%;
-  margin-top: 50px;
-  padding: 30px 0 25px 0;
-  .listContainer{
-    width: 60%;
-    min-width: 300px;
-    display: flex;
-    flex-direction: column;
-  }
-  .total{
-    width: 30%;
-    min-width: 200px;
-    display: flex;
-    flex-direction: column;
-  }
-`;
+import { InfoContainer, ImageContainer, Description, CartContent } from "./Styles/StylesCart";
 
-export const InfoContainer = styled.section`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 95%;
-  height: 140px;
-  min-width: 430px;
-  margin-bottom: 50px;
-  margin-right: 30px;
-  button {
-    background: #e5e5e5;
-    width: 100px;
-    outline: none;
-    height: 50px;
-    border: none;
-    margin-right: 20px;
-    padding: 10px;
-    cursor: pointer;
-  }
-`;
-export const Description = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  width: 60%;
-  min-width: 150px;
-  padding-left: 5px;
-  a {
-    color: #833ae0;
-  }
-  p {
-    font-size: 12px;
-    padding: 10px 0;
-  }
-  h4 {
-    color: #833ae0;
-    padding: 10px 0;
-    &:hover {
-      color: black;
-    }
-  }
-`;
+function purchase(coinsInCart, coinToCart) {
+  return async (e) => {
+    e.preventDefault();
+    let quantityAndId = coinsInCart.map((el) => {
+      return {
+        id: el.coin.idCoin,
+        quantity: el.value,
+      };
+    });
+    coinToCart([]);
+    localStorage.removeItem("cart");
+    await fetch("/api/purchase", {
+      method: "POST",
+      body: JSON.stringify({
+        token: localStorage.getItem("token"),
+        date: new Date().toJSON().slice(0, 19).replace("T", " "),
+        coins: quantityAndId,
+      }),
+      headers: {
+        "Access-Control-Allow-Origin": "http://localhost:8000",
+        "Content-Type": "application/json",
+      },
+    });
 
-export const ImageContainer = styled.div`
-  width: 20%;
-  min-width: 140px;
-  img {
-    width: 100%;
-    min-width: 140px;
-  }
-`;
+  };
+}
+
+function createListOftheCoinsInCart(coinsInCart, coinToCart) {
+  return coinsInCart.map((el) => {
+    let coin = el.coin; 
+    let value  = el.value;
+    return (
+      <InfoContainer>
+        <ImageContainer>
+          <img src={`/api/image?id=${coin.idCoin}&side=reverse`} alt="Coin" />
+        </ImageContainer>
+        <Description>
+          <h4> {coin.coin_name} </h4>
+          <p> {coin.short_description} </p>
+          <p style={{ color: coin.quantity > 0 ? "green" : "red" }}>
+            Available {coin.quantity}
+          </p>
+        </Description>
+        <div>
+          <p>Quantity: {value}</p>
+          <p>Total price: {value * coin.price}$ </p>
+        </div>
+
+        <button
+          onClick={(e) => {
+            removeFromCart(e, coinsInCart, coin, coinToCart);
+          }}
+        >
+          Remove
+        </button>
+      </InfoContainer>
+    );
+  });
+}
+
+function calculateSum(coinsInCart) {
+  return coinsInCart.reduce((acc, curr) => {
+    return acc + curr.coin.price * curr.value;
+  }, 0);
+}
+
+function removeFromCart(e, coinsInCart, coin, coinToCart) {
+  e.preventDefault();
+  let newCoinsInCart = 
+    coinsInCart.filter((item) => item.coin.coin_name !== coin.coin_name);
+  coinToCart(newCoinsInCart);
+  localStorage.setItem("cart", JSON.stringify(newCoinsInCart));
+}
 
 function Cart(props) {
-  const  {coinsInCart, coinToCart } = props;
-  let coins  = coinsInCart.map(el=>{
-    const{coin, value}= el;
-   return (<InfoContainer>
-      <ImageContainer>
-        <img  src={`/api/image?id=${coin.idCoin}&side=reverse`}  alt="Coin" />
-      </ImageContainer>
-      <Description>
-          <h4> {coin.coin_name}  </h4>
-          <p> {coin.short_description} </p>
-      </Description>
-      <p>Total price: {value*coin.price}$ </p>
-        <button onClick= {e=>{e.preventDefault(); let newCoinsInCart= coinsInCart.filter(item=>item.coin.coin_name!==coin.coin_name); coinToCart(newCoinsInCart)} }> Remove</button>
-    </InfoContainer>)
+  const { coinsInCart, coinToCart } = props;
+  let coins = createListOftheCoinsInCart(coinsInCart, coinToCart);
 
-  })
-  
   return (
     <>
-      <HeaderContainer headerText="GetCoin"/>   
-      <CartContent>
-        <div className='listContainer'>
-          {coins}
+      <HeaderContainer headerText="GetCoin" />
+      
+      {!coinsInCart?<p>Cart is empty </p>:<CartContent>
+        <div className="listContainer">{coins}</div>
+        <div className="total">
+          <p>Total price: {calculateSum(coinsInCart)}$ </p>
+          <button onClick={purchase(coinsInCart, coinToCart)}>BUY</button>
         </div>
-        <div className='total'>
-              <p>Total price: </p>
-        </div>
-      </CartContent> 
+      </CartContent>}
     </>
   );
 }
 export default Cart;
+
+

@@ -51,6 +51,8 @@ function chooseInterface(
     return adminInterface(editCoin, coin, deleteCoin);
   } else if (!token) {
     return unLoggedInterface();
+  } else if (!(!coin.purchaseDate)) {
+    return myCoinsInterface(coin);
   } else if (!coin.view_date) {
     return loggedInterface(path, getCoin, coin);
   } else return historyInterface(coin);
@@ -88,4 +90,9 @@ function adminInterface(editCoin, coin, deleteCoin) {
       </button>
     </div>
   );
+}
+
+function myCoinsInterface(coin){
+    return <p> {coin.purchased_quantity} coins were purchased on {coin.purchaseDate.slice(0, 19).replace("T", " ")} </p>;
+  
 }
