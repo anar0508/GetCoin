@@ -6,19 +6,21 @@ export const Article = styled.article`
   min-width: 600px;
   margin-top: 24px;
   justify-content: space-between;
-  align-items: center;
+  align-items: stretch;
 `;
 
 export const CoinInfo = styled.article`
-  width: 65%;
+  width: 75%;
   display: flex;
-  justify-content: space-around;
+  flex-grow:2;
+  justify-content: center;
 `;
 export const ImageContainer = styled.div`
-  width: 45%;
+  width: 40%;
   display: flex;
   flex-direction: column;
   min-width: 300px;
+  margin-right: 40px;
   align-content: space-between;
 `;
 export const Reverse = styled.img`
@@ -30,7 +32,7 @@ export const Obverse = styled.img`
   display: block;
 `;
 export const DescriptionContainer = styled.div`
-  width: 55%;
+  width: 40%;
   background: rgba(196, 196, 196, 0.5);
   padding: 20px 40px;
   display: flex;
@@ -48,16 +50,21 @@ export const DescriptionContainer = styled.div`
 `;
 export const P = styled.p`
   font-size: 14px;
-  margin-top: 15px;
+  margin-top: 10px;
+  text-align:justify;
 `;
 
 export const SimilarCoins = styled.section`
   display: flex;
   flex-direction: column;
   width: 250px;
-  height: 560px;
+  height: 650px;
   overflow: hidden;
   overflow-x: hidden;
+  margin-left: 30px;
+  border-left: 2px solid #e3e3e3;
+  border-top: 2px solid #e3e3e3;
+  border-bottom: 2px solid #e3e3e3;
   &:hover {
     overflow: scroll;
     overflow-x: hidden;
@@ -90,16 +97,30 @@ export const SimilarCoins = styled.section`
 `;
 
 export const CartAdder = styled.section`
-display: flex;
-flex-direction:column;
-width: 250px;
-height: 340px;
+width: 100%;
+background: white;
+border: 2px solid #e3e3e3;
+border-radius: 5px;
 h3{
   text-align: center;
 }
 p{
   align-self:center;
   font-size: 13px;
+  text-align: center;
+}
+button{
+  background: #833ae0;
+    width: 120px;
+    outline: none;
+    margin: 0px auto 5px;
+    display: block;
+    border: none;
+    padding: 10px;
+    color: white;
+    &:hover{
+    background: rgba(131, 58, 224, 0.5);
+  }
 }
 article{
 border: 2px solid #e3e3e3;
@@ -109,6 +130,7 @@ div{
   margin-top: 20px;
   display: flex;
   justify-content: space-around;
+  
   a{
     background: #833ae0;
   align-self:center;
@@ -125,16 +147,4 @@ div{
 }
 }
 
-button{
-  background: #833ae0;
-  align-self:center;
-    width: 120px;
-    outline: none;
-    border: none;
-    padding: 10px;
-    color: white;
-    &:hover{
-    background: rgba(131, 58, 224, 0.5);
-  }
-}
 `;

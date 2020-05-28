@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import CartAdderComponentContainer from './CartAdderComponentContainer';
 import { useLocation } from 'react-router-dom'
 import "../../index.css";
+import HeaderContainer from '../CommonComponents/HeaderContainer';
 import { P, Article, ImageContainer, Reverse, Obverse, DescriptionContainer, SimilarCoins, CoinInfo } from "./Styles/StylesCoinPage";
 
 function Coin(props) {
@@ -26,12 +27,11 @@ function Coin(props) {
   });
 
   return (
+    <main>
+      <HeaderContainer/>
     <Article>
-      <SimilarCoins>
-        <h2>Similar coins</h2>
-        {newCoins}
-      </SimilarCoins>  
-      <CoinInfo><ImageContainer>
+      <CoinInfo>
+        <ImageContainer>
         <Reverse
           src={`/api/image?id=${coin.idCoin}&side=reverse`}
           alt="Coin"
@@ -83,12 +83,17 @@ function Coin(props) {
           </tbody>
         </table>
         <P style={{color: coin.quantity>0? 'green': 'red'}}> Available: {coin.quantity} </P>
+
+        <CartAdderComponentContainer coin={coin} maxValue={coin.quantity} price={coin.price}/>
         <Link to ={'/coins'}> {'Back to list'} </Link>
       </DescriptionContainer>
       </CoinInfo>
-      <CartAdderComponentContainer coin={coin} maxValue={coin.quantity} price={coin.price}/>
-
+      <SimilarCoins>
+        <h2>Similar coins</h2>
+        {newCoins}
+      </SimilarCoins>  
     </Article>
+    </main>
   );
 }
 export default Coin;

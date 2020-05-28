@@ -56,7 +56,8 @@ export const Adder = styled.form`
   input[type="number"] {
     font-family: sans-serif;
     max-width: 5rem;
-    padding: 0.5rem;
+    padding: 20px;
+    background: rgba(196, 196, 196, 0.5);;
     border: solid #ddd;
     border-width: 0 2px;
     font-size: 2rem;
