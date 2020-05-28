@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import CartAdderComponentContainer from './CartAdderComponentContainer';
 import { useLocation } from 'react-router-dom'
 import "../../index.css";
-import { P, Article, ImageContainer, Reverse, Obverse, DescriptionContainer, SimilarCoins, CoinInfo } from "./StylesCoinPage";
+import { P, Article, ImageContainer, Reverse, Obverse, DescriptionContainer, SimilarCoins, CoinInfo } from "./Styles/StylesCoinPage";
 
 function Coin(props) {
   const { coin, coins, submitSearch, getCoin} = props;

@@ -3,16 +3,13 @@ import Header from "./Header";
 import UserLoginContainer from "./UserLoginContainer";
 import "../../index.css";
 
-
-
 function Login(props) {
   return (
     <section>
       <Header headerText="GetCoin" />
-        <UserLoginContainer/>
+      <UserLoginContainer />
     </section>
   );
 }
-
 
 export default Login;

@@ -1,7 +1,7 @@
-import { PURCHASE} from './actions';
+import { PURCHASE } from './actions';
 
 const initialState = {
-    purchasedCoins: []   
+    purchasedCoins: []
 }
 
 export const coinReducer = (state = initialState, action) => {

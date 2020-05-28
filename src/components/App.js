@@ -7,13 +7,13 @@ import CabinetContainer from './Cabinet/CabinetContainer';
 import CoinsListPageContainer from './CoinsList/CoinsListPageContainer';
 import CoinContainer from './Coin/CoinContainer';
 import CartContainer from './Cart/CartContainer';
-import {Route} from "react-router-dom";
+import { Route } from "react-router-dom";
 
 function App(props) {
     return (
         <main>
             <Route path="/" exact>
-                <HomePageContainer/>
+                <HomePageContainer />
             </Route>
             <Route path="/register" exact>
                 <RegistrationContainer />

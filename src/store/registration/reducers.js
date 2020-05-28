@@ -2,7 +2,7 @@ import { CHANGE_NAME, CHANGE_REGISTER_LOGIN, CHANGE_REGISTER_PASSWORD, CHANGE_RE
 
 
 const initialState = {
-    name:'',
+    name: '',
     registerLogin: '',
     registerPassword: '',
     repeatPassword: '',

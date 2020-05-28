@@ -1,27 +1,15 @@
 import React from "react";
-import styled from "styled-components";
-import ListTypeContainer from './ListTypeContainer';
+import ListTypeContainer from "./ListTypeContainer";
 import "../../index.css";
-
-const ListsContainer = styled.section`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 90%;
-  min-width: 500px;
-  margin-left: 3.5%;
-  margin-top: 50px;
-`;
-
+import { ListsContainer } from "./Styles/StyleCoinLists";
 
 function CoinLists(props) {
-
   return (
     <ListsContainer>
-      <ListTypeContainer listName = 'Bullion'/>
-      <ListTypeContainer listName = 'Exclusive'/>
-      <ListTypeContainer listName = 'Commemorative'/>
-      <ListTypeContainer listName = 'Popular'/>
+      <ListTypeContainer listName="Bullion" />
+      <ListTypeContainer listName="Exclusive" />
+      <ListTypeContainer listName="Commemorative" />
+      <ListTypeContainer listName="Popular" />
     </ListsContainer>
   );
 }

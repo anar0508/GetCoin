@@ -27,7 +27,7 @@ export const changeLogName = (newName) => {
     return {
         type: CHANGE_LOG_NAME,
         payload: newName
-}
+    }
 }
 
 export const changePassword = (newPassword) => {
@@ -76,28 +76,29 @@ export const loggingIn = () => async (dispatch, getState) => {
         headers: {
             'Access-Control-Allow-Origin': 'http://localhost:8000',
             'Content-Type': 'application/json'
-        }})
-        console.log(res);
-        
-    if (res.status!==200){ dispatch(redirect(false)); dispatch(showCredentialsError(true))} 
+        }
+    })
+    console.log(res);
+
+    if (res.status !== 200) { dispatch(redirect(false)); dispatch(showCredentialsError(true)) }
     else {
-        let parsedRes =await res.json();
-        dispatch(showCredentialsError(false)); 
+        let parsedRes = await res.json();
+        dispatch(showCredentialsError(false));
         localStorage.setItem('token', parsedRes.token);
         localStorage.setItem('name', parsedRes.name);
-        dispatch(changeLogName(parsedRes.name)); 
+        dispatch(changeLogName(parsedRes.name));
         dispatch(redirect(true));
-        dispatch(login(parsedRes.token)); 
-        dispatch(changeLogin('')); 
-        dispatch(changePassword('')); 
-        if (parsedRes.admin===0){
+        dispatch(login(parsedRes.token));
+        dispatch(changeLogin(''));
+        dispatch(changePassword(''));
+        if (parsedRes.admin === 0) {
             localStorage.setItem('admin', true);
-            dispatch(changeAdmin(true)); 
+            dispatch(changeAdmin(true));
         }
     }
 }
 
-export const loggingOut = () => async(dispatch, getState) => {
+export const loggingOut = () => async (dispatch, getState) => {
     fetch('/api/logout', {
         method: "DELETE",
         body: JSON.stringify({
@@ -107,13 +108,15 @@ export const loggingOut = () => async(dispatch, getState) => {
             'Access-Control-Allow-Origin': 'http://localhost:3000',
             'Content-Type': 'application/json'
         }
-    }).then(() => { dispatch(logOut()); 
+    }).then(() => {
+        dispatch(logOut());
         localStorage.setItem('token', '');
         localStorage.setItem('admin', false);
         localStorage.setItem('name', '');
         localStorage.removeItem('cart');
-        dispatch(changeLogName('')); 
-        dispatch(redirect(false)); 
-        dispatch(registerRedirect(false)); })
-        dispatch(changeAdmin(false)); 
+        dispatch(changeLogName(''));
+        dispatch(redirect(false));
+        dispatch(registerRedirect(false));
+    })
+    dispatch(changeAdmin(false));
 }

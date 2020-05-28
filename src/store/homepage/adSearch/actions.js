@@ -52,8 +52,8 @@ export const changeYearFrom = (newYearFrom) => {
 export const changeYearTo = (newYearTo) => {
     return {
         type: CHANGE_YEAR_TO,
-        payload: newYearTo   
-     }
+        payload: newYearTo
+    }
 }
 
 export const resetAdvancedSearchParms = () => (dispatch, getState) => {

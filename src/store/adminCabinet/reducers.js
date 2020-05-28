@@ -3,7 +3,7 @@ import { EDIT_COIN } from './actions';
 
 const initialState = {
     isEditing: false,
-    coin:{
+    coin: {
         coin_name: "",
         coin_type: "",
         country: "",
@@ -21,7 +21,8 @@ const initialState = {
         reverse_coin: "",
         short_description: '',
         weight: "",
-        сomposition: ""}
+        сomposition: ""
+    }
 }
 
 export const adminReducer = (state = initialState, action) => {

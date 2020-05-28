@@ -7,11 +7,11 @@ let checkAdminStorage = JSON.parse(localStorage.getItem('admin'));
 const initialState = {
     login: '',
     password: '',
-    token: checkTokenStorage? checkTokenStorage: '',
+    token: checkTokenStorage ? checkTokenStorage : '',
     credError: false,
     redirect: false,
-    logName: checkNameStorage? checkNameStorage: '',
-    admin: checkNameStorage? checkAdminStorage: false
+    logName: checkNameStorage ? checkNameStorage : '',
+    admin: checkNameStorage ? checkAdminStorage : false
 }
 
 export const logReducer = (state = initialState, action) => {
@@ -50,7 +50,7 @@ export const logReducer = (state = initialState, action) => {
             return {
                 ...state, logName: action.payload
             }
-        
+
         case CHANGE_ADMIN:
             return {
                 ...state, admin: action.payload

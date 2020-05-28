@@ -1,28 +1,42 @@
 import React from "react";
 import { bindActionCreators } from "redux";
-import Search from './Search';
+import Search from "./Search";
 import { connect } from "react-redux";
-import {searchHandling, toggleAdvancedSearch, gettingAdvancedSearchInfo} from "../../store/homepage/actions";
+import {
+  searchHandling,
+  toggleAdvancedSearch,
+  gettingAdvancedSearchInfo,
+} from "../../store/homepage/actions";
 
 function SearchContainer(props) {
-  const { advancedSearch, submitSearch, toggleAdvanced, getAdvancedInfo } = props;
+  const {
+    advancedSearch,
+    submitSearch,
+    toggleAdvanced,
+    getAdvancedInfo,
+  } = props;
   return (
-    <Search submitSearch={submitSearch} toggleAdvanced={toggleAdvanced} getAdvancedInfo={getAdvancedInfo} advancedSearch={advancedSearch}/>
+    <Search
+      submitSearch={submitSearch}
+      toggleAdvanced={toggleAdvanced}
+      getAdvancedInfo={getAdvancedInfo}
+      advancedSearch={advancedSearch}
+    />
   );
 }
 
 const mapStateToProps = (state) => {
-    return {
-      advancedSearch:state.homepage.advancedSearch
-    }
-}
+  return {
+    advancedSearch: state.homepage.advancedSearch,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     submitSearch: bindActionCreators(searchHandling, dispatch),
     toggleAdvanced: bindActionCreators(toggleAdvancedSearch, dispatch),
-    getAdvancedInfo: bindActionCreators(gettingAdvancedSearchInfo, dispatch)
+    getAdvancedInfo: bindActionCreators(gettingAdvancedSearchInfo, dispatch),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(SearchContainer);

@@ -1,8 +1,12 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import eye from '../../img/eye.svg';
+import eye from "../../img/eye.svg";
 import "../../index.css";
-import {InfoContainer, ImageContainer, Description} from "./Styles/StyleSearchPoint";
+import {
+  InfoContainer,
+  ImageContainer,
+  Description,
+} from "./Styles/StyleSearchPoint";
 
 function SearchPoint(props) {
   const { coin, getCoin, isAdmin, deleteCoin, editCoin, token } = props;
@@ -28,10 +32,21 @@ function SearchPoint(props) {
       </ImageContainer>
       <Description>
         <Link to={path} onClick={() => getCoin(coin.idCoin)}>
-          <h4> {coin.coin_name} {isAdmin && <img src= {eye} alt="eye"/>} {isAdmin && <span> {coin.popularity} </span>} </h4>
+          <h4>
+            {coin.coin_name} {isAdmin && <img src={eye} alt="eye" />}
+            {isAdmin && <span> {coin.popularity} </span>}
+          </h4>
         </Link>
         <p> {coin.short_description} </p>
-        {chooseInterface(isAdmin, editCoin, coin, deleteCoin, token, path, getCoin)}
+        {chooseInterface(
+          isAdmin,
+          editCoin,
+          coin,
+          deleteCoin,
+          token,
+          path,
+          getCoin
+        )}
       </Description>
     </InfoContainer>
   );
@@ -51,7 +66,7 @@ function chooseInterface(
     return adminInterface(editCoin, coin, deleteCoin);
   } else if (!token) {
     return unLoggedInterface();
-  } else if (!(!coin.purchaseDate)) {
+  } else if (!!coin.purchaseDate) {
     return myCoinsInterface(coin);
   } else if (!coin.view_date) {
     return loggedInterface(path, getCoin, coin);
@@ -64,7 +79,12 @@ function historyInterface(coin) {
 
 function loggedInterface(path, getCoin, coin) {
   return (
-    <Link to={path} onClick={() => { getCoin(coin.idCoin);}}>
+    <Link
+      to={path}
+      onClick={() => {
+        getCoin(coin.idCoin);
+      }}
+    >
       More...
     </Link>
   );
@@ -82,17 +102,30 @@ function unLoggedInterface() {
 function adminInterface(editCoin, coin, deleteCoin) {
   return (
     <div>
-      <button onClick={() => { editCoin(true, coin);}}>
+      <button
+        onClick={() => {
+          editCoin(true, coin);
+        }}
+      >
         Edit
       </button>
-      <button onClick={() => {deleteCoin(coin.idCoin);  }}>
+      <button
+        onClick={() => {
+          deleteCoin(coin.idCoin);
+        }}
+      >
         Delete
       </button>
     </div>
   );
 }
 
-function myCoinsInterface(coin){
-    return <p> {coin.purchased_quantity} coins were purchased on {coin.purchaseDate.slice(0, 19).replace("T", " ")} </p>;
-  
+function myCoinsInterface(coin) {
+  return (
+    <p>
+      {" "}
+      {coin.purchased_quantity} coins were purchased on{" "}
+      {coin.purchaseDate.slice(0, 19).replace("T", " ")}{" "}
+    </p>
+  );
 }

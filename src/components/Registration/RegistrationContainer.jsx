@@ -1,7 +1,13 @@
 import React from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { changeRegisterLogin, changeRegisterPassword, changeRepeatPassword, submittingRegisterForm, changeName } from "../../store/registration/actions";
+import {
+  changeRegisterLogin,
+  changeRegisterPassword,
+  changeRepeatPassword,
+  submittingRegisterForm,
+  changeName,
+} from "../../store/registration/actions";
 import Registration from "./Registration";
 
 function RegistrationContainer(props) {
@@ -16,7 +22,7 @@ function RegistrationContainer(props) {
     submitForm,
     changeName,
     showError,
-    redirect
+    redirect,
   } = props;
   return (
     <Registration
@@ -28,9 +34,9 @@ function RegistrationContainer(props) {
       changePassword={changePassword}
       changeName={changeName}
       changeRepeatPassword={changeRepeatPassword}
-      submitForm = {submitForm}
-      showError = {showError}
-      redirect = {redirect}
+      submitForm={submitForm}
+      showError={showError}
+      redirect={redirect}
     />
   );
 }
@@ -42,7 +48,7 @@ const mapStateToProps = (state) => {
     password: state.registration.registerPassword,
     repeatPassword: state.registration.repeatPassword,
     showError: state.registration.showError,
-    redirect: state.registration.registerRedirect
+    redirect: state.registration.registerRedirect,
   };
 };
 
@@ -53,7 +59,6 @@ const mapDispatchToProps = (dispatch) => {
     changeRepeatPassword: bindActionCreators(changeRepeatPassword, dispatch),
     submitForm: bindActionCreators(submittingRegisterForm, dispatch),
     changeName: bindActionCreators(changeName, dispatch),
-    
   };
 };
 

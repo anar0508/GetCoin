@@ -9,8 +9,12 @@ function Header(props) {
   return (
     <Menu>
       <PageContainer>
-        <Link to="/"> <img src={coinIcon} alt="Coin" /> {headerText} </Link>
-        <Link to="/"> <p> {"< Back to Homepage"} </p> </Link>
+        <Link to="/">
+          <img src={coinIcon} alt="Coin" /> {headerText}
+        </Link>
+        <Link to="/">
+          <p> {"< Back to Homepage"} </p>
+        </Link>
       </PageContainer>
     </Menu>
   );

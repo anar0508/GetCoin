@@ -1,4 +1,4 @@
-import { HANDLE_SEARCH, TOGGLE_ADVANCED_SEARCH, GET_ADVANCED_SEARCH_INFO} from './actions';
+import { HANDLE_SEARCH, TOGGLE_ADVANCED_SEARCH, GET_ADVANCED_SEARCH_INFO } from './actions';
 
 const initialState = {
     advancedSearch: false,

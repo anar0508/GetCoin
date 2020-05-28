@@ -44,13 +44,10 @@ function EditComponent(props) {
     const formData = new FormData();
 
     if(!(!e.target.obverseFile.files[0])){
-      formData.append('obverseFile', e.target.obverseFile.files[0])
-      console.log(e.target.obverseFile.files[0]);
-      
+      formData.append('obverseFile', e.target.obverseFile.files[0]);
     }
      if(!(!e.target.reverseFile.files[0])){
-      formData.append('reverseFile', e.target.reverseFile.files[0])
-      console.log(e.target.reverseFile.files[0]);;
+      formData.append('reverseFile', e.target.reverseFile.files[0]);
      }
     
     let newCoin = {

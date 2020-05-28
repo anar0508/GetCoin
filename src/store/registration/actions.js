@@ -62,12 +62,13 @@ export const submittingRegisterForm = () => async (dispatch, getState) => {
             'Content-Type': 'application/json'
         }
     })
-    if (res.status !== 200) { dispatch(showError(true)); dispatch(registerRedirect(false));  }
-    else { dispatch(showError(false)); 
-        dispatch(changeRegisterLogin('')); 
-        dispatch(changeName('')); 
-        dispatch(changeRegisterPassword('')); 
-        dispatch(changeRepeatPassword('')) 
+    if (res.status !== 200) { dispatch(showError(true)); dispatch(registerRedirect(false)); }
+    else {
+        dispatch(showError(false));
+        dispatch(changeRegisterLogin(''));
+        dispatch(changeName(''));
+        dispatch(changeRegisterPassword(''));
+        dispatch(changeRepeatPassword(''))
         dispatch(registerRedirect(true));
     }
 }
