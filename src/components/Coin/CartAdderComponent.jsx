@@ -129,9 +129,7 @@ function inputChangeHandler(e, maxValue, handleChange) {
   } else if (newValue < 0) {
     handleChange(0);
   } else {
-    {
       handleChange(newValue);
-    }
   }
 }
 

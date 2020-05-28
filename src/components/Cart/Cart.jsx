@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import HeaderContainer from "../CommonComponents/HeaderContainer";
 import "../../index.css";
 import { InfoContainer, ImageContainer, Description, CartContent } from "./Styles/StylesCart";
