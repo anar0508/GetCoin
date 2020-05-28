@@ -30,7 +30,7 @@ function Header(props) {
       {token && !isAdmin && (
         <LinkContainer style={{ minWidth: "60px" }}>
           <Link to="/cart">
-            Cart({JSON.parse(localStorage.getItem("cart")).length})
+            Cart({!localStorage.getItem("cart")? 0:JSON.parse(localStorage.getItem("cart")).length})
           </Link>
         </LinkContainer>
       )}
