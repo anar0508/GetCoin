@@ -3,7 +3,7 @@ export const Adder = styled.form`
   display: flex;
   flex-direction: raw;
   width: 100%;
-  padding: 30px;
+  padding: 15px;
   justify-content: space-evenly;
   input[type="number"] {
     -webkit-appearance: textfield;

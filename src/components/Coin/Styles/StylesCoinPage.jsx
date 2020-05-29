@@ -53,7 +53,6 @@ export const P = styled.p`
   margin-top: 10px;
   text-align:justify;
 `;
-
 export const SimilarCoins = styled.section`
   display: flex;
   flex-direction: column;
@@ -95,11 +94,11 @@ export const SimilarCoins = styled.section`
     min-width: 150px;
   }
 `;
-
 export const CartAdder = styled.section`
 width: 100%;
 background: white;
 border: 2px solid #e3e3e3;
+padding:10px;
 border-radius: 5px;
 h3{
   text-align: center;

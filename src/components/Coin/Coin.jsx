@@ -28,7 +28,7 @@ function Coin(props) {
 
   return (
     <main>
-      <HeaderContainer/>
+      <HeaderContainer headerText ='GetCoin'/>
     <Article>
       <CoinInfo>
         <ImageContainer>
