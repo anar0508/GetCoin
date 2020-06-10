@@ -58,35 +58,35 @@ app.post('/api/admin/upload', function (req, res) {
     const reversePath = path.join(
         __dirname,
         `/img/obverse/`
-      );
+    );
     if (Object.keys(req.files).length === 2) {
         let reverseFile = req.files.reverseFile;
         let obverseFile = req.files.obverseFile;
 
         reverseFile.mv(reversePath + '\\' + reverseFile.name, function (err) {
             if (err) {
-                 res.status(500);
+                res.status(500);
             }
             else {
-                 res.status(200);
+                res.status(200);
             }
         });
         obverseFile.mv(reversePath + '\\' + obverseFile.name, function (err) {
             if (err) {
-                 res.status(500);
+                res.status(500);
             }
 
             else {
-                 res.status(200);
+                res.status(200);
             }
         });
     } else if (Object.keys(req.files).length === 1) {
         let propName = Object.keys(req.files)[0];
 
         let newFile = req.files.propName;
-        newFile.mv(reversePath + '\\' +  newFile.name, function (err) {
+        newFile.mv(reversePath + '\\' + newFile.name, function (err) {
             if (err) {
-                 res.status(500).send(err);
+                res.status(500).send(err);
             }
 
             else { res.status(200); }
