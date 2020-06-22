@@ -18,7 +18,7 @@ function Header(props) {
     <Menu>
       <PageContainer>
         <Link to="/">
-          <img src={coinIcon} alt="Coin" /> {headerText}{" "}
+          <img src={coinIcon} alt="Coin" /> {headerText}
         </Link>
         {headerText !== "GetCoin" && (
           <Link to="/">
